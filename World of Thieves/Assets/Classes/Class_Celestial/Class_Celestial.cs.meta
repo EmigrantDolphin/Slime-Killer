@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 261ca4e13f173224c94d8e201da638c1
+timeCreated: 1526150873
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - skillBar: {fileID: 22365902, guid: 3e888687435175543851d86ab8d02df4, type: 2}
+  - orbDamageObj: {fileID: 143650, guid: fce2bfc0c81d35741aa3d110b77c4c5b, type: 2}
+  - orbControlObj: {fileID: 142560, guid: 1e0a80667848833439661ed4544ce021, type: 2}
+  - orbDefenseObj: {fileID: 111090, guid: ccc1f06eb5b2cd444b54721c351f8304, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
