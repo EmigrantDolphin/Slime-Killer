@@ -40,17 +40,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261ca4e13f173224c94d8e201da638c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillBar: {fileID: 148576, guid: 3e888687435175543851d86ab8d02df4, type: 2}
-  manipulateSkillBar: {fileID: 109704, guid: ebd909954607ca54990dee85c6ecec65, type: 2}
-  manipulateSkillBarClone: {fileID: 0}
-  skillsDisabled: 0
-  orbDamageObj: {fileID: 143650, guid: fce2bfc0c81d35741aa3d110b77c4c5b, type: 2}
-  orbControlObj: {fileID: 142560, guid: 1e0a80667848833439661ed4544ce021, type: 2}
-  orbDefenseObj: {fileID: 111090, guid: ccc1f06eb5b2cd444b54721c351f8304, type: 2}
-  rotationSpeed: 1.55
-  currRadians: 0
-  parentPlayer: {fileID: 0}
-  orbs: []
+  SkillBar: {fileID: 148576, guid: 3e888687435175543851d86ab8d02df4, type: 2}
+  ManipulateSkillBar: {fileID: 109704, guid: ebd909954607ca54990dee85c6ecec65, type: 2}
+  ManipulateSkillBarClone: {fileID: 0}
+  SkillsDisabled: 0
+  OrbDamageObj: {fileID: 143650, guid: fce2bfc0c81d35741aa3d110b77c4c5b, type: 2}
+  OrbControlObj: {fileID: 142560, guid: 1e0a80667848833439661ed4544ce021, type: 2}
+  OrbDefenseObj: {fileID: 111090, guid: ccc1f06eb5b2cd444b54721c351f8304, type: 2}
+  RotationSpeed: 6.2831855
+  CurrRadians: 0
+  ParentPlayer: {fileID: 0}
+  Orbs: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -31,7 +31,7 @@ public class SkillBarControls : MonoBehaviour {
         onMouseSprite.AddComponent<SpriteRenderer>();
         onMouseSprite.SetActive(false);
 
-        selectedClass = GameMaster.player.GetComponent<ClassSelector>().getSelectedClass;
+        selectedClass = GameMaster.Player.GetComponent<ClassSelector>().SelectedClass;
 
         for (int i = 1; i < i + 1; i++) {
             var temp = transform.Find("Background/Skill" + i.ToString());
@@ -43,86 +43,86 @@ public class SkillBarControls : MonoBehaviour {
         }
 
         for (int i = 0; i < keyBinds.Length; i++)
-            if (selectedClass.getAbility(i) != null)
-                skill[i].GetComponent<SkillBar_SkillInfo>().setAbility(selectedClass.getAbility(i));
+            if (selectedClass.GetAbility(i) != null)
+                skill[i].GetComponent<SkillBar_SkillInfo>().SetAbility(selectedClass.GetAbility(i));
 
         for (int i = keyBinds.Length; i < keyBinds.Length * 2; i++)
-            if (selectedClass.getAbility(i) != null)
-                skillHolder[i - keyBinds.Length] = selectedClass.getAbility(i);
+            if (selectedClass.GetAbility(i) != null)
+                skillHolder[i - keyBinds.Length] = selectedClass.GetAbility(i);
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        keyBindLoop();
+        KeyBindLoop();
         
-        movingSkills();
+        MovingSkills();
 
         if (!holdingAbility)
-            switchSkillSet();
+            SwitchSkillSet();
 
         if (updateAbilityIcons) {
             foreach (GameObject ability in skill)
-                ability.GetComponent<SkillBar_SkillInfo>().updateIcon();
+                ability.GetComponent<SkillBar_SkillInfo>().UpdateIcon();
             updateAbilityIcons = false;
         }
 	}
 
-    public static void updateIcons() {
+    public static void UpdateIcons() {
         updateAbilityIcons = true;
     }
 
 
-    private void switchSkillSet() {
+    private void SwitchSkillSet() {
         if (!Input.GetKeyDown(KeyCode.BackQuote))
             return;
 
         for (int i = 0; i < keyBinds.Length; i++) {
-            object buffer = skill[i].GetComponent<SkillBar_SkillInfo>().getAbility();
-            skill[i].GetComponent<SkillBar_SkillInfo>().setAbility(skillHolder[i]);
+            object buffer = skill[i].GetComponent<SkillBar_SkillInfo>().GetAbility();
+            skill[i].GetComponent<SkillBar_SkillInfo>().SetAbility(skillHolder[i]);
             skillHolder[i] = buffer;
         }
 
     }
 
-    private void keyBindLoop() {
-        if (selectedClass.skillsEnabled) {
+    private void KeyBindLoop() {
+        if (selectedClass.SkillsEnabled) {
             for (int i = 0; i < keyBinds.Length; i++) {
-                if (skill[i].GetComponent<SkillBar_SkillInfo>().hasTargetting || skill[i].GetComponent<SkillBar_SkillInfo>().hasChanneling) { 
+                if (skill[i].GetComponent<SkillBar_SkillInfo>().HasTargetting || skill[i].GetComponent<SkillBar_SkillInfo>().HasChanneling) { 
                     // for targetting
-                    if (skill[i].GetComponent<SkillBar_SkillInfo>().hasTargetting)
+                    if (skill[i].GetComponent<SkillBar_SkillInfo>().HasTargetting)
                         if (Input.GetKey(keyBinds[i])) 
-                            skill[i].GetComponent<SkillBar_SkillInfo>().targetting();
+                            skill[i].GetComponent<SkillBar_SkillInfo>().Targetting();
                         else if (Input.GetKeyUp(keyBinds[i]))
-                            skill[i].GetComponent<SkillBar_SkillInfo>().useAbility();
+                            skill[i].GetComponent<SkillBar_SkillInfo>().UseAbility();
                     // for channeling
-                    if (skill[i].GetComponent<SkillBar_SkillInfo>().hasChanneling)
+                    if (skill[i].GetComponent<SkillBar_SkillInfo>().HasChanneling)
                         if (Input.GetKeyDown(keyBinds[i]))
-                            skill[i].GetComponent<SkillBar_SkillInfo>().onChannelingStart();
+                            skill[i].GetComponent<SkillBar_SkillInfo>().OnChannelingStart();
                         else if (Input.GetKey(keyBinds[i]))
-                            skill[i].GetComponent<SkillBar_SkillInfo>().onChanneling();
+                            skill[i].GetComponent<SkillBar_SkillInfo>().OnChanneling();
                         else if (Input.GetKeyUp(keyBinds[i]))
-                            skill[i].GetComponent<SkillBar_SkillInfo>().onChannelingEnd();
+                            skill[i].GetComponent<SkillBar_SkillInfo>().OnChannelingEnd();
 
                 } else if (Input.GetKeyDown(keyBinds[i]))
-                    skill[i].GetComponent<SkillBar_SkillInfo>().useAbility();
+                    skill[i].GetComponent<SkillBar_SkillInfo>().UseAbility();
             }
         }
     }
 
 
-    private void movingSkills (){
+    private void MovingSkills (){
         for (int i = 0; i < skill.Count; i++)
-            skill[i].GetComponent<SkillBar_SkillInfo>().onMouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            skill[i].GetComponent<SkillBar_SkillInfo>().OnMouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         if (Input.GetMouseButtonDown(0) && !holdingAbility) {
             for (int i = 0; i < skill.Count; i++) {
-                var temp = skill[i].GetComponent<SkillBar_SkillInfo>().checkAndGetAbility(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // gets ability on [skill slot pressed], if has it, else null
+                var temp = skill[i].GetComponent<SkillBar_SkillInfo>().CheckAndGetAbility(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // gets ability on [skill slot pressed], if has it, else null
                 if (temp != null) {
                     holdingAbility = true;
                     onMouseSprite.SetActive(true);
                     onMouseAbility = temp as IAbility;
-                    onMouseSprite.GetComponent<SpriteRenderer>().sprite = onMouseAbility.getIcon;
+                    onMouseSprite.GetComponent<SpriteRenderer>().sprite = onMouseAbility.Icon;
                     break;
                 }
             }
@@ -132,14 +132,14 @@ public class SkillBarControls : MonoBehaviour {
             //add skill[n].GetComponent<SkillBar_SkillInfo>().onMouseOver( pos of mouse ); to display description;
         } else if (holdingAbility && Input.GetMouseButtonDown(0))
             for (int i = 0; i < skill.Count; i++) {
-                if (skill[i].GetComponent<SkillBar_SkillInfo>().isAbilitySet) {
-                    var temp = skill[i].GetComponent<SkillBar_SkillInfo>().exchangeAbilities(onMouseAbility, Camera.main.ScreenToWorldPoint(Input.mousePosition)); // sets onMouseAbility and returns the ability skillSlot had. If not on slot pos, then null
+                if (skill[i].GetComponent<SkillBar_SkillInfo>().IsAbilitySet) {
+                    var temp = skill[i].GetComponent<SkillBar_SkillInfo>().ExchangeAbilities(onMouseAbility, Camera.main.ScreenToWorldPoint(Input.mousePosition)); // sets onMouseAbility and returns the ability skillSlot had. If not on slot pos, then null
                     if (temp != null) {
                         onMouseAbility = temp as IAbility;
-                        onMouseSprite.GetComponent<SpriteRenderer>().sprite = onMouseAbility.getIcon;
+                        onMouseSprite.GetComponent<SpriteRenderer>().sprite = onMouseAbility.Icon;
                     }
                 } else {
-                    bool isSet = skill[i].GetComponent<SkillBar_SkillInfo>().checkAndSetAbility(onMouseAbility, Camera.main.ScreenToWorldPoint(Input.mousePosition)); // sets onMouseAbility, returns false if not pressed on slot pos
+                    bool isSet = skill[i].GetComponent<SkillBar_SkillInfo>().CheckAndSetAbility(onMouseAbility, Camera.main.ScreenToWorldPoint(Input.mousePosition)); // sets onMouseAbility, returns false if not pressed on slot pos
                     if (isSet) {
                         onMouseAbility = null;
                         onMouseSprite.SetActive(false);

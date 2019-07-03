@@ -3,34 +3,34 @@ using System.Collections;
 
 public interface IAbility{
 
-    string getName {
+    string Name {
         get;
     }
 
-    string getDescription {
+    string Description {
         get;
     }
 
-    Sprite getIcon {
+    Sprite Icon {
         get;
     }
 
-    bool isActive {
+    bool IsActive {
         get;
     }
 
-    float getCooldown {
+    float Cooldown {
         get;
     }
-    float getCooldownLeft {
+    float CooldownLeft {
         get;
     }
 
-    void use(GameObject target);
+    void Use(GameObject target);
 
-    void endAction();
+    void EndAction();
 
-    void loop();
+    void Loop();
 
 
 }

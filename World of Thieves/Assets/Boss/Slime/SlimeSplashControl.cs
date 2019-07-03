@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public class SlimeSplashControl : MonoBehaviour {
 
-    public Vector2 travelVector; // set on init by SlimeManager -> SlimeFlurryBehaviour
+    public Vector2 TravelVector; // set on init by SlimeManager -> SlimeFlurryBehaviour
     bool animActive = false;
-    public int id = 0;
-    public float addedScale = 0.25f;
+    public int Id = 0;
+    public float AddedScale = 0.25f;
 
-    public float lifeLength = 10f;
+    public float LifeLength = 10f;
     private float lifeLengthCounter = 0f;
     private float damage = 5f;
 
@@ -44,21 +44,21 @@ public class SlimeSplashControl : MonoBehaviour {
         if (collider.tag == "Player") {
             isPlayerOnSlimeSplash = true;
             player = collider.gameObject;
-            player.GetComponent<BuffDebuff>().applyDebuff(Debuffs.Slow, debuffLength);
+            player.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, debuffLength);
         }
         if (collider.name == gameObject.name) {
 
             if (collider.transform.localScale.x < transform.localScale.x) {
-                addedScale += collider.gameObject.GetComponent<SlimeSplashControl>().addedScale;
-                transform.localScale = new Vector3(1 + addedScale, 1 + addedScale, 1);
+                AddedScale += collider.gameObject.GetComponent<SlimeSplashControl>().AddedScale;
+                transform.localScale = new Vector3(1 + AddedScale, 1 + AddedScale, 1);
                 Destroy(collider.gameObject);
-                lifeLength += 5;
+                LifeLength += 5;
                 return;
-            } else if (collider.gameObject.GetComponent<SlimeSplashControl>().id < id && collider.gameObject.transform.localScale.x == transform.localScale.x) {
-                addedScale += collider.gameObject.GetComponent<SlimeSplashControl>().addedScale;
-                transform.localScale = new Vector3(1 + addedScale, 1 + addedScale, 1);
+            } else if (collider.gameObject.GetComponent<SlimeSplashControl>().Id < Id && collider.gameObject.transform.localScale.x == transform.localScale.x) {
+                AddedScale += collider.gameObject.GetComponent<SlimeSplashControl>().AddedScale;
+                transform.localScale = new Vector3(1 + AddedScale, 1 + AddedScale, 1);
                 Destroy(collider.gameObject);
-                lifeLength += 5f;
+                LifeLength += 5f;
                 return;
             }
         }
@@ -68,14 +68,14 @@ public class SlimeSplashControl : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         lifeLengthCounter += Time.deltaTime;
-        if (lifeLengthCounter >= lifeLength)
+        if (lifeLengthCounter >= LifeLength)
             Destroy(gameObject);
         if (isPlayerOnSlimeSplash)
             if (debuffApplyTime > debuffApplyCounter) {
                 debuffApplyCounter += Time.deltaTime;
             } else {
-                player.GetComponent<BuffDebuff>().applyDebuff(Debuffs.Slow, debuffLength);
-                player.GetComponent<DamageManager>().dealDamage(damage);
+                player.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, debuffLength);
+                player.GetComponent<DamageManager>().DealDamage(damage);
                 debuffApplyCounter = 0;
             }
         
@@ -83,14 +83,14 @@ public class SlimeSplashControl : MonoBehaviour {
 
     void FixedUpdate() {
         if (animActive)
-            transform.position += (Vector3)travelVector * Time.fixedDeltaTime;
+            transform.position += (Vector3)TravelVector * Time.fixedDeltaTime;
 
         if (frame < 5)
             frame++;
 
         if (frame == 1) {
             savedPosition = transform.position;
-            transform.position = new Vector3(1000 * id, 1000 * id, 1);
+            transform.position = new Vector3(1000 * Id, 1000 * Id, 1);
             texBehind.SetActive(true);         
             texBehind.transform.localScale = transform.localScale;
             texBehind.transform.position = savedPosition;
@@ -110,7 +110,7 @@ public class SlimeSplashControl : MonoBehaviour {
 
     }
 
-    void stopMovement() {
+    void StopMovement() {
         animActive = false;
         GetComponent<BoxCollider2D>().enabled = true;
         GetComponent<Animator>().enabled = false;
@@ -118,7 +118,7 @@ public class SlimeSplashControl : MonoBehaviour {
         frameRefreshTime = Random.Range(1f, 2f);
     }
 
-    void startMovement() {
+    void StartMovement() {
         animActive = true;
     }
 

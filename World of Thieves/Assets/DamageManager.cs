@@ -4,17 +4,17 @@ using UnityEngine.UI;
 
 public class DamageManager : MonoBehaviour {
 
-    public Image healthGreenImage;
+    public Image HealthGreenImage;
 
-    public float maxHealth = 100;
-    public float health = 100;
+    public float MaxHealth = 100;
+    public float Health = 100;
     private float uiHealthWidth;
 
     private float damageToHealCounter = 0f;
 
     // Use this for initialization
     void Start() {
-        uiHealthWidth = healthGreenImage.GetComponent<RectTransform>().sizeDelta.x;
+        uiHealthWidth = HealthGreenImage.GetComponent<RectTransform>().sizeDelta.x;
     }
 
 
@@ -23,30 +23,30 @@ public class DamageManager : MonoBehaviour {
             damageToHealCounter -= Time.deltaTime;
     }
 
-    public void dealDamage(float damageAmount) {
+    public void DealDamage(float damageAmount) {
 
         if (damageToHealCounter <= 0f) {
-            if (health - damageAmount > 0)
-                health -= damageAmount;
+            if (Health - damageAmount > 0)
+                Health -= damageAmount;
             else
-                health = 0;
+                Health = 0;
         } else {
-            if (health + damageAmount < maxHealth)
-                health += damageAmount;
+            if (Health + damageAmount < MaxHealth)
+                Health += damageAmount;
             else
-                health = maxHealth;
+                Health = MaxHealth;
         }
 
         UIHealthUpdate();
     }
 
-    public void damageToHealFor(float dur) {
+    public void DamageToHealFor(float dur) {
         damageToHealCounter = dur;
     }
 
     private void UIHealthUpdate() {
-        float newWidth = (health * uiHealthWidth) / maxHealth;
-        healthGreenImage.GetComponent<RectTransform>().sizeDelta = new Vector2(newWidth, 0);
+        float newWidth = (Health * uiHealthWidth) / MaxHealth;
+        HealthGreenImage.GetComponent<RectTransform>().sizeDelta = new Vector2(newWidth, 0);
         
     }
 

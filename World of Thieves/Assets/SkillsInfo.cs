@@ -16,24 +16,24 @@ public class SkillsInfo {
 
 
     // PLAYER SKILLS //
-    public static float player_ChannelHeat_Cooldown = 5f;
-    public static float player_ChannelHeat_Damage = 10f;
-    public static float player_ChannelHeat_CollapseSpeed = 12f;
-    public static float player_ChannelHeat_TimeTillFullChannel = 4f;
+    public static float Player_ChannelHeat_Cooldown = 5f;
+    public static float Player_ChannelHeat_Damage = 10f;
+    public static float Player_ChannelHeat_CollapseSpeed = 12f;
+    public static float Player_ChannelHeat_TimeTillFullChannel = 4f;
 
-    public static float player_Compress_Speed = 10f;
-    public static float player_Compress_Cooldown = 3f;
+    public static float Player_Compress_Speed = 10f;
+    public static float Player_Compress_Cooldown = 3f;
 
-    public static float player_Manipulate_Cooldown = 3f;
+    public static float Player_Manipulate_Cooldown = 3f;
 
-    public static float player_Rift_Cooldown = 3f;
+    public static float Player_Rift_Cooldown = 3f;
 
-    public static float player_Collapse_Cooldown = 10f;
+    public static float Player_Collapse_Cooldown = 10f;
 
-    public static float player_Stun_Cooldown = 10f;
-    public static float player_Stun_Duration = 4f;
+    public static float Player_Stun_Cooldown = 10f;
+    public static float Player_Stun_Duration = 4f;
 
-    public static float player_Masochism_Cooldown = 10f;
-    public static float player_Masochism_Duration = 4f;
+    public static float Player_Masochism_Cooldown = 10f;
+    public static float Player_Masochism_Duration = 4f;
 
 }

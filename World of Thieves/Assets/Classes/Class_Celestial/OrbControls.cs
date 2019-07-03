@@ -3,16 +3,16 @@ using System.Collections;
 
 public class OrbControls : MonoBehaviour {
 
-    public GameObject target;
-    public GameObject futureTarget;
+    private GameObject target;
+    public GameObject FutureTarget;
     Vector2 position;
     bool positionSet = false;
     Class_Celestial celestial;
-    public bool instantiated = false;
+    public bool Instantiated = false;
 
     //collision
     private GameObject collidingTarget;
-    public GameObject collidingWith {
+    public GameObject CollidingWith {
         get { return collidingTarget; }
     }
 
@@ -23,7 +23,7 @@ public class OrbControls : MonoBehaviour {
     float speed = 7f;
 
     int slot = -50; // slot can be either 0, 1 or 2, depending ofc on slotCap ><
-    public int getSlot {
+    public int Slot {
         get { return slot; }
     }
 	
@@ -31,44 +31,45 @@ public class OrbControls : MonoBehaviour {
         if (collider.tag == "Enemy") {
             collidingTarget = collider.gameObject;
 
-            collidingTarget.GetComponent<DamageManager>().dealDamage(1);
+            collidingTarget.GetComponent<DamageManager>().DealDamage(1);
         }
     }
     void OnTriggerExit2D(Collider2D collider) {
         collidingTarget = null;
     }
 
-    public void set(Class_Celestial celestialRef, GameObject orbTarget) {
-        target = orbTarget;
+    public void Set(Class_Celestial celestialRef, GameObject orbTarget) {
+        Target = orbTarget;
         celestial = celestialRef;
-        if (checkForSlot() == false)
+        if (CheckForSlot() == false)
             DestroyObject(gameObject);
         else {
-            celestial.orbs.Add(gameObject);
-            instantiated = true;
+            celestial.Orbs.Add(gameObject);
+            Instantiated = true;
         }
       
     }
-    public void set(Class_Celestial celestialRef, Vector3 orbPosition) {
+    public void Set(Class_Celestial celestialRef, Vector3 orbPosition) {
         transform.position = orbPosition;
         position = orbPosition;
         celestial = celestialRef;
-        instantiated = true;
+        Instantiated = true;
     }
 
-    public GameObject getTarget {
+    public GameObject Target {
         get { return target; }
+        set { target = value; }
     }
 
-    bool checkForSlot() {
+    bool CheckForSlot() {
         int count = 0;
         int[] taken = new int[slotCap];
         for (int i = 0; i < slotCap; i++)
             taken[i] = -1;
         //checking for slot space on target
-        foreach (GameObject orb in celestial.orbs)           
+        foreach (GameObject orb in celestial.Orbs)           
             if (orb.GetComponent<OrbControls>().target == target && count < slotCap && orb != gameObject) {
-                taken[count] = orb.GetComponent<OrbControls>().getSlot;
+                taken[count] = orb.GetComponent<OrbControls>().Slot;
                 count++;
             }
         
@@ -97,19 +98,19 @@ public class OrbControls : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (target != null)
-            idleMovement();
+            IdleMovement();
         else if (positionSet && (Vector2)transform.position != position)
-            moveToPos();
-        else if (futureTarget != null)
-            moveToFutureTarget();
+            MoveToPos();
+        else if (FutureTarget != null)
+            MoveToFutureTarget();
         
 
 
 	}
 
-    private void moveToFutureTarget() {       
+    private void MoveToFutureTarget() {       
 
-        Vector2 futurePos = getPosInSlot(ref futureTarget);
+        Vector2 futurePos = GetPosInSlot(ref FutureTarget);
 
         var heading = futurePos - (Vector2)transform.position;
         var distance = heading.magnitude;
@@ -117,13 +118,13 @@ public class OrbControls : MonoBehaviour {
         if (Vector2.Distance(futurePos, (Vector2)transform.position + direction * speed * Time.deltaTime) > 0.1f)
             transform.position += (Vector3)direction * speed * Time.deltaTime;
         else {
-            target = futureTarget;
-            futureTarget = null;
+            target = FutureTarget;
+            FutureTarget = null;
         }
             
     }
 
-    private void moveToPos() {
+    private void MoveToPos() {
         var heading = position - (Vector2)transform.position;
         var distance = heading.magnitude;
         var direction = heading / distance;
@@ -136,19 +137,19 @@ public class OrbControls : MonoBehaviour {
         }
     }
 
-    private void idleMovement() {
-        transform.position = getPosInSlot(ref target);
+    private void IdleMovement() {
+        transform.position = GetPosInSlot(ref target);
     }
 
 
-    private Vector2 getPosInSlot(ref GameObject targ) {
+    private Vector2 GetPosInSlot(ref GameObject targ) {
         float x = (targ.GetComponent<SpriteRenderer>().bounds.size.x / 2) * targ.GetComponent<Transform>().localScale.x;
-        float y = (targ.GetComponent<SpriteRenderer>().bounds.size.y / 2 )* targ.GetComponent<Transform>().localScale.y;
+        float y = (targ.GetComponent<SpriteRenderer>().bounds.size.y / 2) * targ.GetComponent<Transform>().localScale.y;
 
         radius = Mathf.Sqrt((x * x) + (y * y)) + GetComponent<SpriteRenderer>().bounds.size.x / 2 + addRadius;
 
-        y = Mathf.Sin(celestial.currRadians + oneThird2PI * slot) * radius;
-        x = Mathf.Cos(celestial.currRadians + oneThird2PI * slot) * radius;
+        y = Mathf.Sin(celestial.CurrRadians + oneThird2PI * slot) * radius;
+        x = Mathf.Cos(celestial.CurrRadians + oneThird2PI * slot) * radius;
         Vector2 pos = (Vector2)targ.transform.position + new Vector2(x, y);
 
         return pos;
@@ -161,11 +162,11 @@ public class OrbControls : MonoBehaviour {
     /// <param name="pos"></param>
     /// <param name="futureTarget"></param>
 
-    public void pushTo(Vector2 pos, GameObject futureTarg) {
+    public void PushTo(Vector2 pos, GameObject futureTarg) {
         target = null;
         positionSet = true;
         position = pos;
-        futureTarget = futureTarg;
+        FutureTarget = futureTarg;
     }
 
     /// <summary>
@@ -173,28 +174,28 @@ public class OrbControls : MonoBehaviour {
     /// </summary>
     /// <param name="Target"></param>
 
-    public void pushTo(GameObject sTarget) {
+    public void PushTo(GameObject sTarget) {
         int tempSlot = slot;
 
         slot = -50;
         target = sTarget; // cuz checkForSlot checks target slots, not future target
-        if (checkForSlot()) {
-            futureTarget = sTarget;
+        if (CheckForSlot()) {
+            FutureTarget = sTarget;
             positionSet = false;
         } else 
             slot = tempSlot;
         target = null;
     }
 
-    public bool colliderHasSlot() {
+    public bool ColliderHasSlot() {
         int count = 0;
         int[] taken = new int[slotCap];
         for (int i = 0; i < slotCap; i++)
             taken[i] = -1;
 
-        foreach (GameObject orb in celestial.orbs)
+        foreach (GameObject orb in celestial.Orbs)
             if (orb.GetComponent<OrbControls>().target == collidingTarget && count < slotCap) {
-                taken[count] = orb.GetComponent<OrbControls>().getSlot;
+                taken[count] = orb.GetComponent<OrbControls>().Slot;
                 count++;
             }
 

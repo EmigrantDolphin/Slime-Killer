@@ -1,9 +1,9 @@
 ﻿
 public interface IPClass {
 
-    object getAbility(int num);
+    object GetAbility(int num);
 
-    bool skillsEnabled {  // for keybinds
+    bool SkillsEnabled {  // for keybinds
         get;
     }
 

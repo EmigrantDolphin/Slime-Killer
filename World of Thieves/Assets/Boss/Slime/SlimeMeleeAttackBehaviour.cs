@@ -9,10 +9,10 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
 
     bool active = false;
     bool animActive = false;
-    public bool isAnimActive {
+    public bool IsAnimActive {
         get { return animActive; }
     }
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
     public float Cooldown { get { return 0; } }
@@ -27,15 +27,15 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     public void Start() {
         active = true;
         cooldownCounter = attackCooldown;
-        slime.gameObject.GetComponent<EnemyMovement>().speed = movementSpeed;
-        slime.gameObject.GetComponent<EnemyMovement>().movementEnabled = true;
+        slime.gameObject.GetComponent<EnemyMovement>().Speed = movementSpeed;
+        slime.gameObject.GetComponent<EnemyMovement>().MovementEnabled = true;
     }
 
     public void End() {
         CancelAnimations();
         active = false;
         animActive = false;
-        slime.activeBehaviour = null;
+        slime.ActiveBehaviour = null;
     }
 
 
@@ -43,7 +43,7 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
         if (active) {
             if (cooldownCounter < attackCooldown)
                 cooldownCounter += Time.deltaTime;
-            if (Vector2.Distance(slime.player.transform.position, slime.transform.position) <= meleeRange && attackCooldown <= cooldownCounter) {
+            if (Vector2.Distance(slime.Player.transform.position, slime.transform.position) <= meleeRange && attackCooldown <= cooldownCounter) {
                 MeleeAutoAttack();
                 cooldownCounter = 0;
             }
@@ -58,7 +58,7 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     }
 
     private void MeleeRangeMovement() {
-        var absoluteVector = slime.player.transform.position - slime.transform.position;
+        var absoluteVector = slime.Player.transform.position - slime.transform.position;
         var distance = absoluteVector.magnitude;
         var direction = absoluteVector / distance;
         float angle = Mathf.Atan2(absoluteVector.y, absoluteVector.x) * 180 / Mathf.PI;
@@ -71,8 +71,8 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
 
 
 
-        if (Vector2.Distance(slime.transform.position, slime.player.transform.position) >= meleeRange)
-            slime.transform.position += direction * slime.gameObject.GetComponent<EnemyMovement>().speed * Time.deltaTime;
+        if (Vector2.Distance(slime.transform.position, slime.Player.transform.position) >= meleeRange)
+            slime.transform.position += direction * slime.gameObject.GetComponent<EnemyMovement>().Speed * Time.deltaTime;
 
     }
 
@@ -86,11 +86,11 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
         slime.GetComponent<Animator>().SetBool("CancelAnim", true);
     }
 
-    public void onAnimStart() {
+    public void OnAnimStart() {
         animActive = true;
     }
 
-    public void onAnimEnd() {
+    public void OnAnimEnd() {
         animActive = false;
         CancelAnimations();
     }

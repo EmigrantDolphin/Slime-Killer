@@ -8,9 +8,9 @@ public class Skill_Stun : IAbility, ITargetting {
     Sprite targettingIcon;
     GameObject targettingObject;
     bool active = false;
-    float cooldown = SkillsInfo.player_Stun_Cooldown;
+    float cooldown = SkillsInfo.Player_Stun_Cooldown;
     float cooldownLeft = 0f;
-    float duration = SkillsInfo.player_Stun_Duration;
+    float duration = SkillsInfo.Player_Stun_Duration;
     Class_Celestial celestial;
     float radius; // set when targetobject is created;
 
@@ -21,30 +21,30 @@ public class Skill_Stun : IAbility, ITargetting {
 
     }
 
-    public string getName {
+    public string Name {
         get { return name; }
     }
 
-    public string getDescription {
+    public string Description {
         get { return descritpion; }
     }
 
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
-    public void targetting() {
+    public void Targetting() {
         if (cooldownLeft > 0f)
             return;
         if (targettingObject == null) {
@@ -59,7 +59,7 @@ public class Skill_Stun : IAbility, ITargetting {
 
     }
 
-    public void use(GameObject target) {
+    public void Use(GameObject target) {
         if (cooldownLeft > 0f)
             return;
 
@@ -72,18 +72,18 @@ public class Skill_Stun : IAbility, ITargetting {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(mousePos, radius);
         foreach (Collider2D targ in hitColliders)
             if (targ.gameObject.GetComponent<SlimeManager>() != null) {
-                targ.GetComponent<SlimeManager>().stun(duration);
+                targ.GetComponent<SlimeManager>().Stun(duration);
                 break;
             }
-        celestial.instantiateOrb(celestial.orbControlObj, celestial.parentPlayer);
+        celestial.InstantiateOrb(celestial.OrbControlObj, celestial.ParentPlayer);
         cooldownLeft = cooldown;
     }
 
-    public void endAction() {
+    public void EndAction() {
 
     }
 
-    public void loop() {
+    public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
     }

@@ -6,9 +6,9 @@ public class UIDialogControl : MonoBehaviour {
     Text dialogText;
     Canvas dialogCanvas;
 
-    public float typeTimeInterval = 0.1f;
+    public float TypeTimeInterval = 0.1f;
     [HideInInspector]
-    public string[] dialog;
+    public string[] Dialog;
     private int dialogsDone = -1;
     // Use this for initialization
     void Start () {
@@ -28,12 +28,12 @@ public class UIDialogControl : MonoBehaviour {
                 return;
             }
 
-            if (dialogText.text.Length < dialog[dialogsDone].Length) {
+            if (dialogText.text.Length < Dialog[dialogsDone].Length) {
                 StopCoroutine("writeOutText");
-                dialogText.text = dialog[dialogsDone];
-            } else if (dialogText.text.Length >= dialog[dialogsDone].Length) {
+                dialogText.text = Dialog[dialogsDone];
+            } else if (dialogText.text.Length >= Dialog[dialogsDone].Length) {
                 dialogText.text = "";
-                if (dialogsDone < dialog.Length - 1) {
+                if (dialogsDone < Dialog.Length - 1) {
                     dialogsDone++;
                     StartCoroutine("writeOutText");
                 } else {
@@ -46,17 +46,17 @@ public class UIDialogControl : MonoBehaviour {
     }
 
     IEnumerator writeOutText() {
-        while (dialogText.text.Length < dialog[dialogsDone].Length) {           
-            dialogText.text += dialog[dialogsDone][dialogText.text.Length];
-            yield return new WaitForSeconds(typeTimeInterval);          
+        while (dialogText.text.Length < Dialog[dialogsDone].Length) {           
+            dialogText.text += Dialog[dialogsDone][dialogText.text.Length];
+            yield return new WaitForSeconds(TypeTimeInterval);          
         }
     }
 
-    void onEnable() {
+    void OnEnable() {
         dialogText.text = "";
     }
 
-    void onDisable() {
+    void OnDisable() {
 
     }
 }

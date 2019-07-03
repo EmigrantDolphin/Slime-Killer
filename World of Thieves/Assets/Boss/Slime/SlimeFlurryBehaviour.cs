@@ -13,8 +13,8 @@ public class SlimeFlurryBehaviour : IBossBehaviour, IAnimEvents {
 
     bool active = false;
     bool animActive = false;
-    public bool isActive { get { return active; } }
-    public bool isAnimActive { get { return animActive; } }
+    public bool IsActive { get { return active; } }
+    public bool IsAnimActive { get { return animActive; } }
     int animEvent = 0;
 
     SlimeManager slime;
@@ -41,11 +41,11 @@ public class SlimeFlurryBehaviour : IBossBehaviour, IAnimEvents {
 
                     int x = Random.Range(-100, 100);
                     int y = Random.Range(-100, 100);
-                    float randomRadius = Random.Range(slime.slimeBoundsSize.x /2, maxSplashRadius);
+                    float randomRadius = Random.Range(slime.SlimeBoundsSize.x /2, maxSplashRadius);
                     Vector2 absVector = new Vector2(x, y);
                     Vector2 travelVector = (absVector / absVector.magnitude) * randomRadius;
-                    tempSplash.GetComponent<SlimeSplashControl>().id = splashIdCounter;
-                    tempSplash.GetComponent<SlimeSplashControl>().travelVector = travelVector;
+                    tempSplash.GetComponent<SlimeSplashControl>().Id = splashIdCounter;
+                    tempSplash.GetComponent<SlimeSplashControl>().TravelVector = travelVector;
                     
                     splashSpawnCounter = 0;
                 } else
@@ -69,19 +69,19 @@ public class SlimeFlurryBehaviour : IBossBehaviour, IAnimEvents {
         splashIdCounter = 0;
         slime.GetComponent<Animator>().SetBool("Flurry", false);
         slime.GetComponent<Animator>().SetBool("CancelAnim", true);
-        slime.activeBehaviour = null;
+        slime.ActiveBehaviour = null;
     }
 
-    public void onAnimStart() {
+    public void OnAnimStart() {
         animActive = true;
     }
 
-    public void onAnimEnd() {
+    public void OnAnimEnd() {
         animActive = false;
         End();
     }
 
-    public void onAnimEvent() {
+    public void OnAnimEvent() {
         animEvent++;
         switch (animEvent) {
             case 1: isSplashOn = true;

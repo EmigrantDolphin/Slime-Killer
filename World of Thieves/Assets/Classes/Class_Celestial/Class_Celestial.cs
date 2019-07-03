@@ -4,34 +4,34 @@ using System.Collections.Generic;
 
 public class Class_Celestial : MonoBehaviour, IPClass {
 
-    public GameObject skillBar;
+    public GameObject SkillBar;
     //accessed from Skill_Manipulate
-    public GameObject manipulateSkillBar;
+    public GameObject ManipulateSkillBar;
     [HideInInspector]
-    public GameObject manipulateSkillBarClone;
+    public GameObject ManipulateSkillBarClone;
 
     // other
-    public bool skillsDisabled = false;  
-    public bool skillsEnabled {  // for keybinds
-        get { return !skillsDisabled; }
+    public bool SkillsDisabled = false;  
+    public bool SkillsEnabled {  // for keybinds
+        get { return !SkillsDisabled; }
     }
     //Orb Mechanics
 
-    public GameObject orbDamageObj;
-    public GameObject orbControlObj;
-    public GameObject orbDefenseObj;
+    public GameObject OrbDamageObj;
+    public GameObject OrbControlObj;
+    public GameObject OrbDefenseObj;
 
     [HideInInspector]
-    public float rotationSpeed = 2 * Mathf.PI;
+    public float RotationSpeed = 0.5f * Mathf.PI;
     [HideInInspector]
-    public float currRadians = 0; // needed in orbControls script, so all orbs have same slot positions
+    public float CurrRadians = 0; // needed in orbControls script, so all orbs have same slot positions
     [HideInInspector]
-    public GameObject parentPlayer;
+    public GameObject ParentPlayer;
 
 
 
     [HideInInspector]
-    public List<GameObject> orbs = new List<GameObject>(); // whenever an orb is created, it is automatically also added here
+    public List<GameObject> Orbs = new List<GameObject>(); // whenever an orb is created, it is automatically also added here
 
     Skill_Compress compress;
     Skill_Manipulate manipulate;
@@ -43,15 +43,15 @@ public class Class_Celestial : MonoBehaviour, IPClass {
 
     void Start() {
 
-        parentPlayer = transform.parent.gameObject;
+        ParentPlayer = transform.parent.gameObject;
 
-        GameObject temp = (GameObject) Instantiate(skillBar, parentPlayer.transform.position, Quaternion.identity);
+        GameObject temp = (GameObject) Instantiate(SkillBar, ParentPlayer.transform.position, Quaternion.identity);
         temp.transform.SetParent(transform);
 
         //accessed in Skill_Manipulate scritp
-        manipulateSkillBarClone = (GameObject)Instantiate(manipulateSkillBar, parentPlayer.transform.position, Quaternion.identity);
-        manipulateSkillBarClone.transform.SetParent(transform);
-        manipulateSkillBarClone.SetActive(false);
+        ManipulateSkillBarClone = (GameObject)Instantiate(ManipulateSkillBar, ParentPlayer.transform.position, Quaternion.identity);
+        ManipulateSkillBarClone.transform.SetParent(transform);
+        ManipulateSkillBarClone.SetActive(false);
 
         compress = new Skill_Compress(this);
         manipulate = new Skill_Manipulate(this);
@@ -63,8 +63,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     }
 
  
-    public object getAbility(int num) {
-        if (skillsDisabled)
+    public object GetAbility(int num) {
+        if (SkillsDisabled)
             return null;
         else
             switch (num) {
@@ -81,51 +81,51 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     }
 
     void Update() {
-        
-        radiansUpdate();
+
+        RadiansUpdate();
     }
 
     void LateUpdate() {
         abilityLoop();
     }
 
-    private void radiansUpdate() {
-        if (currRadians > (2 * Mathf.PI))
-            currRadians = 0;
+    private void RadiansUpdate() {
+        if (CurrRadians > (2 * Mathf.PI))
+            CurrRadians = 0;
         else
-            currRadians += rotationSpeed * Time.deltaTime;
+            CurrRadians += RotationSpeed * Time.deltaTime;
     }
 
     private void abilityLoop() {
-        compress.loop();
-        manipulate.loop();
-        collapse.loop();
-        channelHeat.loop();
-        teleport.loop();
-        stun.loop();
-        masochism.loop();
+        compress.Loop();
+        manipulate.Loop();
+        collapse.Loop();
+        channelHeat.Loop();
+        teleport.Loop();
+        stun.Loop();
+        masochism.Loop();
     }
 
-    public GameObject instantiateOrb(GameObject orb, GameObject target) {
+    public GameObject InstantiateOrb(GameObject orb, GameObject target) {
         var temp = Instantiate(orb);
-        temp.GetComponent<OrbControls>().set(this, target);
-        if (temp.GetComponent<OrbControls>().instantiated)
+        temp.GetComponent<OrbControls>().Set(this, target);
+        if (temp.GetComponent<OrbControls>().Instantiated)
             return temp;
         else
             return null;
     }
 
-    public GameObject instantiateOrb(GameObject orb, Vector3 pos) {
+    public GameObject InstantiateOrb(GameObject orb, Vector3 pos) {
         var temp = Instantiate(orb);
-        temp.GetComponent<OrbControls>().set(this, pos);
-        if (temp.GetComponent<OrbControls>().instantiated)
+        temp.GetComponent<OrbControls>().Set(this, pos);
+        if (temp.GetComponent<OrbControls>().Instantiated)
             return temp;
         else
             return null;
     }
 
-    public void destroyOrb(GameObject obj) {
-        orbs.Remove(obj);
+    public void DestroyOrb(GameObject obj) {
+        Orbs.Remove(obj);
         DestroyObject(obj);
     }
 

@@ -10,7 +10,7 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     GameObject cooldownOverlay;
     
 
-    public bool isAbilitySet {
+    public bool IsAbilitySet {
         get { if (ability != null)
                 return true;
               else
@@ -19,7 +19,7 @@ public class SkillBar_SkillInfo : MonoBehaviour {
 
     }
 
-    public bool hasTargetting {
+    public bool HasTargetting {
         get {
             if (ability != null && ability is ITargetting)
                 return true;
@@ -28,7 +28,7 @@ public class SkillBar_SkillInfo : MonoBehaviour {
         }
     }
 
-    public bool hasChanneling {
+    public bool HasChanneling {
         get {
             if (ability != null && ability is IChanneling)
                 return true;
@@ -43,7 +43,7 @@ public class SkillBar_SkillInfo : MonoBehaviour {
         
     }
 
-    public void onMouseOver(Vector2 pos) {
+    public void OnMouseOver(Vector2 pos) {
 
     }
 
@@ -51,7 +51,7 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     void Update() {
         //taking paren pos. adding anchorPosition, cuz anchor is on the middle of canvas and middle of canvas is directly on playerPos. i add player pos, anchor of canvas(skillbar), background and skill
         //this way i get world position of rect. all scales are one, canvas is set on world space, so i take world coords
-        posWorld = (Vector2)GameMaster.player.transform.position + transform.parent.transform.parent.GetComponent<RectTransform>().anchoredPosition + transform.parent.GetComponent<RectTransform>().anchoredPosition + GetComponent<RectTransform>().anchoredPosition;
+        posWorld = (Vector2)GameMaster.Player.transform.position + transform.parent.transform.parent.GetComponent<RectTransform>().anchoredPosition + transform.parent.GetComponent<RectTransform>().anchoredPosition + GetComponent<RectTransform>().anchoredPosition;
         dimWorld = new Vector2(GetComponent<RectTransform>().sizeDelta.x, GetComponent<RectTransform>().sizeDelta.y);
 
         var topl = posWorld;
@@ -69,13 +69,13 @@ public class SkillBar_SkillInfo : MonoBehaviour {
             float width = gameObject.GetComponent<RectTransform>().rect.width;
             cooldownOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2(width, 0f);
         }
-        if (ability != null && (ability as IAbility).getCooldownLeft > 0f) {
-            float rate = (ability as IAbility).getCooldownLeft / (ability as IAbility).getCooldown;
+        if (ability != null && (ability as IAbility).CooldownLeft > 0f) {
+            float rate = (ability as IAbility).CooldownLeft / (ability as IAbility).Cooldown;
             float height = gameObject.GetComponent<RectTransform>().rect.height * rate;
             float width = gameObject.GetComponent<RectTransform>().rect.width;
             cooldownOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
         }
-        if (ability != null && (ability as IAbility).getCooldownLeft <= 0f) {
+        if (ability != null && (ability as IAbility).CooldownLeft <= 0f) {
             float width = gameObject.GetComponent<RectTransform>().rect.width;
             cooldownOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2(width, 0f);
             cooldownOverlay = null;
@@ -89,11 +89,11 @@ public class SkillBar_SkillInfo : MonoBehaviour {
 
     }
 
-    public object getAbility() { // for switching sets
+    public object GetAbility() { // for switching sets
         return ability;
     }
 
-    public object checkAndGetAbility(Vector2 pos) {
+    public object CheckAndGetAbility(Vector2 pos) {
 
         if (pos.x > posWorld.x && pos.y > posWorld.y && pos.x < (posWorld.x + dimWorld.x) && pos.y < (posWorld.y + dimWorld.y)) {
             prevAbility = ability;
@@ -104,20 +104,20 @@ public class SkillBar_SkillInfo : MonoBehaviour {
             return null;
     }
 
-    public void setAbility(object ab) {
+    public void SetAbility(object ab) {
         if (ab == null) {
             ability = null;
-            updateIcon();
+            UpdateIcon();
         } else {
             ability = ab;
-            GetComponent<Image>().sprite = (ability as IAbility).getIcon;
+            GetComponent<Image>().sprite = (ability as IAbility).Icon;
         }
     }
 
-    public bool checkAndSetAbility(IAbility ab, Vector2 pos) {
+    public bool CheckAndSetAbility(IAbility ab, Vector2 pos) {
         if (pos.x > posWorld.x && pos.y > posWorld.y && pos.x < (posWorld.x + dimWorld.x) && pos.y < (posWorld.y + dimWorld.y)) {
             ability = ab;
-            GetComponent<Image>().sprite = (ability as IAbility).getIcon;
+            GetComponent<Image>().sprite = (ability as IAbility).Icon;
             return true;
 
         } else
@@ -125,47 +125,47 @@ public class SkillBar_SkillInfo : MonoBehaviour {
 
     }
 
-    public object exchangeAbilities(IAbility ab, Vector2 pos) {
+    public object ExchangeAbilities(IAbility ab, Vector2 pos) {
         if (pos.x > posWorld.x && pos.y > posWorld.y && pos.x < (posWorld.x + dimWorld.x) && pos.y < (posWorld.y + dimWorld.y)) {
             var temp = ability;
             ability = ab;
-            GetComponent<Image>().sprite = (ability as IAbility).getIcon;
+            GetComponent<Image>().sprite = (ability as IAbility).Icon;
             return temp;
         } else
             return null;
     }
 
 
-    public void useAbility() {
-        if (ability != null && ability is IAbility && (ability as IAbility).getCooldownLeft <= 0f)
-            (ability as IAbility).use(null);
+    public void UseAbility() {
+        if (ability != null && ability is IAbility && (ability as IAbility).CooldownLeft <= 0f)
+            (ability as IAbility).Use(null);
     }
 
-    public void updateIcon() {
+    public void UpdateIcon() {
         if (ability != null)
-            GetComponent<Image>().sprite = (ability as IAbility).getIcon;
+            GetComponent<Image>().sprite = (ability as IAbility).Icon;
         else
             GetComponent<Image>().sprite = null;
     }
 
-    public void targetting() {
-        if (ability is ITargetting && (ability as IAbility).getCooldownLeft <= 0f)
-            (ability as ITargetting).targetting();        
+    public void Targetting() {
+        if (ability is ITargetting && (ability as IAbility).CooldownLeft <= 0f)
+            (ability as ITargetting).Targetting();        
     }
 
-    public void onChannelingStart() {
-        if (ability is IChanneling && (ability as IAbility).getCooldownLeft <= 0f)
-            (ability as IChanneling).onChannelingStart();
+    public void OnChannelingStart() {
+        if (ability is IChanneling && (ability as IAbility).CooldownLeft <= 0f)
+            (ability as IChanneling).OnChannelingStart();
     }
 
-    public void onChanneling() {
-        if (ability is IChanneling && (ability as IAbility).getCooldownLeft <= 0f)
-            (ability as IChanneling).onChanneling();
+    public void OnChanneling() {
+        if (ability is IChanneling && (ability as IAbility).CooldownLeft <= 0f)
+            (ability as IChanneling).OnChanneling();
     }
 
-    public void onChannelingEnd() {
-        if (ability is IChanneling && (ability as IAbility).getCooldownLeft <= 0f)
-            (ability as IChanneling).onChannelingEnd();
+    public void OnChannelingEnd() {
+        if (ability is IChanneling && (ability as IAbility).CooldownLeft <= 0f)
+            (ability as IChanneling).OnChannelingEnd();
     }
 
 }

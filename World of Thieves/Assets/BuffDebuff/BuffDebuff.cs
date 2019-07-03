@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class BuffDebuff : MonoBehaviour {
     [HideInInspector]
-    public GameObject entityObject;
-    public GameObject debuffBar;
+    public GameObject EntityObject;
+    public GameObject DebuffBar;
     [HideInInspector]
-    public GameObject debuffBarInstantiated;
+    public GameObject DebuffBarInstantiated;
 
     Debuff_Slow debuff_slow;
     
@@ -15,10 +15,10 @@ public class BuffDebuff : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        entityObject = gameObject;
-        if (entityObject.tag == "Player") {
-            debuffBarInstantiated = (GameObject)Instantiate(debuffBar, entityObject.transform.position, Quaternion.identity);
-            debuffBarInstantiated.transform.parent = entityObject.transform;
+        EntityObject = gameObject;
+        if (EntityObject.tag == "Player") {
+            DebuffBarInstantiated = (GameObject)Instantiate(DebuffBar, EntityObject.transform.position, Quaternion.identity);
+            DebuffBarInstantiated.transform.parent = EntityObject.transform;
         }
         debuff_slow = new Debuff_Slow(this);
 
@@ -28,11 +28,11 @@ public class BuffDebuff : MonoBehaviour {
 	void Update () {
 
         if (Input.GetKeyDown(KeyCode.L))
-            applyDebuff(Debuffs.Slow, 3f);
+            ApplyDebuff(Debuffs.Slow, 3f);
 
         for (int i = 0; i < debuffList.Count; i++ ){
             debuffList[i].Loop();
-            if (debuffList[i].isActive == false)  
+            if (debuffList[i].IsActive == false)  
                 debuffList.RemoveAt(i);            
         }
 
@@ -40,14 +40,14 @@ public class BuffDebuff : MonoBehaviour {
 
 
 
-    public void applyDebuff(Debuffs debuff, float timeLength) {
+    public void ApplyDebuff(Debuffs debuff, float timeLength) {
         switch (debuff) {
             case Debuffs.Slow:
-                if (debuff_slow.isActive == false) {
+                if (debuff_slow.IsActive == false) {
                     debuffList.Add(debuff_slow); // adding to list only once.
-                    debuff_slow.apply(timeLength);
+                    debuff_slow.Apply(timeLength);
                 } else
-                    debuff_slow.apply(timeLength); // refreshing time or adding stacks if called while debuff is on
+                    debuff_slow.Apply(timeLength); // refreshing time or adding stacks if called while debuff is on
                 break;
         }
 

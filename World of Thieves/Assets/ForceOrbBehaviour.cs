@@ -12,7 +12,7 @@ public class ForceOrbBehaviour : MonoBehaviour {
         }
 
         if (collider.gameObject.tag == "Player") {
-            collider.gameObject.GetComponent<DamageManager>().dealDamage(SkillsInfo.Slime_ForceOrbDamage);
+            collider.gameObject.GetComponent<DamageManager>().DealDamage(SkillsInfo.Slime_ForceOrbDamage);
             Destroy(gameObject);
         }
 

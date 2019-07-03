@@ -1,6 +1,6 @@
 ﻿
 public interface ITargetting {
 
-    void targetting();
+    void Targetting();
 	
 }

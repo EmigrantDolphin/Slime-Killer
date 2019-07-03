@@ -15,13 +15,13 @@ public class SlimeForceOrbBehaviour : IBossBehaviour {
     }
 
 
-    public bool isActive { get { return active; } }
-    public bool isAnimActive { get { return animActive; } }
+    public bool IsActive { get { return active; } }
+    public bool IsAnimActive { get { return animActive; } }
     public float Cooldown { get { return 5f; } }
 
     public void Start() {
         GameObject orbClone = slimeManager.InstantiateGameObject(forceOrbObj);
-        orbClone.GetComponent<ProjectileMovement>().Target = slimeManager.player;
+        orbClone.GetComponent<ProjectileMovement>().Target = slimeManager.Player;
         orbClone.transform.position = slimeManager.transform.position;
         End();
     }
@@ -29,11 +29,11 @@ public class SlimeForceOrbBehaviour : IBossBehaviour {
     public void Loop() { }
     public void Movement() { }
     public void End() {
-        slimeManager.activeBehaviour = null;
+        slimeManager.ActiveBehaviour = null;
     }
 
-    public void onAnimStart() { }
-    public void onAnimEnd() { }
+    public void OnAnimStart() { }
+    public void OnAnimEnd() { }
     
 
 

@@ -219,7 +219,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22429650, guid: eabd06b3cb550b043a8e67c97f7fd50a, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 22429650, guid: eabd06b3cb550b043a8e67c97f7fd50a, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -390,9 +390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0678d0aa79f0fe244b6cc0a72000f33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityObject: {fileID: 0}
-  debuffBar: {fileID: 126972, guid: 931c39715d1176840a0eaa926c1adee7, type: 2}
-  debuffBarInstantiated: {fileID: 0}
+  EntityObject: {fileID: 0}
+  DebuffBar: {fileID: 126972, guid: 931c39715d1176840a0eaa926c1adee7, type: 2}
+  DebuffBarInstantiated: {fileID: 0}
 --- !u!114 &68110579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,9 +405,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec1395607d9d3448953e659467d5564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthGreenImage: {fileID: 1792959362}
-  maxHealth: 100
-  health: 100
+  HealthGreenImage: {fileID: 1792959362}
+  MaxHealth: 100
+  Health: 100
 --- !u!114 &68110580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d30d0382548ed44faec7a0e5390d4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  classArray:
+  ClassArray:
   - {fileID: 160582, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
 --- !u!114 &68110581
 MonoBehaviour:
@@ -446,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e22cd1f7a28b2244d8c8aafeff63e16f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  Speed: 4
 --- !u!61 &68110584
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -693,7 +693,7 @@ Transform:
   m_Children:
   - {fileID: 1768599078}
   m_Father: {fileID: 1955314810}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!212 &393285016
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -873,7 +873,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.27249998}
   m_Children: []
   m_Father: {fileID: 1955314810}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!212 &528432185
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -953,11 +953,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500690ceed665c846ba617418dd57c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeTimeInterval: 0.1
-  dialog:
-  - Hello, my name is Mark. I sell popcorn.
-  - My son disappeared last night. He didn't come home..
-  - Could you please find him, oh might hero? You will be greatly rewarded!
+  TypeTimeInterval: 0.1
+  Dialog: []
 --- !u!114 &645001621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1227,9 +1224,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec1395607d9d3448953e659467d5564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthGreenImage: {fileID: 1414524141}
-  maxHealth: 100
-  health: 100
+  HealthGreenImage: {fileID: 1414524141}
+  MaxHealth: 100
+  Health: 100
 --- !u!50 &833471997
 Rigidbody2D:
   serializedVersion: 2
@@ -1335,8 +1332,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77484f4c9e91d1b4caf83cc7c50c435c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementEnabled: 1
-  speed: 0
+  MovementEnabled: 1
+  Speed: 0
+--- !u!1001 &939855630
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 446010, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11459488, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: OrbControlObj
+      value: 
+      objectReference: {fileID: 142560, guid: 1e0a80667848833439661ed4544ce021, type: 2}
+    - target: {fileID: 11459488, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: OrbDamageObj
+      value: 
+      objectReference: {fileID: 143650, guid: fce2bfc0c81d35741aa3d110b77c4c5b, type: 2}
+    - target: {fileID: 11459488, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: OrbDefenseObj
+      value: 
+      objectReference: {fileID: 111090, guid: ccc1f06eb5b2cd444b54721c351f8304, type: 2}
+    - target: {fileID: 11459488, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: SkillBar
+      value: 
+      objectReference: {fileID: 148576, guid: 3e888687435175543851d86ab8d02df4, type: 2}
+    - target: {fileID: 11459488, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+      propertyPath: ManipulateSkillBar
+      value: 
+      objectReference: {fileID: 109704, guid: ebd909954607ca54990dee85c6ecec65, type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 558539fd629b5f740914ede3ca5b4afe, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1059737501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1717,7 +1776,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 485956, guid: 7a6ef592bdcbbdf4ca86f6213dbbcf84, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 184698, guid: 7a6ef592bdcbbdf4ca86f6213dbbcf84, type: 2}
       propertyPath: m_IsActive
@@ -2121,11 +2180,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.27249998}
   m_Children:
-  - {fileID: 693522129}
   - {fileID: 393285015}
+  - {fileID: 693522129}
   - {fileID: 739690905}
-  - {fileID: 1786271723}
   - {fileID: 528432184}
+  - {fileID: 1786271723}
   m_Father: {fileID: 0}
   m_RootOrder: 5
 --- !u!114 &1955314811
@@ -2139,9 +2198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec1395607d9d3448953e659467d5564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthGreenImage: {fileID: 1375407360}
-  maxHealth: 2500
-  health: 2500
+  HealthGreenImage: {fileID: 1375407360}
+  MaxHealth: 100
+  Health: 100
 --- !u!61 &1955314812
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2184,9 +2243,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9470bb7d73e3c1746a8f39ef5687bbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceOrbObj: {fileID: 129230, guid: 87c8f969e29130c4982929efadcc6008, type: 2}
-  slimeBoundsSize: {x: 0, y: 0}
-  player: {fileID: 0}
+  ForceOrbObj: {fileID: 129230, guid: 87c8f969e29130c4982929efadcc6008, type: 2}
+  SlimeBoundsSize: {x: 0, y: 0}
+  Player: {fileID: 0}
 --- !u!114 &1955314815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2198,8 +2257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77484f4c9e91d1b4caf83cc7c50c435c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementEnabled: 1
-  speed: 0
+  MovementEnabled: 1
+  Speed: 0
 --- !u!114 &1955314816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2211,9 +2270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0678d0aa79f0fe244b6cc0a72000f33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityObject: {fileID: 0}
-  debuffBar: {fileID: 0}
-  debuffBarInstantiated: {fileID: 0}
+  EntityObject: {fileID: 0}
+  DebuffBar: {fileID: 0}
+  DebuffBarInstantiated: {fileID: 0}
 --- !u!224 &2023220186 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22429650, guid: eabd06b3cb550b043a8e67c97f7fd50a,

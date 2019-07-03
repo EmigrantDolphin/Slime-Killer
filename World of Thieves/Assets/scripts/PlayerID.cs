@@ -6,10 +6,6 @@ public class PlayerID : NetworkBehaviour {
     [SyncVar]
     public int ID;
 
-    public int getID {
-        get { return ID; }
-    }
-
 
         
     

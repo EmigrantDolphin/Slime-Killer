@@ -122,10 +122,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f0acfe12c3105343a32b16873163eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  travelVector: {x: 0, y: 0}
-  id: 0
-  addedScale: 0.25
-  lifeLength: 10
+  TravelVector: {x: 0, y: 0}
+  Id: 0
+  AddedScale: 0.25
+  LifeLength: 10
 --- !u!212 &21249628
 SpriteRenderer:
   m_ObjectHideFlags: 1

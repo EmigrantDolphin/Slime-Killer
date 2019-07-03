@@ -7,9 +7,9 @@ public class Skill_Masochism : IAbility {
     string description = "";
     Sprite icon;
     bool active = false;
-    float cooldown = SkillsInfo.player_Masochism_Cooldown;
+    float cooldown = SkillsInfo.Player_Masochism_Cooldown;
     float cooldownLeft = 0f;
-    float duration = SkillsInfo.player_Masochism_Duration;
+    float duration = SkillsInfo.Player_Masochism_Duration;
 
     Class_Celestial celestial;
 
@@ -18,42 +18,42 @@ public class Skill_Masochism : IAbility {
         celestial = cs;
     }
 
-    public string getName {
+    public string Name {
         get { return name; }
     }
 
-    public string getDescription {
+    public string Description {
         get { return description; }
     }
 
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
-    public void use(GameObject target) {
+    public void Use(GameObject target) {
         if (cooldownLeft <= 0f) {
-            celestial.parentPlayer.GetComponent<DamageManager>().damageToHealFor(duration);
+            celestial.ParentPlayer.GetComponent<DamageManager>().DamageToHealFor(duration);
             cooldownLeft = cooldown;
-            celestial.instantiateOrb(celestial.orbDefenseObj, celestial.parentPlayer);
+            celestial.InstantiateOrb(celestial.OrbDefenseObj, celestial.ParentPlayer);
         }
     }
 
-    public void endAction() {
+    public void EndAction() {
 
     }
 
-    public void loop() {
+    public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
     }

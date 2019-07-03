@@ -9,7 +9,7 @@ public class Skill_Collapse : IAbility, ITargetting {
     Sprite teleportIcon;
     Sprite targettingIcon;
     bool active = false;
-    float cooldown = SkillsInfo.player_Collapse_Cooldown;
+    float cooldown = SkillsInfo.Player_Collapse_Cooldown;
     float cooldownLeft = 0f;
 
     Vector2 pullCenter;
@@ -30,26 +30,26 @@ public class Skill_Collapse : IAbility, ITargetting {
 
     Class_Celestial celestial;
 
-    public string getName {
+    public string Name {
         get { return name; }
     }
 
-    public string getDescription {
+    public string Description {
         get { return description; }
     }
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
@@ -66,7 +66,7 @@ public class Skill_Collapse : IAbility, ITargetting {
     }
 
     
-    public void targetting() {
+    public void Targetting() {
         if (!isPortOrbActive) {
             if (targettingObject == null) {
                 targettingObject = new GameObject("targettingObject");
@@ -78,10 +78,10 @@ public class Skill_Collapse : IAbility, ITargetting {
         }
     }
 
-    public void use(GameObject target) {
+    public void Use(GameObject target) {
         if (!isPortOrbActive) {
             active = true;
-            celestial.skillsDisabled = true;
+            celestial.SkillsDisabled = true;
             Object.Destroy(targettingObject);
             targettingObject = null;
 
@@ -91,16 +91,16 @@ public class Skill_Collapse : IAbility, ITargetting {
             for (int i = 0; i < triggeredObjects.Length; i++)
                 if (triggeredObjects[i].gameObject.tag == "Enemy") {
                     enemy.Add(triggeredObjects[i].gameObject);
-                    enemy[enemy.Count - 1].GetComponent<EnemyMovement>().movementEnabled = false;
+                    enemy[enemy.Count - 1].GetComponent<EnemyMovement>().MovementEnabled = false;
                 }
         } else {
             // port to location, delete orb, change back to false
-            celestial.parentPlayer.transform.position = orb.transform.position;
-            celestial.parentPlayer.GetComponent<playerMovement>().cancelPath();
+            celestial.ParentPlayer.transform.position = orb.transform.position;
+            celestial.ParentPlayer.GetComponent<playerMovement>().CancelPath();
 
-            foreach (GameObject orbb in celestial.orbs)
+            foreach (GameObject orbb in celestial.Orbs)
                 if (orbb == orb) {
-                    celestial.orbs.Remove(orb);
+                    celestial.Orbs.Remove(orb);
                     break;
                 }
             Object.Destroy(orb);
@@ -109,18 +109,18 @@ public class Skill_Collapse : IAbility, ITargetting {
             isPortOrbActive = false;
             orbTimer = 0;
             icon = pullIcon;
-            SkillBarControls.updateIcons();
+            SkillBarControls.UpdateIcons();
             cooldownLeft = cooldown;
         }
 
     }
 
-    public void endAction() {
+    public void EndAction() {
         active = false;
-        celestial.skillsDisabled = false;
+        celestial.SkillsDisabled = false;
     }
 
-    public void loop() {
+    public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
         
@@ -139,17 +139,17 @@ public class Skill_Collapse : IAbility, ITargetting {
             if (timeSpent >= skillTime) {
                 timeSpent = 0;
                 foreach (GameObject foe in enemy) {
-                    foe.GetComponent<EnemyMovement>().movementEnabled = true;
+                    foe.GetComponent<EnemyMovement>().MovementEnabled = true;
                     foe.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 }
                 enemy.Clear();
-                endAction();
+                EndAction();
 
                 isPortOrbActive = true;
-                orb = celestial.instantiateOrb(celestial.orbDefenseObj, pullCenter);
-                celestial.orbs.Add(orb);
+                orb = celestial.InstantiateOrb(celestial.OrbDefenseObj, pullCenter);
+                celestial.Orbs.Add(orb);
                 icon = teleportIcon;
-                SkillBarControls.updateIcons();
+                SkillBarControls.UpdateIcons();
             }                             
         }
 
@@ -160,15 +160,15 @@ public class Skill_Collapse : IAbility, ITargetting {
                 orbTimer = 0;
                 isPortOrbActive = false;
 
-                foreach (GameObject orbb in celestial.orbs)
+                foreach (GameObject orbb in celestial.Orbs)
                     if (orbb == orb) {
-                        celestial.orbs.Remove(orb);
+                        celestial.Orbs.Remove(orb);
                         break;
                     }
                 Object.Destroy(orb);
                 orb = null;
                 icon = pullIcon;
-                SkillBarControls.updateIcons();
+                SkillBarControls.UpdateIcons();
             }
     }
 

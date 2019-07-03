@@ -5,11 +5,11 @@ public class SimpleDamage  {
 
     private string name = "simpleDamage";
 
-	public string getName {
+	public string Name {
         get { return name; }
     }
 
-    public void use(GameObject player) {
+    public void Use(GameObject player) {
         Debug.Log(player.transform.position);
     }
 

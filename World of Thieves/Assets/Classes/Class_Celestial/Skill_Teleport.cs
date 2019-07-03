@@ -16,46 +16,46 @@ public class Skill_Teleport : IAbility {
         celestial = cs;
     }
 
-    public string getName {
+    public string Name {
         get { return name; }
     }
 
-    public string getDescription {
+    public string Description {
         get { return description; }
     }
 
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
-    public void use(GameObject target) {
-        foreach (GameObject orb in celestial.orbs) {
-            if (orb.GetComponent<OrbControls>().getTarget == celestial.parentPlayer && orb.name == "OrbControl(Clone)") {
+    public void Use(GameObject target) {
+        foreach (GameObject orb in celestial.Orbs) {
+            if (orb.GetComponent<OrbControls>().Target == celestial.ParentPlayer && orb.name == "OrbControl(Clone)") {
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                celestial.parentPlayer.transform.position = mousePos;
-                celestial.parentPlayer.GetComponent<playerMovement>().cancelPath();
-                celestial.destroyOrb(orb);
+                celestial.ParentPlayer.transform.position = mousePos;
+                celestial.ParentPlayer.GetComponent<playerMovement>().CancelPath();
+                celestial.DestroyOrb(orb);
                 return;
             }
         }
     }
 
-    public void endAction() {
+    public void EndAction() {
 
     }
 
-    public void loop() {
+    public void Loop() {
 
     }
 

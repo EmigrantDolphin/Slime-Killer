@@ -4,14 +4,14 @@ using System.Collections.Generic;
 public class Skill_Compress : IAbility {
     string skillName = "Compress";
     string description = "Spinns orbs faster for a duration";
-    float speed = SkillsInfo.player_Compress_Speed;
-    float cooldown = SkillsInfo.player_Compress_Cooldown;
+    float speed = SkillsInfo.Player_Compress_Speed;
+    float cooldown = SkillsInfo.Player_Compress_Cooldown;
     float cooldownLeft = 0f;
 
     //List<GameObject> controlledOrbs = new List<GameObject>();
 
     Sprite icon;
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
@@ -28,49 +28,49 @@ public class Skill_Compress : IAbility {
         celestial = cS;
     }
 
-    public string getName {
+    public string Name {
         get { return skillName; }
     }
-    public string getDescription {
+    public string Description {
         get { return description; }
     }
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
-    public void endAction() {
+    public void EndAction() {
 
         timeActive = 0;
-        celestial.rotationSpeed = savedSpeed;
+        celestial.RotationSpeed = savedSpeed;
 
         active = false;
     }
 
 
 
-    public void use(GameObject target) {
+    public void Use(GameObject target) {
         if (active)
             return;
-        savedSpeed = celestial.rotationSpeed;
-        celestial.rotationSpeed *= speed;
+        savedSpeed = celestial.RotationSpeed;
+        celestial.RotationSpeed *= speed;
         active = true;
         cooldownLeft = cooldown;
     }
 
-    public void loop() {  // loops when active = true;
+    public void Loop() {  // loops when active = true;
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
         if (active) {
 
             if (timeActive >= stopTime)
-                endAction();
+                EndAction();
             else
                 timeActive += Time.deltaTime;
 

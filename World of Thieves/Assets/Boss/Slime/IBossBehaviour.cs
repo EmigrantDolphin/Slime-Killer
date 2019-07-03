@@ -1,8 +1,8 @@
 ﻿
 public interface IBossBehaviour {
 
-	bool isActive { get; }
-    bool isAnimActive { get; }
+	bool IsActive { get; }
+    bool IsAnimActive { get; }
     float Cooldown { get; }
 
     void Start();
@@ -11,6 +11,6 @@ public interface IBossBehaviour {
     void Movement();
     void End();
 
-    void onAnimStart();
-    void onAnimEnd();
+    void OnAnimStart();
+    void OnAnimEnd();
 }

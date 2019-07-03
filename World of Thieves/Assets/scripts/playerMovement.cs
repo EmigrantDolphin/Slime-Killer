@@ -7,7 +7,7 @@ public class playerMovement : MonoBehaviour {
     private Rigidbody2D rigidBody;
 
     // for movement
-    public float speed = 4f;
+    public float Speed = 4f;
     private Vector3 speedVector;
     private bool isMoving = false;
     private float distanceToTravel = 0f;
@@ -18,7 +18,7 @@ public class playerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        GameMaster.player = gameObject;
+        GameMaster.Player = gameObject;
         
         rigidBody = GetComponent<Rigidbody2D>();
 
@@ -37,20 +37,20 @@ public class playerMovement : MonoBehaviour {
             distanceTraveled = 0f;
             isMoving = true;
 
-            updateSpeed();
+            UpdateSpeed();
         }
     }
 
-    void updateSpeed() {   
-        speedVector = direction * speed;      
+    void UpdateSpeed() {   
+        speedVector = direction * Speed;      
         rigidBody.velocity = speedVector;
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        cancelPath();
+        CancelPath();
     }
 
-    public void cancelPath() {
+    public void CancelPath() {
         isMoving = false;
         rigidBody.velocity = Vector2.zero;
     }
@@ -59,13 +59,13 @@ public class playerMovement : MonoBehaviour {
     void FixedUpdate() {
         if (isMoving) {
             var fixedTime = Time.fixedDeltaTime;
-            updateSpeed();
+            UpdateSpeed();
             if (distanceTraveled < distanceToTravel) {
                 distanceTraveled += rigidBody.velocity.magnitude * fixedTime;
                 if (rigidBody.velocity != (Vector2)speedVector)
-                    cancelPath();
+                    CancelPath();
             } else {
-                cancelPath();
+                CancelPath();
                 transform.position = posToMoveTo;
             }
         }

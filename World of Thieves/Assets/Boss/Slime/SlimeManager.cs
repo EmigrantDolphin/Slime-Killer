@@ -4,15 +4,15 @@ using System.Collections.Generic;
 public class SlimeManager : MonoBehaviour {
     [Header("Needed Objects")]
     [Tooltip("Force Orb Object")]
-    public GameObject forceOrbObj;
+    public GameObject ForceOrbObj;
 
     [HideInInspector]
-    public object activeBehaviour;
+    public object ActiveBehaviour;
     [HideInInspector]
-    public Vector2 slimeBoundsSize; // used in slimeFlurry, as a throwing range.
+    public Vector2 SlimeBoundsSize; // used in slimeFlurry, as a throwing range.
 
     [HideInInspector]
-    public GameObject player;
+    public GameObject Player;
 
     SlimeMeleeAttackBehaviour meleeAttackBehav;
     SlimeJumpAttackBehaviour jumpAttackBehav;
@@ -30,11 +30,11 @@ public class SlimeManager : MonoBehaviour {
         jumpAttackBehav = new SlimeJumpAttackBehaviour(this);
         flurryBehav = new SlimeFlurryBehaviour(this);
         pulseBehav = new SlimePulseBehaviour(this);
-        forceOrbBehav = new SlimeForceOrbBehaviour(this, forceOrbObj);
+        forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
 
         abilityQueueList = new LinkedList<IBossBehaviour>();
 
-        slimeBoundsSize = GetComponent<SpriteRenderer>().bounds.size;
+        SlimeBoundsSize = GetComponent<SpriteRenderer>().bounds.size;
 	}
 	
 	// Update is called once per frame
@@ -54,25 +54,25 @@ public class SlimeManager : MonoBehaviour {
         
 
 
-        if (abilityQueueList.Count == 0 && activeBehaviour == null) {
+        if (abilityQueueList.Count == 0 && ActiveBehaviour == null) {
             meleeAttackBehav.Start();
-            activeBehaviour = meleeAttackBehav;
+            ActiveBehaviour = meleeAttackBehav;
         } else if (abilityQueueList.Count > 0) {
-            if (activeBehaviour is SlimeMeleeAttackBehaviour) {
-                (activeBehaviour as IBossBehaviour).End();
-                activeBehaviour = null;
+            if (ActiveBehaviour is SlimeMeleeAttackBehaviour) {
+                (ActiveBehaviour as IBossBehaviour).End();
+                ActiveBehaviour = null;
             }
-            if (activeBehaviour == null) {
-                activeBehaviour = abilityQueueList.First.Value;
+            if (ActiveBehaviour == null) {
+                ActiveBehaviour = abilityQueueList.First.Value;
                 abilityQueueList.RemoveFirst();
-                (activeBehaviour as IBossBehaviour).Start();
+                (ActiveBehaviour as IBossBehaviour).Start();
             }
         }
         
 
 
 
-        tempBehaviourLoop();
+        TempBehaviourLoop();
 	}
 
     void OnCollisionEnter2D(Collision2D collision) {
@@ -82,60 +82,60 @@ public class SlimeManager : MonoBehaviour {
 
 
 
-    private void tempBehaviourLoop() {
+    private void TempBehaviourLoop() {
         if (stunCounter <= 0f) {
             if (Input.GetKeyDown(KeyCode.A)) {
-                if (activeBehaviour != null)
-                    (activeBehaviour as IBossBehaviour).End();
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
                 meleeAttackBehav.Start();
-                activeBehaviour = meleeAttackBehav;
+                ActiveBehaviour = meleeAttackBehav;
             }
             if (Input.GetKeyDown(KeyCode.D)) {
-                if (activeBehaviour != null)
-                    (activeBehaviour as IBossBehaviour).End();
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
 
                 jumpAttackBehav.Start();
-                activeBehaviour = jumpAttackBehav;
+                ActiveBehaviour = jumpAttackBehav;
             }
             if (Input.GetKeyDown(KeyCode.F)) {
-                if (activeBehaviour != null)
-                    (activeBehaviour as IBossBehaviour).End();
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
                 flurryBehav.Start();
-                activeBehaviour = flurryBehav;
+                ActiveBehaviour = flurryBehav;
             }
             if (Input.GetKeyDown(KeyCode.G)) {
-                if (activeBehaviour != null)
-                    (activeBehaviour as IBossBehaviour).End();
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
                 pulseBehav.Start();
-                activeBehaviour = pulseBehav;
+                ActiveBehaviour = pulseBehav;
             }
 
             if (Input.GetKeyDown(KeyCode.Z)) {
-                if (activeBehaviour != null)
-                    (activeBehaviour as IBossBehaviour).End();
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
                 forceOrbBehav.Start();
-                activeBehaviour = forceOrbBehav;
+                ActiveBehaviour = forceOrbBehav;
             }
 
-            if (Input.GetKeyDown(KeyCode.S) && activeBehaviour != null)
-                (activeBehaviour as IBossBehaviour).End();
+            if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null)
+                (ActiveBehaviour as IBossBehaviour).End();
 
-            if (activeBehaviour != null)
-                (activeBehaviour as IBossBehaviour).Loop();
+            if (ActiveBehaviour != null)
+                (ActiveBehaviour as IBossBehaviour).Loop();
 
         } else
             stunCounter -= Time.deltaTime;
     }
-    public void stun(float duration) {
+    public void Stun(float duration) {
         stunCounter = duration;
-        if (activeBehaviour != null)
-            (activeBehaviour as IBossBehaviour).End();
+        if (ActiveBehaviour != null)
+            (ActiveBehaviour as IBossBehaviour).End();
     }
 
     
 
     void FixedUpdate() {
-        if (player == null)
+        if (Player == null)
             return;
 
         Movement();
@@ -143,36 +143,36 @@ public class SlimeManager : MonoBehaviour {
 
     private void Movement() {
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        if (!GetComponent<EnemyMovement>().movementEnabled)
+        if (!GetComponent<EnemyMovement>().MovementEnabled)
             return;
 
-        if (activeBehaviour != null)
-            (activeBehaviour as IBossBehaviour).Movement();
+        if (ActiveBehaviour != null)
+            (ActiveBehaviour as IBossBehaviour).Movement();
     }
 
     private void FindIfLost() {
-        if (player == null)
-            player = GameObject.Find("Player");
+        if (Player == null)
+            Player = GameObject.Find("Player");
     }
 
 
     // called by animator
-    private void onAnimStart() { // called as anim event
-        if (activeBehaviour != null)
-            if (activeBehaviour is IBossBehaviour)
-                (activeBehaviour as IBossBehaviour).onAnimStart();
+    private void OnAnimStart() { // called as anim event
+        if (ActiveBehaviour != null)
+            if (ActiveBehaviour is IBossBehaviour)
+                (ActiveBehaviour as IBossBehaviour).OnAnimStart();
     }
 
-    private void onAnimEnd() {
-        if (activeBehaviour != null)
-            if (activeBehaviour is IBossBehaviour)
-                (activeBehaviour as IBossBehaviour).onAnimEnd();
+    private void OnAnimEnd() {
+        if (ActiveBehaviour != null)
+            if (ActiveBehaviour is IBossBehaviour)
+                (ActiveBehaviour as IBossBehaviour).OnAnimEnd();
     }
 
-    private void onAnimEvent() {
-        if (activeBehaviour != null)
-            if (activeBehaviour is IAnimEvents)
-                (activeBehaviour as IAnimEvents).onAnimEvent();
+    private void OnAnimEvent() {
+        if (ActiveBehaviour != null)
+            if (ActiveBehaviour is IAnimEvents)
+                (ActiveBehaviour as IAnimEvents).OnAnimEvent();
     }
 
     public GameObject InstantiateGameObject(GameObject obj) {

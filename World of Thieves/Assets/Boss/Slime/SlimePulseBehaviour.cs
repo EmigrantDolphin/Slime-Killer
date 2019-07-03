@@ -9,8 +9,8 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
     private bool animActive = false;
     private float cooldown = 5f;
 
-    public bool isActive { get { return active; } }
-    public bool isAnimActive { get { return animActive; } }
+    public bool IsActive { get { return active; } }
+    public bool IsAnimActive { get { return animActive; } }
     public float Cooldown { get { return cooldown; } }
     private SlimeManager slimeManager;
 
@@ -33,19 +33,19 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
         active = false;
         slimeManager.GetComponent<Animator>().SetBool("Pulse", false);
         slimeManager.GetComponent<Animator>().SetBool("CancelAnim", true);
-        slimeManager.activeBehaviour = null;
+        slimeManager.ActiveBehaviour = null;
     }
 
-    public void onAnimStart() {
+    public void OnAnimStart() {
         animActive = true;
     }
-    public void onAnimEnd() {
+    public void OnAnimEnd() {
         animActive = false;
         End();
     }
 
-    public void onAnimEvent() {
-        RaycastHit2D hit = Physics2D.Raycast(slimeManager.transform.position, slimeManager.player.transform.position - slimeManager.transform.position, 50f, LayerMask.GetMask("RaycastDetectable"));
+    public void OnAnimEvent() {
+        RaycastHit2D hit = Physics2D.Raycast(slimeManager.transform.position, slimeManager.Player.transform.position - slimeManager.transform.position, 50f, LayerMask.GetMask("RaycastDetectable"));
 
         //destroy rocks
 
@@ -53,7 +53,7 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
             return;
 
         if (hit.collider.gameObject.tag == "Player") 
-            slimeManager.player.GetComponent<DamageManager>().dealDamage(damage);
+            slimeManager.Player.GetComponent<DamageManager>().DealDamage(damage);
                  
         
     }

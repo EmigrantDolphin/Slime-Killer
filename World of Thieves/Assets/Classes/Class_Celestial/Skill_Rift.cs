@@ -7,41 +7,41 @@ public class Skill_Rift : IAbility {
     string description = "";
     Sprite icon;
     bool active = false;
-    float cooldown = SkillsInfo.player_Rift_Cooldown;
+    float cooldown = SkillsInfo.Player_Rift_Cooldown;
     float cooldownLeft = 0f;
 
-    public string getName {
+    public string Name {
         get { return name; }
     }
 
-    public string getDescription {
+    public string Description {
         get { return description; }
     }
 
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
-    public void use(GameObject target) {
+    public void Use(GameObject target) {
         cooldownLeft = cooldown;
     }
 
-    public void endAction() {
+    public void EndAction() {
 
     }
 
-    public void loop() {
+    public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
     }

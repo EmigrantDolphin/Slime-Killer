@@ -3,9 +3,9 @@ using System.Collections;
 
 public class EnemyMovement : MonoBehaviour {
 
-    public bool movementEnabled = true;
+    public bool MovementEnabled = true;
 
-    public float speed; // set by the carrier, used by the carrier
+    public float Speed; // set by the carrier, used by the carrier
 
 
 }

@@ -11,11 +11,11 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     float cooldown = 5f;
     public float Cooldown { get { return cooldown; } }
 
-    public bool isAnimActive {
+    public bool IsAnimActive {
         get { return animActive; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
@@ -26,10 +26,10 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     }
 
     public void Start() {
-        slime.GetComponent<EnemyMovement>().movementEnabled = false;
+        slime.GetComponent<EnemyMovement>().MovementEnabled = false;
         slime.GetComponent<Animator>().SetBool("Jump", true);
 
-        Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.player.GetComponent<Collider2D>(), true);
+        Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.Player.GetComponent<Collider2D>(), true);
         foreach (GameObject rockObj in GameObject.FindGameObjectsWithTag("Rock"))
             Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), rockObj.GetComponent<Collider2D>(), true);
         active = true;
@@ -54,7 +54,7 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         CancelAnimations();
         active = false;
         animEvent = 0;
-        slime.activeBehaviour = null;
+        slime.ActiveBehaviour = null;
     }
 
     private void CancelAnimations() {
@@ -63,26 +63,26 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         animActive = false;
     }
 
-    public void onAnimStart() {
+    public void OnAnimStart() {
         animActive = true;
     }
 
-    public void onAnimEnd() {
+    public void OnAnimEnd() {
         End();
     }
 
-    public void onAnimEvent() { // anim has 2 event triggers, not counting start and end
+    public void OnAnimEvent() { // anim has 2 event triggers, not counting start and end
         animEvent++;
         switch (animEvent) {
-            case 1: onJump();
+            case 1: OnJump();
                 break;
-            case 2: onLand();
+            case 2: OnLand();
                 break;
         }
     }
 
-    private void onJump() {
-        Vector2 jumpTargetPos = slime.player.transform.position;
+    private void OnJump() {
+        Vector2 jumpTargetPos = slime.Player.transform.position;
         var absoluteVector = jumpTargetPos - (Vector2)slime.transform.position;
         var distance = absoluteVector.magnitude;
         var normalizedVector = absoluteVector / distance;
@@ -92,25 +92,25 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
 
         float speed = distance / animTime;
         jumpVector = normalizedVector * speed;
-        slime.GetComponent<EnemyMovement>().movementEnabled = true;
+        slime.GetComponent<EnemyMovement>().MovementEnabled = true;
     }
 
-    private void onLand() {
-        slime.GetComponent<EnemyMovement>().movementEnabled = true;
+    private void OnLand() {
+        slime.GetComponent<EnemyMovement>().MovementEnabled = true;
 
-        var pointA = slime.transform.position - new Vector3(slime.slimeBoundsSize.x / 2, slime.slimeBoundsSize.y / 2, 0);
-        var pointB = slime.transform.position + new Vector3(slime.slimeBoundsSize.x / 2, slime.slimeBoundsSize.y / 2, 0);
+        var pointA = slime.transform.position - new Vector3(slime.SlimeBoundsSize.x / 2, slime.SlimeBoundsSize.y / 2, 0);
+        var pointB = slime.transform.position + new Vector3(slime.SlimeBoundsSize.x / 2, slime.SlimeBoundsSize.y / 2, 0);
         Debug.DrawLine(pointA, pointB, Color.black, 3);
 
         Collider2D[] colliders = Physics2D.OverlapAreaAll(pointA, pointB);
 
         foreach (Collider2D collider in colliders)
-            if (collider.gameObject == slime.player) {
-                slime.player.GetComponent<DamageManager>().dealDamage(jumpAttackDamage);
+            if (collider.gameObject == slime.Player) {
+                slime.Player.GetComponent<DamageManager>().DealDamage(jumpAttackDamage);
                 break;
             }
         jumpVector = Vector2.zero;
-        Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.player.GetComponent<Collider2D>(), false);
+        Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.Player.GetComponent<Collider2D>(), false);
         foreach (GameObject rockObj in GameObject.FindGameObjectsWithTag("Rock"))
             Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), rockObj.GetComponent<Collider2D>(), false);
     }

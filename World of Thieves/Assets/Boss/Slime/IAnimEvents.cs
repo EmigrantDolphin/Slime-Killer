@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface IAnimEvents {
 
-    void onAnimEvent();
+    void OnAnimEvent();
 }

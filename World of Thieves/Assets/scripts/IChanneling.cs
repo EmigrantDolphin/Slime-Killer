@@ -3,8 +3,8 @@ using System.Collections;
 
 public interface IChanneling {
 
-    void onChannelingStart();
-    void onChanneling();
-    void onChannelingEnd();
+    void OnChannelingStart();
+    void OnChanneling();
+    void OnChannelingEnd();
 
 }

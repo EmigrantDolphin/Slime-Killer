@@ -7,7 +7,7 @@ public class Skill_Manipulate : IAbility {
     string description = "";
     bool active = false;
     bool keyUped = false;
-    float cooldown = SkillsInfo.player_Manipulate_Cooldown;
+    float cooldown = SkillsInfo.Player_Manipulate_Cooldown;
     float cooldownLeft = 0f;
     float interval = 5f;
     float intervalCounter = 0f;
@@ -16,7 +16,7 @@ public class Skill_Manipulate : IAbility {
 
 
     Sprite icon;
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
@@ -31,21 +31,21 @@ public class Skill_Manipulate : IAbility {
     List<GameObject> skillSlots = new List<GameObject>();
 
     int frame = 3; // set only on 0. In the loop, on 0 frame++. on 1 sets pushActive to true and frame++ 
-    public string getName {
+    public string Name {
         get { return name; }
     }
 
-    public string getDescription {
+    public string Description {
         get { return description; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
@@ -55,19 +55,19 @@ public class Skill_Manipulate : IAbility {
         icon = Resources.Load<Sprite>("ManipulateIcon");
 
         celestial = cS;
-        damageName = celestial.orbDamageObj.name + "(Clone)";
-        controlName = celestial.orbControlObj.name + "(Clone)";
-        defenseName = celestial.orbDefenseObj.name + "(Clone)";
+        damageName = celestial.OrbDamageObj.name + "(Clone)";
+        controlName = celestial.OrbControlObj.name + "(Clone)";
+        defenseName = celestial.OrbDefenseObj.name + "(Clone)";
 
-        getSkillRef(); // set skills GO to skill slots
-
-    }
-
-    public void targetting() {
+        GetSkillRef(); // set skills GO to skill slots
 
     }
 
-    private void getSkillRef() {
+    public void Targetting() {
+
+    }
+
+    private void GetSkillRef() {
         for (int i = 1; i < i + 1; i++) {
             var temp = celestial.transform.Find("Manipulation_SkillBar(Clone)/Background/Skill" + i.ToString());
             if (temp != null)
@@ -77,54 +77,54 @@ public class Skill_Manipulate : IAbility {
         }
     }
 
-    public void use(GameObject target) {
+    public void Use(GameObject target) {
         keyUped = false;
         frame = 0;
         cooldownLeft = cooldown;
         //Instantiate or enable UI for 3 types of orbs to be launched on 3 4 5 buttons
     }
 
-    public void endAction() {
+    public void EndAction() {
         active = false;
-        celestial.manipulateSkillBarClone.SetActive(false);
-        celestial.skillsDisabled = false;
+        celestial.ManipulateSkillBarClone.SetActive(false);
+        celestial.SkillsDisabled = false;
     }
 
-    public void loop() {
+    public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
         if (intervalCounter > 0f)
             intervalCounter -= Time.deltaTime;
 
-        nextFrameActivate();
+        NextFrameActivate();
 
         if (active) {
             if (Input.GetKeyDown(KeyCode.Alpha1)) 
-                selectedOrb = celestial.orbDamageObj;
+                selectedOrb = celestial.OrbDamageObj;
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
-                selectedOrb = celestial.orbControlObj;
+                selectedOrb = celestial.OrbControlObj;
 
             if (Input.GetKeyDown(KeyCode.Alpha3)) 
-                selectedOrb = celestial.orbDefenseObj;
+                selectedOrb = celestial.OrbDefenseObj;
 
             if (Input.GetKeyUp(KeyCode.Alpha1))
                 if (keyUped)
-                    endAction();
+                    EndAction();
                 else
                     keyUped = true;
             
 
             if (Input.GetKeyUp(KeyCode.Alpha2))
                 if (keyUped)
-                    endAction();
+                    EndAction();
                 else
                     keyUped = true;
 
 
             if (Input.GetKeyUp(KeyCode.Alpha3))
                 if (keyUped)
-                    endAction();
+                    EndAction();
                 else
                     keyUped = true;
 
@@ -132,7 +132,7 @@ public class Skill_Manipulate : IAbility {
         }
 
         if (selectedOrb != null && intervalCounter <= 0f)
-            celestial.instantiateOrb(selectedOrb, celestial.parentPlayer);
+            celestial.InstantiateOrb(selectedOrb, celestial.ParentPlayer);
 
         if (selectedOrb != null && intervalCounter <= 0f)
             intervalCounter = interval;
@@ -140,14 +140,14 @@ public class Skill_Manipulate : IAbility {
     }
 
 
-    private void nextFrameActivate() {
+    private void NextFrameActivate() {
         if (frame == 0)
             frame++;
         else if (frame == 1) {
             active = true;
             frame++;
-            celestial.manipulateSkillBarClone.SetActive(true);
-            celestial.skillsDisabled = true;
+            celestial.ManipulateSkillBarClone.SetActive(true);
+            celestial.SkillsDisabled = true;
         }
     }
 

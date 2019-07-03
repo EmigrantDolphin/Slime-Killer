@@ -10,32 +10,32 @@ public class Debuff_Slow : IDebuff {
     float timerLength = 5f;
     float timerCount;
     bool active = false;
-    public bool isActive { get { return active; } }
+    public bool IsActive { get { return active; } }
 
     float speedReduction;
 
-    public string getName { get { return name; } }
-    public string getDescription { get { return description; } }
-    public Sprite getIcon { get { return icon; } }
+    public string Name { get { return name; } }
+    public string Description { get { return description; } }
+    public Sprite Icon { get { return icon; } }
 
     BuffDebuff buffDebuff;
 
     public Debuff_Slow(BuffDebuff bd) {
         icon = Resources.Load<Sprite>("Debuff_SlowIcon");
         buffDebuff = bd;
-        if (buffDebuff.entityObject.tag == "Player")
-            speedReduction = buffDebuff.entityObject.GetComponent<playerMovement>().speed / 2f;
+        if (buffDebuff.EntityObject.tag == "Player")
+            speedReduction = buffDebuff.EntityObject.GetComponent<playerMovement>().Speed / 2f;
         else
-            speedReduction = buffDebuff.entityObject.GetComponent<EnemyMovement>().speed / 2f;
+            speedReduction = buffDebuff.EntityObject.GetComponent<EnemyMovement>().Speed / 2f;
     }
 
-    public void apply(float timeLength) {
+    public void Apply(float timeLength) {
         if (active == false) { // if called first time
-            if (buffDebuff.entityObject.tag == "Player") {
-                buffDebuff.entityObject.GetComponent<playerMovement>().speed -= speedReduction;
-                buffDebuff.debuffBarInstantiated.GetComponent<DebuffCanvasManager>().add(Debuffs.Slow, icon);
+            if (buffDebuff.EntityObject.tag == "Player") {
+                buffDebuff.EntityObject.GetComponent<playerMovement>().Speed -= speedReduction;
+                buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(Debuffs.Slow, icon);
             } else {
-                buffDebuff.entityObject.GetComponent<EnemyMovement>().speed -= speedReduction;
+                buffDebuff.EntityObject.GetComponent<EnemyMovement>().Speed -= speedReduction;
             }
             active = true;
         }
@@ -47,11 +47,11 @@ public class Debuff_Slow : IDebuff {
     public void Cleanse() {
         active = false;
         timerCount = 0f;
-        if (buffDebuff.entityObject.tag == "Player") {
-            buffDebuff.entityObject.GetComponent<playerMovement>().speed += speedReduction;
-            buffDebuff.debuffBarInstantiated.GetComponent<DebuffCanvasManager>().remove(Debuffs.Slow);
+        if (buffDebuff.EntityObject.tag == "Player") {
+            buffDebuff.EntityObject.GetComponent<playerMovement>().Speed += speedReduction;
+            buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Remove(Debuffs.Slow);
         }else {
-            buffDebuff.entityObject.GetComponent<EnemyMovement>().speed += speedReduction;
+            buffDebuff.EntityObject.GetComponent<EnemyMovement>().Speed += speedReduction;
         }
     }
 

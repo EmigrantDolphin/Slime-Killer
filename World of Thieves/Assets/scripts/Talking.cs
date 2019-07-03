@@ -13,11 +13,11 @@ public class Talking : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        onNpcClick();
+        OnNpcClick();
 
 	}
 
-    private void onNpcClick() {
+    private void OnNpcClick() {
         if (Input.GetMouseButtonDown(0)) {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D raycast = Physics2D.Raycast(mousePos, Vector2.up, 0, (1 << 9));
@@ -29,7 +29,7 @@ public class Talking : MonoBehaviour {
                     return;
                 dialogCanvas.gameObject.SetActive(true);
                 UIDialogControl dialogControl = dialogText.GetComponent<UIDialogControl>();
-                dialogControl.dialog = npcDialog.dialog;
+                dialogControl.Dialog = npcDialog.dialog;
 
             }
         }
@@ -38,8 +38,8 @@ public class Talking : MonoBehaviour {
     public static void Say(string words) {
         dialogCanvas.gameObject.SetActive(true);
         UIDialogControl dialogControl = dialogText.GetComponent<UIDialogControl>();
-        dialogControl.dialog = new string[1];
-        dialogControl.dialog[0] = words;
+        dialogControl.Dialog = new string[1];
+        dialogControl.Dialog[0] = words;
     }
 
 }

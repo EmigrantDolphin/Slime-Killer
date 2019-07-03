@@ -7,12 +7,12 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     bool active = false;
     Sprite icon;
 
-    float cooldown = SkillsInfo.player_ChannelHeat_Cooldown;
+    float cooldown = SkillsInfo.Player_ChannelHeat_Cooldown;
     float cooldownLeft = 0f;
     //balance variables
-    float timeTillFullChannel = SkillsInfo.player_ChannelHeat_TimeTillFullChannel;
+    float timeTillFullChannel = SkillsInfo.Player_ChannelHeat_TimeTillFullChannel;
     float currentChannelTime;
-    float damage = SkillsInfo.player_ChannelHeat_Damage;
+    float damage = SkillsInfo.Player_ChannelHeat_Damage;
     float collapseSpeed = 12f;
 
     Class_Celestial celestial;
@@ -28,49 +28,49 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
         celestial = cs;
     }
 
-    public string getName {
+    public string Name {
         get { return name; }
     }
-    public float getCooldown {
+    public float Cooldown {
         get { return cooldown; }
     }
 
-    public float getCooldownLeft {
+    public float CooldownLeft {
         get { return cooldownLeft; }
     }
 
-    public string getDescription {
+    public string Description {
         get { return description; }
     }
 
-    public Sprite getIcon {
+    public Sprite Icon {
         get { return icon; }
     }
 
-    public bool isActive {
+    public bool IsActive {
         get { return active; }
     }
 
-    public void use(GameObject target) {
+    public void Use(GameObject target) {
         
     }
 
-    public void endAction() {
+    public void EndAction() {
         active = false;
     }
 
-    public void loop() {
+    public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
         if (active) {
             for (int i = 0; i < orbs.Count; i++) { 
-                if (orbs[i].GetComponent<OrbControls>().collidingWith != null)
-                    if (orbs[i].GetComponent<OrbControls>().collidingWith == orbs[i].GetComponent<OrbControls>().target) {
+                if (orbs[i].GetComponent<OrbControls>().CollidingWith != null)
+                    if (orbs[i].GetComponent<OrbControls>().CollidingWith == orbs[i].GetComponent<OrbControls>().Target) {
                         //do explosion anim
 
-                        orbs[i].GetComponent<OrbControls>().collidingWith.GetComponent<DamageManager>().dealDamage(damage * (currentChannelTime / timeTillFullChannel));
+                        orbs[i].GetComponent<OrbControls>().CollidingWith.GetComponent<DamageManager>().DealDamage(damage * (currentChannelTime / timeTillFullChannel));
                         
-                        celestial.orbs.Remove(orbs[i]);
+                        celestial.Orbs.Remove(orbs[i]);
                         GameObject tempOrb = orbs[i];
                         orbs.RemoveAt(i);
                         GameObject tempHeatOrb = heatOrbs[i];
@@ -78,7 +78,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
                         Object.Destroy(tempOrb);
                         Object.Destroy(tempHeatOrb);
                         if (orbs.Count == 0)
-                            endAction();
+                            EndAction();
                         continue;
                     }
 
@@ -90,11 +90,11 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
         }
     }
 
-    public void onChannelingStart() {
+    public void OnChannelingStart() {
         currentChannelTime = 0;
-        foreach (GameObject orb in celestial.orbs)
-            if (orb.GetComponent<OrbControls>().target != null)
-                if (orb.GetComponent<OrbControls>().target.tag == "Enemy") {
+        foreach (GameObject orb in celestial.Orbs)
+            if (orb.GetComponent<OrbControls>().Target != null)
+                if (orb.GetComponent<OrbControls>().Target.tag == "Enemy") {
                     GameObject coverSprite = new GameObject("HeatOrb");
                     coverSprite.AddComponent<SpriteRenderer>();
                     coverSprite.GetComponent<SpriteRenderer>().sprite = heatOrbTemp;
@@ -106,7 +106,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
             
     }
 
-    public void onChanneling() {
+    public void OnChanneling() {
         float DTime = Time.deltaTime;
         if (currentChannelTime < timeTillFullChannel) {
             currentChannelTime += DTime;
@@ -122,7 +122,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
             heatOrbs[i].transform.position = orbs[i].transform.position;
     }
 
-    public void onChannelingEnd() {
+    public void OnChannelingEnd() {
         for (int i = 0; i < orbs.Count; i++)
             orbs[i].transform.localScale = new Vector3(0, 0, 0);
 
