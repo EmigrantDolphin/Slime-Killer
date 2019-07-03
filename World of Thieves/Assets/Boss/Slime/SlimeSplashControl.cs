@@ -10,6 +10,7 @@ public class SlimeSplashControl : MonoBehaviour {
 
     public float lifeLength = 10f;
     private float lifeLengthCounter = 0f;
+    private float damage = 5f;
 
     private float debuffLength = 4f;
 
@@ -74,7 +75,7 @@ public class SlimeSplashControl : MonoBehaviour {
                 debuffApplyCounter += Time.deltaTime;
             } else {
                 player.GetComponent<BuffDebuff>().applyDebuff(Debuffs.Slow, debuffLength);
-                player.GetComponent<DamageManager>().dealDamage(5);
+                player.GetComponent<DamageManager>().dealDamage(damage);
                 debuffApplyCounter = 0;
             }
         

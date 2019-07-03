@@ -22,6 +22,9 @@ public interface IAbility{
     float getCooldown {
         get;
     }
+    float getCooldownLeft {
+        get;
+    }
 
     void use(GameObject target);
 

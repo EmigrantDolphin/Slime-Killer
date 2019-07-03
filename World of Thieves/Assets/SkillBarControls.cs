@@ -42,11 +42,14 @@ public class SkillBarControls : MonoBehaviour {
                 break;
         }
 
-        skill[0].GetComponent<SkillBar_SkillInfo>().setAbility(selectedClass.getAbility(0));
-        skill[1].GetComponent<SkillBar_SkillInfo>().setAbility(selectedClass.getAbility(1));
-        skill[2].GetComponent<SkillBar_SkillInfo>().setAbility(selectedClass.getAbility(2));
-        skill[3].GetComponent<SkillBar_SkillInfo>().setAbility(selectedClass.getAbility(3));
-        
+        for (int i = 0; i < keyBinds.Length; i++)
+            if (selectedClass.getAbility(i) != null)
+                skill[i].GetComponent<SkillBar_SkillInfo>().setAbility(selectedClass.getAbility(i));
+
+        for (int i = keyBinds.Length; i < keyBinds.Length * 2; i++)
+            if (selectedClass.getAbility(i) != null)
+                skillHolder[i - keyBinds.Length] = selectedClass.getAbility(i);
+
     }
 	
 	// Update is called once per frame

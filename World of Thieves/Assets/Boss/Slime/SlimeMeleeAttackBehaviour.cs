@@ -15,6 +15,7 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     public bool isActive {
         get { return active; }
     }
+    public float Cooldown { get { return 0; } }
     SlimeManager slime;
 
     public SlimeMeleeAttackBehaviour(SlimeManager sm) {
@@ -26,14 +27,15 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     public void Start() {
         active = true;
         cooldownCounter = attackCooldown;
-        slime.entityObject.GetComponent<EnemyMovement>().speed = movementSpeed;
-
+        slime.gameObject.GetComponent<EnemyMovement>().speed = movementSpeed;
+        slime.gameObject.GetComponent<EnemyMovement>().movementEnabled = true;
     }
 
     public void End() {
         CancelAnimations();
         active = false;
         animActive = false;
+        slime.activeBehaviour = null;
     }
 
 
@@ -70,7 +72,7 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
 
 
         if (Vector2.Distance(slime.transform.position, slime.player.transform.position) >= meleeRange)
-            slime.transform.position += direction * slime.entityObject.GetComponent<EnemyMovement>().speed * Time.deltaTime;
+            slime.transform.position += direction * slime.gameObject.GetComponent<EnemyMovement>().speed * Time.deltaTime;
 
     }
 

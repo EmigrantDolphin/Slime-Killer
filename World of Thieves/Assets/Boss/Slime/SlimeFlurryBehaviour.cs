@@ -7,6 +7,8 @@ public class SlimeFlurryBehaviour : IBossBehaviour, IAnimEvents {
     bool isSplashOn = false;
     float maxSplashRadius = 5f;
     int splashIdCounter = 0;
+    float cooldown = 5f;
+    public float Cooldown { get { return cooldown; } }
     //damage on spalsh obj
 
     bool active = false;

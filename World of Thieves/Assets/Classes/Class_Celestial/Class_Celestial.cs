@@ -37,6 +37,9 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     Skill_Manipulate manipulate;
     Skill_Collapse collapse;
     Skill_ChannelHeat channelHeat;
+    Skill_Teleport teleport;
+    Skill_Stun stun;
+    Skill_Masochism masochism;
 
     void Start() {
 
@@ -54,7 +57,9 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         manipulate = new Skill_Manipulate(this);
         collapse = new Skill_Collapse(this);
         channelHeat = new Skill_ChannelHeat(this);
-        
+        teleport = new Skill_Teleport(this);
+        stun = new Skill_Stun(this);
+        masochism = new Skill_Masochism(this);
     }
 
  
@@ -66,7 +71,11 @@ public class Class_Celestial : MonoBehaviour, IPClass {
                 case 0: return compress;
                 case 1: return manipulate;
                 case 2: return collapse;
-                case 3: return channelHeat;
+                case 3: return masochism;
+                case 4: return null;
+                case 5: return stun;
+                case 6: return channelHeat;
+                case 7: return teleport;
                 default: return null;
             }
     }
@@ -92,6 +101,9 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         manipulate.loop();
         collapse.loop();
         channelHeat.loop();
+        teleport.loop();
+        stun.loop();
+        masochism.loop();
     }
 
     public GameObject instantiateOrb(GameObject orb, GameObject target) {
@@ -103,13 +115,18 @@ public class Class_Celestial : MonoBehaviour, IPClass {
             return null;
     }
 
-    public GameObject InstantiateOrb(GameObject orb, Vector3 pos) {
+    public GameObject instantiateOrb(GameObject orb, Vector3 pos) {
         var temp = Instantiate(orb);
         temp.GetComponent<OrbControls>().set(this, pos);
         if (temp.GetComponent<OrbControls>().instantiated)
             return temp;
         else
             return null;
+    }
+
+    public void destroyOrb(GameObject obj) {
+        orbs.Remove(obj);
+        DestroyObject(obj);
     }
 
 

@@ -10,6 +10,7 @@ public class Skill_Collapse : IAbility, ITargetting {
     Sprite targettingIcon;
     bool active = false;
     float cooldown = SkillsInfo.player_Collapse_Cooldown;
+    float cooldownLeft = 0f;
 
     Vector2 pullCenter;
     const float colCheckRadius = 2f;
@@ -38,6 +39,9 @@ public class Skill_Collapse : IAbility, ITargetting {
     }
     public float getCooldown {
         get { return cooldown; }
+    }
+    public float getCooldownLeft {
+        get { return cooldownLeft; }
     }
 
     public Sprite getIcon {
@@ -77,6 +81,7 @@ public class Skill_Collapse : IAbility, ITargetting {
     public void use(GameObject target) {
         if (!isPortOrbActive) {
             active = true;
+            celestial.skillsDisabled = true;
             Object.Destroy(targettingObject);
             targettingObject = null;
 
@@ -105,15 +110,19 @@ public class Skill_Collapse : IAbility, ITargetting {
             orbTimer = 0;
             icon = pullIcon;
             SkillBarControls.updateIcons();
+            cooldownLeft = cooldown;
         }
 
     }
 
     public void endAction() {
         active = false;
+        celestial.skillsDisabled = false;
     }
 
     public void loop() {
+        if (cooldownLeft > 0f)
+            cooldownLeft -= Time.deltaTime;
         
         if (active) {
             timeSpent += Time.deltaTime;
@@ -137,7 +146,7 @@ public class Skill_Collapse : IAbility, ITargetting {
                 endAction();
 
                 isPortOrbActive = true;
-                orb = celestial.InstantiateOrb(celestial.orbDefenseObj, pullCenter);
+                orb = celestial.instantiateOrb(celestial.orbDefenseObj, pullCenter);
                 celestial.orbs.Add(orb);
                 icon = teleportIcon;
                 SkillBarControls.updateIcons();

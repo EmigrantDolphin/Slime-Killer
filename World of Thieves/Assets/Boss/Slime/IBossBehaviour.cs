@@ -3,6 +3,7 @@ public interface IBossBehaviour {
 
 	bool isActive { get; }
     bool isAnimActive { get; }
+    float Cooldown { get; }
 
     void Start();
 

@@ -8,6 +8,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     Sprite icon;
 
     float cooldown = SkillsInfo.player_ChannelHeat_Cooldown;
+    float cooldownLeft = 0f;
     //balance variables
     float timeTillFullChannel = SkillsInfo.player_ChannelHeat_TimeTillFullChannel;
     float currentChannelTime;
@@ -31,7 +32,11 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
         get { return name; }
     }
     public float getCooldown {
-        get { return getCooldown; }
+        get { return cooldown; }
+    }
+
+    public float getCooldownLeft {
+        get { return cooldownLeft; }
     }
 
     public string getDescription {
@@ -55,6 +60,8 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     }
 
     public void loop() {
+        if (cooldownLeft > 0f)
+            cooldownLeft -= Time.deltaTime;
         if (active) {
             for (int i = 0; i < orbs.Count; i++) { 
                 if (orbs[i].GetComponent<OrbControls>().collidingWith != null)
@@ -120,6 +127,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
             orbs[i].transform.localScale = new Vector3(0, 0, 0);
 
         active = true;
+        cooldownLeft = cooldown;
     }
 
 }

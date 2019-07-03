@@ -7,10 +7,11 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
 
     private bool active = false;
     private bool animActive = false;
+    private float cooldown = 5f;
 
     public bool isActive { get { return active; } }
     public bool isAnimActive { get { return animActive; } }
-
+    public float Cooldown { get { return cooldown; } }
     private SlimeManager slimeManager;
 
     public SlimePulseBehaviour(SlimeManager sm) {
@@ -32,6 +33,7 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
         active = false;
         slimeManager.GetComponent<Animator>().SetBool("Pulse", false);
         slimeManager.GetComponent<Animator>().SetBool("CancelAnim", true);
+        slimeManager.activeBehaviour = null;
     }
 
     public void onAnimStart() {

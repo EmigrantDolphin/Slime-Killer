@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class Skill_Manipulate: IAbility  {
+public class Skill_Manipulate : IAbility {
     string name = "Manipulate";
     string description = "";
     bool active = false;
+    bool keyUped = false;
     float cooldown = SkillsInfo.player_Manipulate_Cooldown;
+    float cooldownLeft = 0f;
+    float interval = 5f;
+    float intervalCounter = 0f;
     Class_Celestial celestial;
+    GameObject selectedOrb = null;
 
 
     Sprite icon;
@@ -23,8 +28,6 @@ public class Skill_Manipulate: IAbility  {
     bool pushActive = false;
     bool summonActive = false;
 
-    List<GameObject> controlledOrbs = new List<GameObject>(); // orbs controlled just by manipulate;
-    List<GameObject> sentOrbs = new List<GameObject>(); // sent orbs;
     List<GameObject> skillSlots = new List<GameObject>();
 
     int frame = 3; // set only on 0. In the loop, on 0 frame++. on 1 sets pushActive to true and frame++ 
@@ -42,6 +45,9 @@ public class Skill_Manipulate: IAbility  {
     public float getCooldown {
         get { return cooldown; }
     }
+    public float getCooldownLeft {
+        get { return cooldownLeft; }
+    }
 
 
 
@@ -49,9 +55,9 @@ public class Skill_Manipulate: IAbility  {
         icon = Resources.Load<Sprite>("ManipulateIcon");
 
         celestial = cS;
-        damageName = celestial.orbDamageObj.name+"(Clone)";
-        controlName = celestial.orbControlObj.name+"(Clone)";
-        defenseName = celestial.orbDefenseObj.name+"(Clone)";
+        damageName = celestial.orbDamageObj.name + "(Clone)";
+        controlName = celestial.orbControlObj.name + "(Clone)";
+        defenseName = celestial.orbDefenseObj.name + "(Clone)";
 
         getSkillRef(); // set skills GO to skill slots
 
@@ -72,121 +78,77 @@ public class Skill_Manipulate: IAbility  {
     }
 
     public void use(GameObject target) {
-        if (!pushActive && !summonActive)
-            frame = 0;
+        keyUped = false;
+        frame = 0;
+        cooldownLeft = cooldown;
         //Instantiate or enable UI for 3 types of orbs to be launched on 3 4 5 buttons
     }
 
     public void endAction() {
-
+        active = false;
+        celestial.manipulateSkillBarClone.SetActive(false);
+        celestial.skillsDisabled = false;
     }
 
     public void loop() {
+        if (cooldownLeft > 0f)
+            cooldownLeft -= Time.deltaTime;
+        if (intervalCounter > 0f)
+            intervalCounter -= Time.deltaTime;
+
         nextFrameActivate();
 
-        if (pushActive) {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) {
-                summonActive = true;
-                pushActive = false;
-                celestial.manipulateSkillBarClone.transform.FindChild("BackgroundText").GetChild(0).GetComponent<Text>().text = "Summon";
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2)) {
-                summonActive = false;
-                pushActive = false;
-                celestial.skillsDisabled = false;
-                celestial.manipulateSkillBarClone.transform.FindChild("BackgroundText").GetChild(0).GetComponent<Text>().text = "Push";
-                celestial.manipulateSkillBarClone.SetActive(false);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3)) {
-                var tempOrbRef = getOrb(damageName);
-                if (tempOrbRef != null)
-                    push(ref tempOrbRef, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4)) {
-                var tempOrbRef = getOrb(controlName);
-                if (tempOrbRef != null)
-                    push(ref tempOrbRef, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha5)) {
-                var tempOrbRef = getOrb(defenseName);
-                if (tempOrbRef != null)
-                    push(ref tempOrbRef, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            }
+        if (active) {
+            if (Input.GetKeyDown(KeyCode.Alpha1)) 
+                selectedOrb = celestial.orbDamageObj;
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                selectedOrb = celestial.orbControlObj;
+
+            if (Input.GetKeyDown(KeyCode.Alpha3)) 
+                selectedOrb = celestial.orbDefenseObj;
+
+            if (Input.GetKeyUp(KeyCode.Alpha1))
+                if (keyUped)
+                    endAction();
+                else
+                    keyUped = true;
+            
+
+            if (Input.GetKeyUp(KeyCode.Alpha2))
+                if (keyUped)
+                    endAction();
+                else
+                    keyUped = true;
 
 
+            if (Input.GetKeyUp(KeyCode.Alpha3))
+                if (keyUped)
+                    endAction();
+                else
+                    keyUped = true;
 
 
-        } else if (summonActive) {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) {
-                summonActive = false;
-                pushActive = true;
-                celestial.manipulateSkillBarClone.transform.FindChild("BackgroundText").GetChild(0).GetComponent<Text>().text = "Push";
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2)) {
-                summonActive = false;
-                pushActive = false;
-                celestial.skillsDisabled = false;
-                celestial.manipulateSkillBarClone.transform.FindChild("BackgroundText").GetChild(0).GetComponent<Text>().text = "Push";
-                celestial.manipulateSkillBarClone.SetActive(false);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3)) {
-                var temp = celestial.instantiateOrb(celestial.orbDamageObj, celestial.parentPlayer);
-                if (temp != null)
-                    controlledOrbs.Add(temp);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4)) {
-                var temp = celestial.instantiateOrb(celestial.orbControlObj, celestial.parentPlayer);
-                if (temp != null)
-                    controlledOrbs.Add(temp);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha5)) {
-                var temp = celestial.instantiateOrb(celestial.orbDefenseObj, celestial.parentPlayer);
-                if (temp != null)
-                    controlledOrbs.Add(temp);
-            }
         }
 
-        //collision check
+        if (selectedOrb != null && intervalCounter <= 0f)
+            celestial.instantiateOrb(selectedOrb, celestial.parentPlayer);
 
-        for (int i = 0; i < sentOrbs.Count; i++)
-            if (sentOrbs[i].GetComponent<OrbControls>().collidingWith != null && sentOrbs[i].GetComponent<OrbControls>().collidingWith != celestial.parentPlayer && sentOrbs[i].GetComponent<OrbControls>().colliderHasSlot()) {
-                sentOrbs[i].GetComponent<OrbControls>().pushTo(sentOrbs[i].GetComponent<OrbControls>().collidingWith);
-                controlledOrbs.Remove(sentOrbs[i]);
-                sentOrbs.RemoveAt(i);
-            } else if (sentOrbs[i].GetComponent<OrbControls>().target == celestial.parentPlayer)
-                sentOrbs.RemoveAt(i);
+        if (selectedOrb != null && intervalCounter <= 0f)
+            intervalCounter = interval;
 
     }
 
 
-
-    GameObject getOrb(string orbName) {
-        foreach (GameObject orb in controlledOrbs)
-            if (orb.name == orbName) {
-                return orb;                
-            }             
-        return null;
-    }
-
-
-
-    void push(ref GameObject orb, Vector2 pos) {
-        orb.GetComponent<OrbControls>().pushTo(pos, celestial.parentPlayer); // push to that pos and return to futureTarget;
-        sentOrbs.Add(orb);
-    }
-
-
-    
     private void nextFrameActivate() {
         if (frame == 0)
             frame++;
         else if (frame == 1) {
-            pushActive = true;
+            active = true;
             frame++;
             celestial.manipulateSkillBarClone.SetActive(true);
             celestial.skillsDisabled = true;
         }
-
     }
 
 }

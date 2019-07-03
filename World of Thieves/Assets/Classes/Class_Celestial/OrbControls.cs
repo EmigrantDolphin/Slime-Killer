@@ -56,6 +56,10 @@ public class OrbControls : MonoBehaviour {
         instantiated = true;
     }
 
+    public GameObject getTarget {
+        get { return target; }
+    }
+
     bool checkForSlot() {
         int count = 0;
         int[] taken = new int[slotCap];

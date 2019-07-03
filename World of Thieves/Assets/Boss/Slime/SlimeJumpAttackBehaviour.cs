@@ -8,6 +8,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     bool active = false;
     bool animActive = false;
     int animEvent = 0;
+    float cooldown = 5f;
+    public float Cooldown { get { return cooldown; } }
 
     public bool isAnimActive {
         get { return animActive; }
@@ -85,7 +87,7 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         var distance = absoluteVector.magnitude;
         var normalizedVector = absoluteVector / distance;
 
-        float animTime = slime.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length - slime.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime * slime.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length - 2f / 3f; // 2/3 so it skips last part of animation
+        float animTime = slime.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length - slime.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime * slime.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length - 2f / 3f; // 2/3 so it skips last part of animation (shit design) (each anim part is 40s for a total of 120s)
 
 
         float speed = distance / animTime;

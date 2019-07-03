@@ -7,6 +7,8 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     private object prevAbility;
     Vector2 posWorld;
     Vector2 dimWorld;
+    GameObject cooldownOverlay;
+    
 
     public bool isAbilitySet {
         get { if (ability != null)
@@ -61,6 +63,30 @@ public class SkillBar_SkillInfo : MonoBehaviour {
         Debug.DrawLine(topr, botr);
         Debug.DrawLine(botr, botl);
         Debug.DrawLine(botl, topl);
+
+        if (ability != null && cooldownOverlay == null) {
+            cooldownOverlay = transform.GetChild(0).gameObject;
+            float width = gameObject.GetComponent<RectTransform>().rect.width;
+            cooldownOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2(width, 0f);
+        }
+        if (ability != null && (ability as IAbility).getCooldownLeft > 0f) {
+            float rate = (ability as IAbility).getCooldownLeft / (ability as IAbility).getCooldown;
+            float height = gameObject.GetComponent<RectTransform>().rect.height * rate;
+            float width = gameObject.GetComponent<RectTransform>().rect.width;
+            cooldownOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+        }
+        if (ability != null && (ability as IAbility).getCooldownLeft <= 0f) {
+            float width = gameObject.GetComponent<RectTransform>().rect.width;
+            cooldownOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2(width, 0f);
+            cooldownOverlay = null;
+        }
+
+        if (ability == null && cooldownOverlay != null) {
+            float width = gameObject.GetComponent<RectTransform>().rect.width;
+            cooldownOverlay.GetComponent<RectTransform>().sizeDelta = new Vector2(width, 0f);
+            cooldownOverlay = null;
+        }
+
     }
 
     public object getAbility() { // for switching sets
@@ -111,7 +137,7 @@ public class SkillBar_SkillInfo : MonoBehaviour {
 
 
     public void useAbility() {
-        if (ability != null && ability is IAbility)
+        if (ability != null && ability is IAbility && (ability as IAbility).getCooldownLeft <= 0f)
             (ability as IAbility).use(null);
     }
 
@@ -123,22 +149,22 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     }
 
     public void targetting() {
-        if (ability is ITargetting)
+        if (ability is ITargetting && (ability as IAbility).getCooldownLeft <= 0f)
             (ability as ITargetting).targetting();        
     }
 
     public void onChannelingStart() {
-        if (ability is IChanneling)
+        if (ability is IChanneling && (ability as IAbility).getCooldownLeft <= 0f)
             (ability as IChanneling).onChannelingStart();
     }
 
     public void onChanneling() {
-        if (ability is IChanneling)
+        if (ability is IChanneling && (ability as IAbility).getCooldownLeft <= 0f)
             (ability as IChanneling).onChanneling();
     }
 
     public void onChannelingEnd() {
-        if (ability is IChanneling)
+        if (ability is IChanneling && (ability as IAbility).getCooldownLeft <= 0f)
             (ability as IChanneling).onChannelingEnd();
     }
 

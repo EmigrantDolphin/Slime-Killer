@@ -10,6 +10,7 @@ public class DamageManager : MonoBehaviour {
     public float health = 100;
     private float uiHealthWidth;
 
+    private float damageToHealCounter = 0f;
 
     // Use this for initialization
     void Start() {
@@ -17,15 +18,30 @@ public class DamageManager : MonoBehaviour {
     }
 
 
+    void Update() {
+        if (damageToHealCounter > 0f)
+            damageToHealCounter -= Time.deltaTime;
+    }
+
     public void dealDamage(float damageAmount) {
-        if (health - damageAmount > 0) {
-            health -= damageAmount;
-            UIHealthUpdate();
+
+        if (damageToHealCounter <= 0f) {
+            if (health - damageAmount > 0)
+                health -= damageAmount;
+            else
+                health = 0;
         } else {
-            health = 0;
-            UIHealthUpdate();
-            // destroy object, drop loot or smthng
+            if (health + damageAmount < maxHealth)
+                health += damageAmount;
+            else
+                health = maxHealth;
         }
+
+        UIHealthUpdate();
+    }
+
+    public void damageToHealFor(float dur) {
+        damageToHealCounter = dur;
     }
 
     private void UIHealthUpdate() {

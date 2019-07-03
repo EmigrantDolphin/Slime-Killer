@@ -13,6 +13,7 @@ public class playerMovement : MonoBehaviour {
     private float distanceToTravel = 0f;
     private float distanceTraveled = 0f;
     private Vector3 posToMoveTo;
+    private Vector3 direction;
 
 
     // Use this for initialization
@@ -29,16 +30,21 @@ public class playerMovement : MonoBehaviour {
         if (Input.GetMouseButton(1)) {
             posToMoveTo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             posToMoveTo.z = 0;
+
             var absoluteVector = posToMoveTo - transform.position;
-            var direction = absoluteVector / absoluteVector.magnitude;
-            speedVector = direction * speed;
+            direction = absoluteVector / absoluteVector.magnitude;
             distanceToTravel = absoluteVector.magnitude;
             distanceTraveled = 0f;
             isMoving = true;
-            rigidBody.velocity = speedVector;
+
+            updateSpeed();
         }
     }
 
+    void updateSpeed() {   
+        speedVector = direction * speed;      
+        rigidBody.velocity = speedVector;
+    }
 
     void OnCollisionEnter2D(Collision2D collision) {
         cancelPath();
@@ -53,7 +59,7 @@ public class playerMovement : MonoBehaviour {
     void FixedUpdate() {
         if (isMoving) {
             var fixedTime = Time.fixedDeltaTime;
-
+            updateSpeed();
             if (distanceTraveled < distanceToTravel) {
                 distanceTraveled += rigidBody.velocity.magnitude * fixedTime;
                 if (rigidBody.velocity != (Vector2)speedVector)

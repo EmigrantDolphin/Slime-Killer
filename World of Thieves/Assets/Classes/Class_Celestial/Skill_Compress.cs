@@ -6,6 +6,7 @@ public class Skill_Compress : IAbility {
     string description = "Spinns orbs faster for a duration";
     float speed = SkillsInfo.player_Compress_Speed;
     float cooldown = SkillsInfo.player_Compress_Cooldown;
+    float cooldownLeft = 0f;
 
     //List<GameObject> controlledOrbs = new List<GameObject>();
 
@@ -34,7 +35,10 @@ public class Skill_Compress : IAbility {
         get { return description; }
     }
     public float getCooldown {
-        get { return getCooldown; }
+        get { return cooldown; }
+    }
+    public float getCooldownLeft {
+        get { return cooldownLeft; }
     }
 
     public bool isActive {
@@ -57,9 +61,12 @@ public class Skill_Compress : IAbility {
         savedSpeed = celestial.rotationSpeed;
         celestial.rotationSpeed *= speed;
         active = true;
+        cooldownLeft = cooldown;
     }
 
     public void loop() {  // loops when active = true;
+        if (cooldownLeft > 0f)
+            cooldownLeft -= Time.deltaTime;
         if (active) {
 
             if (timeActive >= stopTime)
