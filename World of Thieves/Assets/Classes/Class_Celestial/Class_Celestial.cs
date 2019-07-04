@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 
@@ -20,7 +20,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public GameObject OrbDamageObj;
     public GameObject OrbControlObj;
     public GameObject OrbDefenseObj;
-
+    
     [HideInInspector]
     public float RotationSpeed = 0.5f * Mathf.PI;
     [HideInInspector]

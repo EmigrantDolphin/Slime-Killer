@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class SkillBarControls : MonoBehaviour {
@@ -82,7 +82,6 @@ public class SkillBarControls : MonoBehaviour {
             skill[i].GetComponent<SkillBar_SkillInfo>().SetAbility(skillHolder[i]);
             skillHolder[i] = buffer;
         }
-
     }
 
     private void KeyBindLoop() {

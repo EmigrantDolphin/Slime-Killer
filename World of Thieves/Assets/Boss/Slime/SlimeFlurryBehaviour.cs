@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class SlimeFlurryBehaviour : IBossBehaviour, IAnimEvents {
@@ -21,9 +21,9 @@ public class SlimeFlurryBehaviour : IBossBehaviour, IAnimEvents {
 
     GameObject splash;
 
-    public SlimeFlurryBehaviour(SlimeManager sm) {
+    public SlimeFlurryBehaviour(SlimeManager sm, GameObject slimeSplash) {
         slime = sm;
-        splash = Resources.Load<GameObject>("SlimeSplash");
+        splash = slimeSplash;
     }
 
     public void Start() {

@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class SlimeManager : MonoBehaviour {
     [Header("Needed Objects")]
     [Tooltip("Force Orb Object")]
     public GameObject ForceOrbObj;
+    [Tooltip("Slime Splash Object")]
+    public GameObject SlimeSplashObj;
 
     [HideInInspector]
     public object ActiveBehaviour;
     [HideInInspector]
     public Vector2 SlimeBoundsSize; // used in slimeFlurry, as a throwing range.
-
+    
     [HideInInspector]
     public GameObject Player;
 
@@ -28,7 +30,7 @@ public class SlimeManager : MonoBehaviour {
 	void Start () {
         meleeAttackBehav = new SlimeMeleeAttackBehaviour(this);
         jumpAttackBehav = new SlimeJumpAttackBehaviour(this);
-        flurryBehav = new SlimeFlurryBehaviour(this);
+        flurryBehav = new SlimeFlurryBehaviour(this, SlimeSplashObj);
         pulseBehav = new SlimePulseBehaviour(this);
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
 
@@ -173,10 +175,6 @@ public class SlimeManager : MonoBehaviour {
         if (ActiveBehaviour != null)
             if (ActiveBehaviour is IAnimEvents)
                 (ActiveBehaviour as IAnimEvents).OnAnimEvent();
-    }
-
-    public GameObject InstantiateGameObject(GameObject obj) {
-        return Instantiate(obj);
     }
 
 }

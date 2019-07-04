@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class Skill_Collapse : IAbility, ITargetting {
@@ -25,7 +25,7 @@ public class Skill_Collapse : IAbility, ITargetting {
 
     //targetting
     GameObject targettingObject;
-
+    
     List<GameObject> enemy = new List<GameObject>();
 
     Class_Celestial celestial;

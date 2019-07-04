@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SlimeForceOrbBehaviour : IBossBehaviour {
@@ -20,7 +20,7 @@ public class SlimeForceOrbBehaviour : IBossBehaviour {
     public float Cooldown { get { return 5f; } }
 
     public void Start() {
-        GameObject orbClone = slimeManager.InstantiateGameObject(forceOrbObj);
+        GameObject orbClone = Object.Instantiate(forceOrbObj);
         orbClone.GetComponent<ProjectileMovement>().Target = slimeManager.Player;
         orbClone.transform.position = slimeManager.transform.position;
         End();

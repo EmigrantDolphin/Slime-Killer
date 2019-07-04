@@ -5,5 +5,5 @@ using System.Collections.Generic;
 public class Class_SoulCaster : MonoBehaviour {
 
 
-
+    
 }

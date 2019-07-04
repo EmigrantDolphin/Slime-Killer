@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Skill_Teleport : IAbility {
@@ -6,8 +6,8 @@ public class Skill_Teleport : IAbility {
     string description = "";
     Sprite icon;
     bool active = false;
-    float cooldown;
-    float cooldownLeft;
+    float cooldown = SkillsInfo.Player_Teleport_Cooldown;
+    float cooldownLeft = 0;
 
     Class_Celestial celestial;
 
@@ -56,8 +56,8 @@ public class Skill_Teleport : IAbility {
     }
 
     public void Loop() {
-
+        if (cooldownLeft > 0f)
+            cooldownLeft -= Time.deltaTime;
     }
-
 
 }

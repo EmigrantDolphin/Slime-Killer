@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class OrbControls : MonoBehaviour {
@@ -147,7 +147,7 @@ public class OrbControls : MonoBehaviour {
         float y = (targ.GetComponent<SpriteRenderer>().bounds.size.y / 2) * targ.GetComponent<Transform>().localScale.y;
 
         radius = Mathf.Sqrt((x * x) + (y * y)) + GetComponent<SpriteRenderer>().bounds.size.x / 2 + addRadius;
-
+        
         y = Mathf.Sin(celestial.CurrRadians + oneThird2PI * slot) * radius;
         x = Mathf.Cos(celestial.CurrRadians + oneThird2PI * slot) * radius;
         Vector2 pos = (Vector2)targ.transform.position + new Vector2(x, y);

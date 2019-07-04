@@ -1,4 +1,4 @@
-﻿
+
 public interface IPClass {
 
     object GetAbility(int num);

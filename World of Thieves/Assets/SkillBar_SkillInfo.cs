@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 public class SkillBar_SkillInfo : MonoBehaviour {
@@ -46,7 +46,6 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     public void OnMouseOver(Vector2 pos) {
 
     }
-
 
     void Update() {
         //taking paren pos. adding anchorPosition, cuz anchor is on the middle of canvas and middle of canvas is directly on playerPos. i add player pos, anchor of canvas(skillbar), background and skill

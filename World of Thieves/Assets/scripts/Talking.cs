@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 public class Talking : MonoBehaviour {
@@ -16,7 +16,7 @@ public class Talking : MonoBehaviour {
         OnNpcClick();
 
 	}
-
+    
     private void OnNpcClick() {
         if (Input.GetMouseButtonDown(0)) {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

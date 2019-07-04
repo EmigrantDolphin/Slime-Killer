@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -16,7 +16,7 @@ public class DamageManager : MonoBehaviour {
     void Start() {
         uiHealthWidth = HealthGreenImage.GetComponent<RectTransform>().sizeDelta.x;
     }
-
+    
 
     void Update() {
         if (damageToHealCounter > 0f)

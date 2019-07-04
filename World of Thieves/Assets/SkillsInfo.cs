@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SkillsInfo {
@@ -36,4 +36,5 @@ public class SkillsInfo {
     public static float Player_Masochism_Cooldown = 10f;
     public static float Player_Masochism_Duration = 4f;
 
+    public static float Player_Teleport_Cooldown = 0f;
 }

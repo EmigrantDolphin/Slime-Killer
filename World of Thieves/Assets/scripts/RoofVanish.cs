@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 
@@ -17,7 +17,7 @@ public class RoofVanish : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         
 	}
-
+    
     // Update is called once per frame
     void Update() {
 

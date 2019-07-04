@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -19,14 +19,6 @@ public class Skill_Manipulate : IAbility {
     public Sprite Icon {
         get { return icon; }
     }
-
-
-    string damageName;
-    string controlName;
-    string defenseName;
-
-    bool pushActive = false;
-    bool summonActive = false;
 
     List<GameObject> skillSlots = new List<GameObject>();
 
@@ -55,9 +47,6 @@ public class Skill_Manipulate : IAbility {
         icon = Resources.Load<Sprite>("ManipulateIcon");
 
         celestial = cS;
-        damageName = celestial.OrbDamageObj.name + "(Clone)";
-        controlName = celestial.OrbControlObj.name + "(Clone)";
-        defenseName = celestial.OrbDefenseObj.name + "(Clone)";
 
         GetSkillRef(); // set skills GO to skill slots
 
@@ -128,9 +117,8 @@ public class Skill_Manipulate : IAbility {
                 else
                     keyUped = true;
 
-
         }
-
+        
         if (selectedOrb != null && intervalCounter <= 0f)
             celestial.InstantiateOrb(selectedOrb, celestial.ParentPlayer);
 

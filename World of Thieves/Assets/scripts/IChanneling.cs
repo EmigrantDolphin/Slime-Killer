@@ -6,5 +6,5 @@ public interface IChanneling {
     void OnChannelingStart();
     void OnChanneling();
     void OnChannelingEnd();
-
+    
 }

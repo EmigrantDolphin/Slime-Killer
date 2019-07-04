@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 
@@ -8,12 +8,12 @@ public class playerMovement : MonoBehaviour {
 
     // for movement
     public float Speed = 4f;
-    private Vector3 speedVector;
+    private Vector2 speedVector;
     private bool isMoving = false;
     private float distanceToTravel = 0f;
     private float distanceTraveled = 0f;
-    private Vector3 posToMoveTo;
-    private Vector3 direction;
+    private Vector2 posToMoveTo;
+    private Vector2 direction;
 
 
     // Use this for initialization
@@ -28,10 +28,11 @@ public class playerMovement : MonoBehaviour {
 	void Update () {
         //Movement
         if (Input.GetMouseButton(1)) {
+            //TODO : add onClick animation 
             posToMoveTo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            posToMoveTo.z = 0;
+            Debug.DrawLine(posToMoveTo, transform.position, Color.black, 10f);
 
-            var absoluteVector = posToMoveTo - transform.position;
+            var absoluteVector = posToMoveTo - (Vector2)transform.position;
             direction = absoluteVector / absoluteVector.magnitude;
             distanceToTravel = absoluteVector.magnitude;
             distanceTraveled = 0f;
@@ -58,16 +59,16 @@ public class playerMovement : MonoBehaviour {
 
     void FixedUpdate() {
         if (isMoving) {
-            var fixedTime = Time.fixedDeltaTime;
-            UpdateSpeed();
-            if (distanceTraveled < distanceToTravel) {
-                distanceTraveled += rigidBody.velocity.magnitude * fixedTime;
-                if (rigidBody.velocity != (Vector2)speedVector)
-                    CancelPath();
-            } else {
+            distanceTraveled += rigidBody.velocity.magnitude * Time.fixedDeltaTime;
+
+            if (rigidBody.velocity != speedVector)
+                CancelPath();
+
+            if (distanceTraveled > distanceToTravel) {
                 CancelPath();
                 transform.position = posToMoveTo;
             }
+              
         }
     } 
 

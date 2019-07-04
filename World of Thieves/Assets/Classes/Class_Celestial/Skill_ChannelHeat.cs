@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class Skill_ChannelHeat : IAbility, IChanneling {
@@ -21,7 +21,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     List<GameObject> orbs = new List<GameObject>();
     List<GameObject> heatOrbs = new List<GameObject>();
     Sprite heatOrbTemp;
-
+    
     public Skill_ChannelHeat(Class_Celestial cs) {
         icon = Resources.Load<Sprite>("ChannelHeatIcon");
         heatOrbTemp = Resources.Load<Sprite>("ChannelHeatOrbTemp");
