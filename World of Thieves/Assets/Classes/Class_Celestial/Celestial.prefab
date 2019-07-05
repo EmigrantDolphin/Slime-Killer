@@ -47,6 +47,8 @@ MonoBehaviour:
   OrbDamageObj: {fileID: 143650, guid: fce2bfc0c81d35741aa3d110b77c4c5b, type: 2}
   OrbControlObj: {fileID: 142560, guid: 1e0a80667848833439661ed4544ce021, type: 2}
   OrbDefenseObj: {fileID: 111090, guid: ccc1f06eb5b2cd444b54721c351f8304, type: 2}
+  riftObj: {fileID: 146216, guid: 55754037fbc474942a5599ceacf1773a, type: 2}
+  stellarBoltObj: {fileID: 174832, guid: 2ad1bb4796d1c144dbcdabad97bd52b7, type: 2}
   RotationSpeed: 6.2831855
   CurrRadians: 0
   ParentPlayer: {fileID: 0}

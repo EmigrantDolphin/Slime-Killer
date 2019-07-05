@@ -12,7 +12,8 @@ public class Skill_Stun : IAbility, ITargetting {
     float cooldownLeft = 0f;
     float duration = SkillsInfo.Player_Stun_Duration;
     Class_Celestial celestial;
-    float radius; // set when targetobject is created;
+    float radius; // set when targetobject is created; if u wanna change it change icons Pixel Per Unit in Resources
+    float radiusScale = SkillsInfo.Player_Stun_RadiusScale;
 
     public Skill_Stun(Class_Celestial cs) {
         icon = Resources.Load<Sprite>("StunIcon");
@@ -51,6 +52,7 @@ public class Skill_Stun : IAbility, ITargetting {
             targettingObject = new GameObject("AoeTargetting");
             targettingObject.AddComponent<SpriteRenderer>();
             targettingObject.GetComponent<SpriteRenderer>().sprite = targettingIcon;
+            targettingObject.transform.localScale = new Vector2(radiusScale, radiusScale);
             radius = targettingObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2f;
         }
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

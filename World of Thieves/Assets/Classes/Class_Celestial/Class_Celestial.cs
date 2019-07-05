@@ -20,6 +20,12 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public GameObject OrbDamageObj;
     public GameObject OrbControlObj;
     public GameObject OrbDefenseObj;
+
+    [Header("Object req by skills")]
+    [Tooltip("Rift Obj")]
+    public GameObject riftObj;
+    [Tooltip("Stellar Orb Obj")]
+    public GameObject stellarBoltObj;
     
     [HideInInspector]
     public float RotationSpeed = 0.5f * Mathf.PI;
@@ -40,9 +46,10 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     Skill_Teleport teleport;
     Skill_Stun stun;
     Skill_Masochism masochism;
+    Skill_Rift rift;
+    Skill_StellarBolt stellarBolt;
 
     void Start() {
-
         ParentPlayer = transform.parent.gameObject;
 
         GameObject temp = (GameObject) Instantiate(SkillBar, ParentPlayer.transform.position, Quaternion.identity);
@@ -60,6 +67,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         teleport = new Skill_Teleport(this);
         stun = new Skill_Stun(this);
         masochism = new Skill_Masochism(this);
+        rift = new Skill_Rift(this, riftObj);
+        stellarBolt = new Skill_StellarBolt(this, stellarBoltObj);
     }
 
  
@@ -72,10 +81,11 @@ public class Class_Celestial : MonoBehaviour, IPClass {
                 case 1: return manipulate;
                 case 2: return collapse;
                 case 3: return masochism;
-                case 4: return null;
+                case 4: return stellarBolt;
                 case 5: return stun;
                 case 6: return channelHeat;
                 case 7: return teleport;
+                case 8: return rift;
                 default: return null;
             }
     }
@@ -104,6 +114,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         teleport.Loop();
         stun.Loop();
         masochism.Loop();
+        rift.Loop();
+        stellarBolt.Loop();
     }
 
     public GameObject InstantiateOrb(GameObject orb, GameObject target) {
@@ -124,10 +136,26 @@ public class Class_Celestial : MonoBehaviour, IPClass {
             return null;
     }
 
-    public void DestroyOrb(GameObject obj) {
-        Orbs.Remove(obj);
-        DestroyObject(obj);
+    public bool HasOrbs(GameObject orbObj, int count) {
+        int counter = 0;
+        foreach (GameObject orb in Orbs) {
+            if (orb.GetComponent<OrbControls>().Target == ParentPlayer && orb.name == (orbObj.name + "(Clone)") ) {
+                counter++;
+            }
+        }
+        return counter >= count;
     }
 
+    public void DestroyOrbs(GameObject orbObj, int count) {
+        int counter = 0;
+        for (int i = Orbs.Count-1; i >= 0; i--) {
+            if (Orbs[i].name == orbObj.name + "(Clone)" && counter != count) {
+                var item = Orbs[i];
+                Orbs.Remove(item);
+                Destroy(item);
+                counter++;
+            }
+        }
+    }
 
 }

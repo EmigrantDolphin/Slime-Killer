@@ -7,7 +7,6 @@ public class Skill_Collapse : IAbility, ITargetting {
     Sprite icon;
     Sprite pullIcon;
     Sprite teleportIcon;
-    Sprite targettingIcon;
     bool active = false;
     float cooldown = SkillsInfo.Player_Collapse_Cooldown;
     float cooldownLeft = 0f;
@@ -23,12 +22,11 @@ public class Skill_Collapse : IAbility, ITargetting {
     float orbDuration = 10f;
     GameObject orb;
 
-    //targetting
-    GameObject targettingObject;
     
     List<GameObject> enemy = new List<GameObject>();
 
     Class_Celestial celestial;
+    PointTargetting targetting = null;
 
     public string Name {
         get { return name; }
@@ -57,7 +55,7 @@ public class Skill_Collapse : IAbility, ITargetting {
     public Skill_Collapse(Class_Celestial cs) {
         pullIcon = Resources.Load<Sprite>("CollapsePullIcon");
         teleportIcon = Resources.Load<Sprite>("CollapseTeleportIcon");
-        targettingIcon = Resources.Load<Sprite>("PointTarget");
+
 
         icon = pullIcon;
         
@@ -68,13 +66,9 @@ public class Skill_Collapse : IAbility, ITargetting {
     
     public void Targetting() {
         if (!isPortOrbActive) {
-            if (targettingObject == null) {
-                targettingObject = new GameObject("targettingObject");
-                targettingObject.AddComponent<SpriteRenderer>();
-                targettingObject.GetComponent<SpriteRenderer>().sprite = targettingIcon;
-            }
-            var tempPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targettingObject.transform.position = new Vector3(tempPos.x, tempPos.y, 0);
+            if (targetting == null)
+                targetting = new PointTargetting();
+            targetting.Targetting();
         }
     }
 
@@ -82,8 +76,8 @@ public class Skill_Collapse : IAbility, ITargetting {
         if (!isPortOrbActive) {
             active = true;
             celestial.SkillsDisabled = true;
-            Object.Destroy(targettingObject);
-            targettingObject = null;
+
+            targetting.Stop();
 
             //get collided objects in 1f radius at mousePos
             pullCenter = Camera.main.ScreenToWorldPoint(Input.mousePosition);

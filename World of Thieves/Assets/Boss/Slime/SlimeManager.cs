@@ -93,11 +93,11 @@ public class SlimeManager : MonoBehaviour {
                 ActiveBehaviour = meleeAttackBehav;
             }
             if (Input.GetKeyDown(KeyCode.D)) {
-                if (ActiveBehaviour != null)
-                    (ActiveBehaviour as IBossBehaviour).End();
-
-                jumpAttackBehav.Start();
-                ActiveBehaviour = jumpAttackBehav;
+                //if (ActiveBehaviour != null)
+                //    (ActiveBehaviour as IBossBehaviour).End();
+                GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, 5f);
+                //jumpAttackBehav.Start();
+               // ActiveBehaviour = jumpAttackBehav;
             }
             if (Input.GetKeyDown(KeyCode.F)) {
                 if (ActiveBehaviour != null)

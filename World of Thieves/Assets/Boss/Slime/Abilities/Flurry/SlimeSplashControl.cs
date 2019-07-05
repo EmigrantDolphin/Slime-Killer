@@ -112,7 +112,7 @@ public class SlimeSplashControl : MonoBehaviour {
 
     void StopMovement() {
         animActive = false;
-        GetComponent<BoxCollider2D>().enabled = true;
+        GetComponent<CircleCollider2D>().enabled = true;
         GetComponent<Animator>().enabled = false;
         countDownStarted = true;
         frameRefreshTime = Random.Range(1f, 2f);

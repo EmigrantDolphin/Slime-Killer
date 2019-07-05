@@ -40,15 +40,13 @@ public class Skill_Teleport : IAbility {
     }
 
     public void Use(GameObject target) {
-        foreach (GameObject orb in celestial.Orbs) {
-            if (orb.GetComponent<OrbControls>().Target == celestial.ParentPlayer && orb.name == "OrbControl(Clone)") {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                celestial.ParentPlayer.transform.position = mousePos;
-                celestial.ParentPlayer.GetComponent<playerMovement>().CancelPath();
-                celestial.DestroyOrb(orb);
-                return;
-            }
-        }
+        if (celestial.HasOrbs(celestial.OrbControlObj, 1)) {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            celestial.ParentPlayer.transform.position = mousePos;
+            celestial.ParentPlayer.GetComponent<playerMovement>().CancelPath();
+            celestial.DestroyOrbs(celestial.OrbControlObj, 1);
+            return;
+        }     
     }
 
     public void EndAction() {

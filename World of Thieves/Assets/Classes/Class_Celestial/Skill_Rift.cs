@@ -1,14 +1,31 @@
 using UnityEngine;
 using System.Collections;
 
-public class Skill_Rift : IAbility {
+public class Skill_Rift : IAbility, ITargetting {
 
     string name = "Rift";
     string description = "";
     Sprite icon;
+    Sprite targettingIcon;
+
+    float radiusScale = SkillsInfo.Player_Rift_RadiusScale;
+
     bool active = false;
     float cooldown = SkillsInfo.Player_Rift_Cooldown;
     float cooldownLeft = 0f;
+
+    Class_Celestial celestial;
+    GameObject targettingObject = null;
+    GameObject riftObj;
+    public Skill_Rift(Class_Celestial cl, GameObject riftObj) {
+        this.riftObj = riftObj;
+        riftObj.transform.localScale = new Vector2(radiusScale, radiusScale);
+
+        icon = Resources.Load<Sprite>("RiftIcon");
+        targettingIcon = Resources.Load<Sprite>("AoeTargetIcon");
+    
+        celestial = cl;
+    }
 
     public string Name {
         get { return name; }
@@ -34,7 +51,20 @@ public class Skill_Rift : IAbility {
     }
 
     public void Use(GameObject target) {
+        if (!celestial.HasOrbs(celestial.OrbDamageObj, 2))
+            return;
         cooldownLeft = cooldown;
+        active = false;
+        Object.Destroy(targettingObject);
+        targettingObject = null;
+
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var temp = Object.Instantiate(riftObj);
+        temp.transform.position = new Vector3(mousePos.x, mousePos.y, riftObj.transform.position.z);
+
+        celestial.DestroyOrbs(celestial.OrbDamageObj, 2);
+
+
     }
 
     public void EndAction() {
@@ -46,4 +76,19 @@ public class Skill_Rift : IAbility {
             cooldownLeft -= Time.deltaTime;
     }
 
+    public void Targetting() {
+        if (!celestial.HasOrbs(celestial.OrbDamageObj, 2))
+            return;
+        if (targettingObject == null) {
+            active = true;
+            targettingObject = new GameObject("AoeTargetting");
+            targettingObject.AddComponent<SpriteRenderer>();
+            targettingObject.GetComponent<SpriteRenderer>().sprite = targettingIcon;
+            targettingObject.transform.localScale = new Vector2(radiusScale, radiusScale);
+        }
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+        targettingObject.transform.position = mousePos;
+
+    }
 }

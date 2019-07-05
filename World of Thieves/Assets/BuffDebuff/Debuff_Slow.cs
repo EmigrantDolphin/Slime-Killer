@@ -36,6 +36,7 @@ public class Debuff_Slow : IDebuff {
                 buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(Debuffs.Slow, icon);
             } else {
                 buffDebuff.EntityObject.GetComponent<EnemyMovement>().Speed -= speedReduction;
+                buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(Debuffs.Slow, icon);
             }
             active = true;
         }
@@ -52,6 +53,7 @@ public class Debuff_Slow : IDebuff {
             buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Remove(Debuffs.Slow);
         }else {
             buffDebuff.EntityObject.GetComponent<EnemyMovement>().Speed += speedReduction;
+            buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Remove(Debuffs.Slow);
         }
     }
 

@@ -16,10 +16,11 @@ public class BuffDebuff : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         EntityObject = gameObject;
-        if (EntityObject.tag == "Player") {
+        if (EntityObject.tag == "Player" || EntityObject.tag == "Enemy") {
             DebuffBarInstantiated = (GameObject)Instantiate(DebuffBar, EntityObject.transform.position, Quaternion.identity);
             DebuffBarInstantiated.transform.parent = EntityObject.transform;
         }
+
         debuff_slow = new Debuff_Slow(this);
 
     }

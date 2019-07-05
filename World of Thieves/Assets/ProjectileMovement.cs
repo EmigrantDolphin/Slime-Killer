@@ -4,8 +4,7 @@ using System.Collections;
 public class ProjectileMovement : MonoBehaviour {
 
     Vector2 velocity = new Vector2();
-    [SerializeField]
-    float speed = 5f;
+    float speed = 0f;
     GameObject target = null;
 
     void Update() {
@@ -19,6 +18,10 @@ public class ProjectileMovement : MonoBehaviour {
 
     public GameObject Target {
         set { target = value; }
+    }
+    public float Speed {
+        get { return speed; }
+        set { speed = value; }
     }
 
     public Vector2 Velocity {

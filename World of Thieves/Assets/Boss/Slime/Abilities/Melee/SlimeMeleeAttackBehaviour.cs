@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class SlimeMeleeAttackBehaviour : IBossBehaviour {
-    private float movementSpeed = 1f;
     private float meleeRange = 1.65f;
     private float attackCooldown = 3f;
     private float cooldownCounter = 0f;
@@ -27,7 +26,6 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     public void Start() {
         active = true;
         cooldownCounter = attackCooldown;
-        slime.gameObject.GetComponent<EnemyMovement>().Speed = movementSpeed;
         slime.gameObject.GetComponent<EnemyMovement>().MovementEnabled = true;
     }
 

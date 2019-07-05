@@ -6,6 +6,9 @@ public class playerMovement : MonoBehaviour {
     
     private Rigidbody2D rigidBody;
 
+    [Tooltip("Click Pointer Object")]
+    public ClickPointerBehaviour clickPointer;
+
     // for movement
     public float Speed = 4f;
     private Vector2 speedVector;
@@ -28,8 +31,9 @@ public class playerMovement : MonoBehaviour {
 	void Update () {
         //Movement
         if (Input.GetMouseButton(1)) {
-            //TODO : add onClick animation 
+            //TODO : add onClick animation    
             posToMoveTo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            clickPointer.ClickAt(posToMoveTo);
             Debug.DrawLine(posToMoveTo, transform.position, Color.black, 10f);
 
             var absoluteVector = posToMoveTo - (Vector2)transform.position;
