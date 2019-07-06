@@ -14,17 +14,13 @@ Platform assembly: C:\Users\Olivier\Desktop\sk\World of Thieves\Slime Killer_Dat
 Loading C:\Users\Olivier\Desktop\sk\World of Thieves\Slime Killer_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\Olivier\Desktop\sk\World of Thieves\Slime Killer_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\Olivier\Desktop\sk\World of Thieves\Slime Killer_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.089 seconds
+- Completed reload, in  0.074 seconds
 Platform assembly: C:\Users\Olivier\Desktop\sk\World of Thieves\Slime Killer_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Olivier\Desktop\sk\World of Thieves\Slime Killer_Data\Managed\System.dll (this message is harmless)
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
 <RI> Initialized touch support.
-The referenced script on this Behaviour (Game Object 'Player') is missing!
- 
-(Filename:  Line: 1655)
-
-UnloadTime: 28.573475 ms
+UnloadTime: 0.965419 ms
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: e10 -> priority: 1 
+  Thread -> id: 2180 -> priority: 1 

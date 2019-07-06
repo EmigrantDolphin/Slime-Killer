@@ -26,7 +26,8 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     public void Start() {
         active = true;
         cooldownCounter = attackCooldown;
-        slime.gameObject.GetComponent<EnemyMovement>().MovementEnabled = true;
+        slime.GetComponent<EnemyMovement>().MovementEnabled = true;
+        slime.GetComponent<Animator>().SetBool("Moving", true);
     }
 
     public void End() {
@@ -56,6 +57,8 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     }
 
     private void MeleeRangeMovement() {
+        if (slime.GetComponent<Animator>().GetBool("MeleeAttack"))
+            return;
         var absoluteVector = slime.Player.transform.position - slime.transform.position;
         var distance = absoluteVector.magnitude;
         var direction = absoluteVector / distance;
@@ -69,18 +72,25 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
 
 
 
-        if (Vector2.Distance(slime.transform.position, slime.Player.transform.position) >= meleeRange)
+        if (Vector2.Distance(slime.transform.position, slime.Player.transform.position) >= meleeRange) {
             slime.transform.position += direction * slime.gameObject.GetComponent<EnemyMovement>().Speed * Time.deltaTime;
+            slime.GetComponent<Animator>().SetBool("Moving", true);
+        }
 
     }
 
 
     private void MeleeAutoAttack() {
+        if (slime.GetComponent<Animator>().GetBool("Moving")) {
+            slime.GetComponent<Animator>().SetBool("Moving", false);
+            slime.GetComponent<Animator>().SetBool("CancelAnim", true);
+        }
         slime.GetComponent<Animator>().SetBool("MeleeAttack", true);
     }
 
     private void CancelAnimations() {
         slime.GetComponent<Animator>().SetBool("MeleeAttack", false);
+        slime.GetComponent<Animator>().SetBool("Moving", false);
         slime.GetComponent<Animator>().SetBool("CancelAnim", true);
     }
 

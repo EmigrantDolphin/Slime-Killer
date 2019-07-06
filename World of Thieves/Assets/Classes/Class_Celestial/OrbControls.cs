@@ -16,7 +16,7 @@ public class OrbControls : MonoBehaviour {
         get { return collidingTarget; }
     }
 
-    const int slotCap = 8;
+    const int slotCap = 4;
     const float oneThird2PI = (2 * Mathf.PI) / slotCap;
     float radius;
     public float addRadius = 0.1f;
