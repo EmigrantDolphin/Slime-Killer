@@ -48,6 +48,7 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     }
 
     void Update() {
+
         //taking paren pos. adding anchorPosition, cuz anchor is on the middle of canvas and middle of canvas is directly on playerPos. i add player pos, anchor of canvas(skillbar), background and skill
         //this way i get world position of rect. all scales are one, canvas is set on world space, so i take world coords
         posWorld = (Vector2)GameMaster.Player.transform.position + transform.parent.transform.parent.GetComponent<RectTransform>().anchoredPosition + transform.parent.GetComponent<RectTransform>().anchoredPosition + GetComponent<RectTransform>().anchoredPosition;
@@ -97,6 +98,10 @@ public class SkillBar_SkillInfo : MonoBehaviour {
         if (pos.x > posWorld.x && pos.y > posWorld.y && pos.x < (posWorld.x + dimWorld.x) && pos.y < (posWorld.y + dimWorld.y)) {
             prevAbility = ability;
             GetComponent<Image>().sprite = null;
+
+            Color color = GetComponent<Image>().color;
+            GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0);
+
             ability = null;
             return prevAbility;
         } else
@@ -104,12 +109,15 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     }
 
     public void SetAbility(object ab) {
+        Color color = GetComponent<Image>().color;
         if (ab == null) {
             ability = null;
+            GetComponent<Image>().color = new Color(color.r, color.g, color.b, 0);
             UpdateIcon();
         } else {
             ability = ab;
             GetComponent<Image>().sprite = (ability as IAbility).Icon;
+            GetComponent<Image>().color = new Color(color.r, color.g, color.b, 1);
         }
     }
 
@@ -117,6 +125,10 @@ public class SkillBar_SkillInfo : MonoBehaviour {
         if (pos.x > posWorld.x && pos.y > posWorld.y && pos.x < (posWorld.x + dimWorld.x) && pos.y < (posWorld.y + dimWorld.y)) {
             ability = ab;
             GetComponent<Image>().sprite = (ability as IAbility).Icon;
+
+            Color color = GetComponent<Image>().color;
+            GetComponent<Image>().color = new Color(color.r, color.g, color.b, 1);
+
             return true;
 
         } else
@@ -129,6 +141,10 @@ public class SkillBar_SkillInfo : MonoBehaviour {
             var temp = ability;
             ability = ab;
             GetComponent<Image>().sprite = (ability as IAbility).Icon;
+
+            Color color = GetComponent<Image>().color;
+            GetComponent<Image>().color = new Color(color.r, color.g, color.b, 1);
+
             return temp;
         } else
             return null;

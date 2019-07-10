@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class SlimeSplashControl : MonoBehaviour {
 
+    public GameObject Owner;
+
     public Vector2 TravelVector; // set on init by SlimeManager -> SlimeFlurryBehaviour
     bool animActive = false;
     public int Id = 0;
@@ -75,7 +77,7 @@ public class SlimeSplashControl : MonoBehaviour {
                 debuffApplyCounter += Time.deltaTime;
             } else {
                 player.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, debuffLength);
-                player.GetComponent<DamageManager>().DealDamage(damage);
+                player.GetComponent<DamageManager>().DealDamage(damage, Owner);
                 debuffApplyCounter = 0;
             }
         

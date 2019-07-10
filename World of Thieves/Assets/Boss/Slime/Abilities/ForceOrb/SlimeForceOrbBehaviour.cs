@@ -21,6 +21,7 @@ public class SlimeForceOrbBehaviour : IBossBehaviour {
 
     public void Start() {
         GameObject orbClone = Object.Instantiate(forceOrbObj);
+        orbClone.GetComponent<ForceOrbBehaviour>().Owner = slimeManager.gameObject;
         orbClone.GetComponent<ProjectileMovement>().Target = slimeManager.Player;
         orbClone.transform.position = slimeManager.transform.position;
         End();

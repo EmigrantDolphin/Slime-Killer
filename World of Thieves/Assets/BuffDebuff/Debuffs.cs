@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public enum Debuffs { None, Slow}
+public enum Debuffs {
+    None,
+    Slow,
+    TranscendenceEmpty,
+    TranscendenceDamage,
+    TranscendenceDefense,
+    TranscendenceControl
+}

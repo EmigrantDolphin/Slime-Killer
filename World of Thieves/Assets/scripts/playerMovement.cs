@@ -10,7 +10,9 @@ public class playerMovement : MonoBehaviour {
     public ClickPointerBehaviour clickPointer;
 
     // for movement
+    float previousSpeedModifier = 1;
     public float Speed = 4f;
+    float initialSpeed;
     private Vector2 speedVector;
     private bool isMoving = false;
     private float distanceToTravel = 0f;
@@ -22,6 +24,7 @@ public class playerMovement : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GameMaster.Player = gameObject;
+        initialSpeed = Speed;
         
         rigidBody = GetComponent<Rigidbody2D>();
 
@@ -29,6 +32,8 @@ public class playerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        UpdateIfSpeedModified();
+
         //Movement
         if (Input.GetMouseButton(1)) {
             //TODO : add onClick animation    
@@ -37,18 +42,34 @@ public class playerMovement : MonoBehaviour {
             Debug.DrawLine(posToMoveTo, transform.position, Color.black, 10f);
 
             var absoluteVector = posToMoveTo - (Vector2)transform.position;
-            direction = absoluteVector / absoluteVector.magnitude;
+            direction = absoluteVector.normalized;
             distanceToTravel = absoluteVector.magnitude;
             distanceTraveled = 0f;
             isMoving = true;
+            GetComponent<Animator>().SetBool("Moving", true);
 
+            float angle = Mathf.Atan2(absoluteVector.y, absoluteVector.x) * 180 / Mathf.PI;
+            angle += 90;
+
+            transform.rotation = Quaternion.Euler(0, 0, angle);
             UpdateSpeed();
         }
     }
 
-    void UpdateSpeed() {   
-        speedVector = direction * Speed;      
+    void UpdateSpeed() {
+        if (!isMoving)
+            return;
+        speedVector = direction * Speed;   
         rigidBody.velocity = speedVector;
+    }
+
+    void UpdateIfSpeedModified() {
+        if (previousSpeedModifier != GetComponent<Modifiers>().SpeedModifier) {
+            Speed = initialSpeed;
+            Speed *= GetComponent<Modifiers>().SpeedModifier;
+            previousSpeedModifier = GetComponent<Modifiers>().SpeedModifier;
+            UpdateSpeed();
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
@@ -57,6 +78,7 @@ public class playerMovement : MonoBehaviour {
 
     public void CancelPath() {
         isMoving = false;
+        GetComponent<Animator>().SetBool("Moving", false);
         rigidBody.velocity = Vector2.zero;
     }
 

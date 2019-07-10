@@ -106,7 +106,7 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
 
         foreach (Collider2D collider in colliders)
             if (collider.gameObject == slime.Player) {
-                slime.Player.GetComponent<DamageManager>().DealDamage(jumpAttackDamage);
+                slime.Player.GetComponent<DamageManager>().DealDamage(jumpAttackDamage, slime.gameObject);
                 break;
             }
         jumpVector = Vector2.zero;

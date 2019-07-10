@@ -53,7 +53,7 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
             return;
 
         if (hit.collider.gameObject.tag == "Player") 
-            slimeManager.Player.GetComponent<DamageManager>().DealDamage(damage);
+            slimeManager.Player.GetComponent<DamageManager>().DealDamage(damage, slimeManager.gameObject);
                  
         
     }

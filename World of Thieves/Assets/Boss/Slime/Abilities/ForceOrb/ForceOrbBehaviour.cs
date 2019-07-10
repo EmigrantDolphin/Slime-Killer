@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ForceOrbBehaviour : MonoBehaviour {
     GameObject target;
+    public GameObject Owner;
 
     float damage = SkillsInfo.Slime_ForceOrbDamage;
     float speed = SkillsInfo.Slime_ForceOrbSpeed;
@@ -18,7 +19,7 @@ public class ForceOrbBehaviour : MonoBehaviour {
         }
         
         if (collider.gameObject.tag == "Player") {
-            collider.gameObject.GetComponent<DamageManager>().DealDamage(damage);
+            collider.gameObject.GetComponent<DamageManager>().DealDamage(damage, Owner);
             Destroy(gameObject);
         }
 

@@ -38,12 +38,23 @@ public class SlimeManager : MonoBehaviour {
 
         SlimeBoundsSize = GetComponent<SpriteRenderer>().bounds.size;
 	}
-	
+
+
+    bool isStopped = false;
 	// Update is called once per frame
 	void Update () {
         FindIfLost();
+        TempBehaviourLoop();
+        if (isStopped)
+            return;
+
         if (timer > 10000)
             timer = 0;
+        if (stunCounter > 0f) {
+            stunCounter -= Time.deltaTime;
+            return;
+        }
+
         timer += Time.deltaTime;
 
         if ((int)timer % 25 == 0 && (int)(timer - Time.deltaTime) == (int)timer - 1)
@@ -74,7 +85,7 @@ public class SlimeManager : MonoBehaviour {
 
 
 
-        TempBehaviourLoop();
+        
 	}
 
     void OnCollisionEnter2D(Collision2D collision) {
@@ -91,6 +102,7 @@ public class SlimeManager : MonoBehaviour {
                     (ActiveBehaviour as IBossBehaviour).End();
                 meleeAttackBehav.Start();
                 ActiveBehaviour = meleeAttackBehav;
+                isStopped = false;
             }
             if (Input.GetKeyDown(KeyCode.D)) {
                 //if (ActiveBehaviour != null)
@@ -119,8 +131,10 @@ public class SlimeManager : MonoBehaviour {
                 ActiveBehaviour = forceOrbBehav;
             }
 
-            if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null)
+            if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
                 (ActiveBehaviour as IBossBehaviour).End();
+                isStopped = true;
+            }
 
             if (ActiveBehaviour != null)
                 (ActiveBehaviour as IBossBehaviour).Loop();

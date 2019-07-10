@@ -23,7 +23,15 @@ public class DamageManager : MonoBehaviour {
             damageToHealCounter -= Time.deltaTime;
     }
 
-    public void DealDamage(float damageAmount) {
+    public void DealDamage(float damageAmount, GameObject requester) {
+        float substractedDamage = 0;
+        float addedDamage = 0;
+        if (GetComponent<Modifiers>() != null)
+            substractedDamage = (damageAmount * GetComponent<Modifiers>().DefenseModifier) - damageAmount;
+        if (requester.GetComponent<Modifiers>() != null)
+            addedDamage = (damageAmount * requester.GetComponent<Modifiers>().DamageModifier) - addedDamage;
+
+        damageAmount += addedDamage - substractedDamage;
 
         if (damageToHealCounter <= 0f) {
             if (Health - damageAmount > 0)
@@ -37,6 +45,14 @@ public class DamageManager : MonoBehaviour {
                 Health = MaxHealth;
         }
 
+        UIHealthUpdate();
+    }
+
+    public void Heal(float healAmount) {
+        if (Health + healAmount > MaxHealth)
+            Health = MaxHealth;
+        else
+            Health += healAmount;
         UIHealthUpdate();
     }
 

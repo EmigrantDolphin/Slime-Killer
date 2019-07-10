@@ -2,6 +2,7 @@
 
 public interface IDebuff {
     string Name { get; }
+    Debuffs Debuff { get; }
     string Description { get; }
     Sprite Icon { get; }
     bool IsActive { get; }

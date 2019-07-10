@@ -7,37 +7,39 @@ public class DebuffCanvasManager : MonoBehaviour {
 
     struct Icons {
         public Image Image;
-        public Debuffs Debuff;
+        public IDebuff Debuff;
     }
+
 
     private Icons[] icons;
 
     // TODO: Update with effects later
     void Start() {
+
         icons = new Icons[Images.Length];
 
         for (int i = 0; i < Images.Length; i++) {
             Images[i].GetComponent<Image>().sprite = null;
             Images[i].GetComponent<Image>().color = new Color(1, 1, 1, 0);
             icons[i].Image = Images[i];
-            icons[i].Debuff = Debuffs.None;
+            icons[i].Debuff = null;
         }
     }
 
-    public void Add(Debuffs debuff, Sprite icon) { // called once per unique debuff
+    public void Add(IDebuff debuff) { // called once per unique debuff
         for (int i = 0; i < icons.Length; i++)
-            if (icons[i].Debuff == Debuffs.None) {
-                icons[i].Image.sprite = icon;
+            if (icons[i].Debuff == null) {
+                icons[i].Image.sprite = debuff.Icon;
                 icons[i].Debuff = debuff;
                 icons[i].Image.color = new Color(1, 1, 1, 1);
                 break;
             }
     }
 
-    public void Remove(Debuffs debuff) { 
+    public void Remove(IDebuff debuff) { 
         for (int i = 0; i < icons.Length; i++)
             if (icons[i].Debuff == debuff) {
-                icons[i].Debuff = Debuffs.None;
+                icons[i].Debuff = null;
                 icons[i].Image.sprite = null;
                 icons[i].Image.color = new Color(1, 1, 1, 0);
                 for (int j = i; j < icons.Length; j++) {
@@ -47,7 +49,7 @@ public class DebuffCanvasManager : MonoBehaviour {
                         icons[j].Image.color = icons[j + 1].Image.color;
                     } else {
                         icons[j].Image.sprite = null;
-                        icons[j].Debuff = Debuffs.None;
+                        icons[j].Debuff = null;
                         icons[j].Image.color = new Color(1, 1, 1, 0);
                     }                 
                 }

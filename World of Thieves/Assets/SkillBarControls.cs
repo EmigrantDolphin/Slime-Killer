@@ -12,6 +12,8 @@ public class SkillBarControls : MonoBehaviour {
     GameObject onMouseSprite;
     bool holdingAbility = false;
 
+    int usingAbility = -1; // set to -1 when not using ability, set to num of ability used
+
     IPClass selectedClass;
 
     // Use this for initialization
@@ -22,8 +24,6 @@ public class SkillBarControls : MonoBehaviour {
         keyBinds[3] = KeyCode.Q;
         keyBinds[4] = KeyCode.W;
         keyBinds[5] = KeyCode.E;
-
-
 
 
         onMouseSprite = new GameObject();
@@ -58,7 +58,7 @@ public class SkillBarControls : MonoBehaviour {
         
         MovingSkills();
 
-        if (!holdingAbility)
+        if (!holdingAbility && usingAbility == -1)
             SwitchSkillSet();
 
         if (updateAbilityIcons) {
@@ -86,22 +86,37 @@ public class SkillBarControls : MonoBehaviour {
 
     private void KeyBindLoop() {
         if (selectedClass.SkillsEnabled) {
+
+            if (usingAbility != -1 && Input.GetKey(keyBinds[usingAbility])) {
+                if (skill[usingAbility].GetComponent<SkillBar_SkillInfo>().HasTargetting)
+                    skill[usingAbility].GetComponent<SkillBar_SkillInfo>().Targetting();
+                else if (skill[usingAbility].GetComponent<SkillBar_SkillInfo>().HasChanneling)
+                    skill[usingAbility].GetComponent<SkillBar_SkillInfo>().OnChanneling();
+                return;
+            }
+
             for (int i = 0; i < keyBinds.Length; i++) {
-                if (skill[i].GetComponent<SkillBar_SkillInfo>().HasTargetting || skill[i].GetComponent<SkillBar_SkillInfo>().HasChanneling) { 
+                if (skill[i].GetComponent<SkillBar_SkillInfo>().HasTargetting || skill[i].GetComponent<SkillBar_SkillInfo>().HasChanneling) {
                     // for targetting
                     if (skill[i].GetComponent<SkillBar_SkillInfo>().HasTargetting)
-                        if (Input.GetKey(keyBinds[i])) 
+                        if (Input.GetKey(keyBinds[i])) {
                             skill[i].GetComponent<SkillBar_SkillInfo>().Targetting();
-                        else if (Input.GetKeyUp(keyBinds[i]))
+                            usingAbility = i;
+                        } else if (Input.GetKeyUp(keyBinds[i])) {
                             skill[i].GetComponent<SkillBar_SkillInfo>().UseAbility();
+                            usingAbility = -1;
+                        }
                     // for channeling
                     if (skill[i].GetComponent<SkillBar_SkillInfo>().HasChanneling)
                         if (Input.GetKeyDown(keyBinds[i]))
                             skill[i].GetComponent<SkillBar_SkillInfo>().OnChannelingStart();
-                        else if (Input.GetKey(keyBinds[i]))
+                        else if (Input.GetKey(keyBinds[i])) {
                             skill[i].GetComponent<SkillBar_SkillInfo>().OnChanneling();
-                        else if (Input.GetKeyUp(keyBinds[i]))
+                            usingAbility = i;
+                        } else if (Input.GetKeyUp(keyBinds[i])) {
                             skill[i].GetComponent<SkillBar_SkillInfo>().OnChannelingEnd();
+                            usingAbility = -1;
+                        }
 
                 } else if (Input.GetKeyDown(keyBinds[i]))
                     skill[i].GetComponent<SkillBar_SkillInfo>().UseAbility();
@@ -119,15 +134,16 @@ public class SkillBarControls : MonoBehaviour {
                 var temp = skill[i].GetComponent<SkillBar_SkillInfo>().CheckAndGetAbility(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // gets ability on [skill slot pressed], if has it, else null
                 if (temp != null) {
                     holdingAbility = true;
-                    onMouseSprite.SetActive(true);
                     onMouseAbility = temp as IAbility;
                     onMouseSprite.GetComponent<SpriteRenderer>().sprite = onMouseAbility.Icon;
+                    onMouseSprite.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    onMouseSprite.SetActive(true);
                     break;
                 }
             }
         } else if (holdingAbility && !Input.GetMouseButtonDown(0)) {
             onMouseSprite.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onMouseSprite.transform.position = new Vector3(onMouseSprite.transform.position.x, onMouseSprite.transform.position.y, -4);
+            onMouseSprite.transform.position = new Vector3(onMouseSprite.transform.position.x, onMouseSprite.transform.position.y, -4f); //TODO : z pos?
             //add skill[n].GetComponent<SkillBar_SkillInfo>().onMouseOver( pos of mouse ); to display description;
         } else if (holdingAbility && Input.GetMouseButtonDown(0))
             for (int i = 0; i < skill.Count; i++) {

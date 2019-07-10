@@ -9,6 +9,7 @@ TagManager:
   - Boss
   - Rock
   - colliderr
+  - Totem
   layers:
   - Default
   - TransparentFX

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &160582
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446010}
+  - component: {fileID: 11459488}
+  m_Layer: 0
+  m_Name: Celestial
+  m_TagString: Celestial
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160582}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11459488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 261ca4e13f173224c94d8e201da638c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillBar: {fileID: 148576, guid: 3e888687435175543851d86ab8d02df4, type: 3}
+  ManipulateSkillBar: {fileID: 109704, guid: ebd909954607ca54990dee85c6ecec65, type: 3}
+  ManipulateSkillBarClone: {fileID: 0}
+  ManipulationTarget: {fileID: 0}
+  SkillsDisabled: 0
+  OrbDamageObj: {fileID: 143650, guid: fce2bfc0c81d35741aa3d110b77c4c5b, type: 3}
+  OrbControlObj: {fileID: 142560, guid: 1e0a80667848833439661ed4544ce021, type: 3}
+  OrbDefenseObj: {fileID: 111090, guid: ccc1f06eb5b2cd444b54721c351f8304, type: 3}
+  riftObj: {fileID: 146216, guid: 55754037fbc474942a5599ceacf1773a, type: 3}
+  stellarBoltObj: {fileID: 174832, guid: 2ad1bb4796d1c144dbcdabad97bd52b7, type: 3}
+  transferenceProjectileObj: {fileID: 6893109488755418061, guid: 9d8769b35264f174ab2a8ef0809e7e04,
+    type: 3}
+  CurrRadians: 0
+  ParentPlayer: {fileID: 0}
+  Orbs: []
