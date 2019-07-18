@@ -16,11 +16,7 @@ public class SlimeSplashControl : MonoBehaviour {
 
     private float debuffLength = 4f;
 
-    int frame = 10;
-    float frameRefreshTime = 2f;
-    float frameRefreshCounter = 0;
-    bool countDownStarted = false;
-    Vector3 savedPosition;
+
 
     //applying debuff
     float debuffApplyTime = 1f;
@@ -28,13 +24,9 @@ public class SlimeSplashControl : MonoBehaviour {
     bool isPlayerOnSlimeSplash = false;
     GameObject player;
 
-    GameObject texBehind;
 	// Use this for initialization
 	void Start () {
-        texBehind = new GameObject("slimeSplashHelper");
-        texBehind.AddComponent<SpriteRenderer>();
-        texBehind.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
-        texBehind.SetActive(false);
+
     }
 	
     void OnTriggerExit2D(Collider2D collider) {
@@ -87,44 +79,16 @@ public class SlimeSplashControl : MonoBehaviour {
         if (animActive)
             transform.position += (Vector3)TravelVector * Time.fixedDeltaTime;
 
-        if (frame < 5)
-            frame++;
-
-        if (frame == 1) {
-            savedPosition = transform.position;
-            transform.position = new Vector3(1000 * Id, 1000 * Id, 1);
-            texBehind.SetActive(true);         
-            texBehind.transform.localScale = transform.localScale;
-            texBehind.transform.position = savedPosition;
-        }
-        if (frame == 3) {
-            transform.position = savedPosition;
-            texBehind.SetActive(false);    
-        }
-        if (countDownStarted)
-            frameRefreshCounter += Time.fixedDeltaTime;
-
-        if (frameRefreshCounter >= frameRefreshTime) {
-            frame = 0;
-            frameRefreshCounter = 0;
-            frameRefreshTime = Random.Range(1f, 3f);
-        }
-
     }
 
     void StopMovement() {
         animActive = false;
         GetComponent<CircleCollider2D>().enabled = true;
         GetComponent<Animator>().enabled = false;
-        countDownStarted = true;
-        frameRefreshTime = Random.Range(1f, 2f);
     }
 
     void StartMovement() {
         animActive = true;
     }
 
-    void OnDestroy() {
-        Destroy(texBehind);
-    }
 }

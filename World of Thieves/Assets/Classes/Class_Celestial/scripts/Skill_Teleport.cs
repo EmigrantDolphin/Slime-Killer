@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class Skill_Teleport : IAbility {
-    string name = "Teleport";
-    string description = "";
+    const string name = "Teleport";
+    string description = " Name: " + name + " \n\n" +
+        " Teleport to targeted location \n\n" + 
+        " Consumes: 1 Blue Orb ";
     Sprite icon;
     bool active = false;
     float cooldown = SkillsInfo.Player_Teleport_Cooldown;

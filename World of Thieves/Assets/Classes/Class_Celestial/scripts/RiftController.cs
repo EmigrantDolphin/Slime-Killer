@@ -39,6 +39,9 @@ public class RiftController : MonoBehaviour {
         if (collider.gameObject.tag == "Enemy") 
             if (!trackedEnemies.Contains(collider.gameObject))
                 trackedEnemies.Add(collider.gameObject);
+
+        if (collider.gameObject.GetComponent<BuffDebuff>() != null)
+            collider.gameObject.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.DoubleOrbs, lifeTime);
         
 
     }
@@ -47,5 +50,8 @@ public class RiftController : MonoBehaviour {
         if (collider.gameObject.tag == "Enemy")
             if (trackedEnemies.Contains(collider.gameObject))
                 trackedEnemies.Remove(collider.gameObject);
+
+        if (collider.gameObject.GetComponent<BuffDebuff>() != null)
+            collider.gameObject.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.DoubleOrbs, 0f);
     }
 }

@@ -3,8 +3,13 @@ using System.Collections;
 
 public class Skill_Rift : IAbility, ITargetting {
 
-    string name = "Rift";
-    string description = "";
+    const string name = "Rift";
+    string description = " Name: " + name + " \n\n" +
+        " Open a rift that damages and slows enemies, \n" +
+        " and doubles the amount of generated orbs \n\n" +
+        " Damage: " + SkillsInfo.Player_Rift_Damage + "/s \n" +
+        " Duration: " + SkillsInfo.Player_Rift_LifeTime + "s \n" +
+        " Effects: Slow, Double Orbs ";
     Sprite icon;
     Sprite targettingIcon;
 
@@ -51,8 +56,6 @@ public class Skill_Rift : IAbility, ITargetting {
     }
 
     public void Use(GameObject target) {
-        if (!celestial.HasOrbs(celestial.OrbDamageObj, 2))
-            return;
         cooldownLeft = cooldown;
         active = false;
         Object.Destroy(targettingObject);
@@ -61,8 +64,6 @@ public class Skill_Rift : IAbility, ITargetting {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var temp = Object.Instantiate(riftObj);
         temp.transform.position = new Vector3(mousePos.x, mousePos.y, riftObj.transform.position.z);
-
-        celestial.DestroyOrbs(celestial.OrbDamageObj, 2);
 
 
     }
@@ -77,8 +78,6 @@ public class Skill_Rift : IAbility, ITargetting {
     }
 
     public void Targetting() {
-        if (!celestial.HasOrbs(celestial.OrbDamageObj, 2))
-            return;
         if (targettingObject == null) {
             active = true;
             targettingObject = new GameObject("AoeTargetting");

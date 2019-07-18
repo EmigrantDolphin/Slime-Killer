@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Skill_Manipulate : IAbility {
-    string name = "Manipulate";
-    string description = "";
+    const string name = "Manipulate";
+    string description = " Name: " + name + " \n\n" +
+        " Generates selcted orb each interval \n\n" + 
+        " Interval: " + SkillsInfo.Player_Manipulate_Interval +"s ";
     bool active = false;
     bool keyUped = false;
     float cooldown = SkillsInfo.Player_Manipulate_Cooldown;
@@ -120,13 +122,15 @@ public class Skill_Manipulate : IAbility {
         }
 
         if (selectedOrb != null && intervalCounter <= 0f) {
-            var newOrb = celestial.InstantiateOrb(selectedOrb, celestial.ManipulationTarget);
-            if (newOrb == null)
-                celestial.InstantiateOrb(selectedOrb, celestial.ParentPlayer);
-        }
-
-        if (selectedOrb != null && intervalCounter <= 0f)
+            if (celestial.ParentPlayer.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.TranscendenceEmpty))
+                celestial.InstantiateOrb(selectedOrb, celestial.ManipulationTarget);
+            else {
+                var newOrb = celestial.InstantiateOrb(selectedOrb, celestial.ManipulationTarget);
+                if (newOrb == null)
+                    celestial.InstantiateOrb(selectedOrb, celestial.ParentPlayer);
+            }
             intervalCounter = interval;
+        }
 
     }
 

@@ -24,6 +24,7 @@ public class OrbControls : MonoBehaviour {
     const int slotCap = 4;
     const float oneThird2PI = (2 * Mathf.PI) / slotCap;
     float radius;
+    public float Radius { get { return radius; } }
     public float addRadius = 3f;
     float speed = 7f;
 

@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class Skill_Stun : IAbility, ITargetting {
-    string name = "Stun";
-    string descritpion = "";
+    const string name = "Stun";
+    string descritpion = " Name: " + name + " \n\n" + 
+        " Stun your foe to prevent from ability casting and movement \n\n" + 
+        " Duration: " + SkillsInfo.Player_Stun_Duration + "s ";
     Sprite icon;
     Sprite targettingIcon;
     GameObject targettingObject;

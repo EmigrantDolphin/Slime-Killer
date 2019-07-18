@@ -3,8 +3,11 @@ using System.Collections;
 
 public class Skill_Masochism : IAbility {
 
-    string name = "Masochism";
-    string description = "";
+    const string name = "Masochism";
+    string description = " Name: " + name + " \n\n" +
+        " Converts all damage taken into health \n\n" +
+        " Duration: " + SkillsInfo.Player_Masochism_Duration + "s \n" +
+        " Cooldown: " + SkillsInfo.Player_Masochism_Cooldown + "s ";
     Sprite icon;
     bool active = false;
     float cooldown = SkillsInfo.Player_Masochism_Cooldown;

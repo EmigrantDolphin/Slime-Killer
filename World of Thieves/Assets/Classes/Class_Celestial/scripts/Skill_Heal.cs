@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Skill_Heal : IAbility
 {
-    string name = "Heal";
-    string descritpion = "";
+    const string name = "Heal";
+    string descritpion = " Name: " + name + "\n\n" +
+        " Heal yourself \n\n" +
+        " Heal: "+SkillsInfo.Player_Heal_HealAmount+" \n" + 
+        " Consumes: 1 Green Orb ";
     Sprite icon;
     bool active = false;
     float healAmount = SkillsInfo.Player_Heal_HealAmount;

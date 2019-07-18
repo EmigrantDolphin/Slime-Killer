@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class SkillBarControls : MonoBehaviour {
+    public GameObject DescriptionUI; // to be passed on mouseOver
+
     static bool updateAbilityIcons = false;
 
     List<GameObject> skill = new List<GameObject>();  // in the skillbar, skills are named Skill1, skill2, ..., skill10
@@ -18,6 +20,8 @@ public class SkillBarControls : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        DescriptionUI.SetActive(false);
+
         keyBinds[0] = KeyCode.Alpha1;
         keyBinds[1] = KeyCode.Alpha2;
         keyBinds[2] = KeyCode.Alpha3;
@@ -126,35 +130,51 @@ public class SkillBarControls : MonoBehaviour {
 
 
     private void MovingSkills (){
-        for (int i = 0; i < skill.Count; i++)
-            skill[i].GetComponent<SkillBar_SkillInfo>().OnMouseOver(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        bool isMouseOver = false; // object needs to be active whole frame for Update to run? (UseWidthHeight on DescriptionUI)
+        for (int i = 0; i < skill.Count; i++) {            
+            var rectTrans = skill[i].GetComponent<RectTransform>();
+
+            if (mousePos.x >= rectTrans.position.x && mousePos.x <= rectTrans.rect.width + rectTrans.position.x &&
+            mousePos.y >= rectTrans.position.y && mousePos.y <= rectTrans.rect.height + rectTrans.position.y &&
+            skill[i].GetComponent<SkillBar_SkillInfo>().IsAbilitySet) {                
+                isMouseOver = true;
+                skill[i].GetComponent<SkillBar_SkillInfo>().OnMouseOver(mousePos, DescriptionUI);
+                DescriptionUI.SetActive(true);
+                break;
+            }        
+        }
+        if (!isMouseOver)
+            DescriptionUI.SetActive(false);
 
         if (Input.GetMouseButtonDown(0) && !holdingAbility) {
             for (int i = 0; i < skill.Count; i++) {
-                var temp = skill[i].GetComponent<SkillBar_SkillInfo>().CheckAndGetAbility(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // gets ability on [skill slot pressed], if has it, else null
+                var temp = skill[i].GetComponent<SkillBar_SkillInfo>().CheckAndGetAbility(mousePos); // gets ability on [skill slot pressed], if has it, else null
                 if (temp != null) {
                     holdingAbility = true;
                     onMouseAbility = temp as IAbility;
                     onMouseSprite.GetComponent<SpriteRenderer>().sprite = onMouseAbility.Icon;
-                    onMouseSprite.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    onMouseSprite.transform.position = mousePos;
                     onMouseSprite.SetActive(true);
                     break;
                 }
             }
         } else if (holdingAbility && !Input.GetMouseButtonDown(0)) {
-            onMouseSprite.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            onMouseSprite.transform.position = mousePos;
             onMouseSprite.transform.position = new Vector3(onMouseSprite.transform.position.x, onMouseSprite.transform.position.y, -4f); //TODO : z pos?
             //add skill[n].GetComponent<SkillBar_SkillInfo>().onMouseOver( pos of mouse ); to display description;
         } else if (holdingAbility && Input.GetMouseButtonDown(0))
             for (int i = 0; i < skill.Count; i++) {
                 if (skill[i].GetComponent<SkillBar_SkillInfo>().IsAbilitySet) {
-                    var temp = skill[i].GetComponent<SkillBar_SkillInfo>().ExchangeAbilities(onMouseAbility, Camera.main.ScreenToWorldPoint(Input.mousePosition)); // sets onMouseAbility and returns the ability skillSlot had. If not on slot pos, then null
+                    var temp = skill[i].GetComponent<SkillBar_SkillInfo>().ExchangeAbilities(onMouseAbility, mousePos); // sets onMouseAbility and returns the ability skillSlot had. If not on slot pos, then null
                     if (temp != null) {
                         onMouseAbility = temp as IAbility;
                         onMouseSprite.GetComponent<SpriteRenderer>().sprite = onMouseAbility.Icon;
                     }
                 } else {
-                    bool isSet = skill[i].GetComponent<SkillBar_SkillInfo>().CheckAndSetAbility(onMouseAbility, Camera.main.ScreenToWorldPoint(Input.mousePosition)); // sets onMouseAbility, returns false if not pressed on slot pos
+                    bool isSet = skill[i].GetComponent<SkillBar_SkillInfo>().CheckAndSetAbility(onMouseAbility, mousePos); // sets onMouseAbility, returns false if not pressed on slot pos
                     if (isSet) {
                         onMouseAbility = null;
                         onMouseSprite.SetActive(false);

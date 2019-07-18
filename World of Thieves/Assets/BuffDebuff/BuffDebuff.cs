@@ -11,6 +11,7 @@ public class BuffDebuff : MonoBehaviour {
     Debuff_TranscendenceDamage debuff_transcendenceDamage;
     Debuff_TranscendenceDefense debuff_transcendenceDefense;
     Debuff_TranscendenceControl debuff_transcendenceControl;
+    Debuff_DoubleOrbs debuff_doubleOrbs;
     
     public List<IDebuff> debuffList = new List<IDebuff>();
     
@@ -27,12 +28,15 @@ public class BuffDebuff : MonoBehaviour {
             DebuffBarInstantiated.transform.parent = Camera.main.transform;
         }
 
+        if (tag == "Totem")
+            DebuffBarInstantiated = DebuffBar;
+
         debuff_slow = new Debuff_Slow(this);
         debuff_transcendenceEmpty = new Debuff_TranscendenceEmpty(this);
         debuff_transcendenceControl = new Debuff_TranscendenceControl(this);
         debuff_transcendenceDamage = new Debuff_TranscendenceDamage(this);
         debuff_transcendenceDefense = new Debuff_TranscendenceDefense(this);
-
+        debuff_doubleOrbs = new Debuff_DoubleOrbs(this);
     }
 	
 	// Update is called once per frame
@@ -41,7 +45,7 @@ public class BuffDebuff : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.L))
             ApplyDebuff(Debuffs.TranscendenceEmpty, 3f);
 
-        for (int i = 0; i < debuffList.Count; i++ ){
+        for (int i = debuffList.Count-1; i >= 0; i-- ){
             debuffList[i].Loop();
             if (debuffList[i].IsActive == false)  
                 debuffList.RemoveAt(i);            
@@ -68,6 +72,9 @@ public class BuffDebuff : MonoBehaviour {
             case Debuffs.TranscendenceControl:
                 ApplyTranscendenceControl(timeLength);
                 break;
+            case Debuffs.DoubleOrbs:
+                ApplyDoubleOrbs(timeLength);
+                break;
         }
 
     }
@@ -82,8 +89,10 @@ public class BuffDebuff : MonoBehaviour {
         if (debuff_transcendenceEmpty.IsActive == false) {
             debuffList.Add(debuff_transcendenceEmpty);
             debuff_transcendenceEmpty.Apply(timeLength);
-        } else
+        } else {
             debuff_transcendenceEmpty.Cleanse();
+            Update();
+        }
     }
 
     void ApplyTranscendenceDamage(float timeLength) {
@@ -102,6 +111,12 @@ public class BuffDebuff : MonoBehaviour {
         if (debuff_transcendenceControl.IsActive == false)
             debuffList.Add(debuff_transcendenceControl);
         debuff_transcendenceControl.Apply(timeLength);
+    }
+
+    void ApplyDoubleOrbs(float timeLength) {
+        if (debuff_doubleOrbs.IsActive == false)
+            debuffList.Add(debuff_doubleOrbs);
+        debuff_doubleOrbs.Apply(timeLength);
     }
 
 

@@ -26,7 +26,7 @@ public class Debuff_Slow : IDebuff {
         buffDebuff = bd;
         if (buffDebuff.tag == "Player")
             speedReduction = buffDebuff.GetComponent<playerMovement>().Speed / 2f;
-        else
+        if (buffDebuff.tag == "Enemy")
             speedReduction = buffDebuff.GetComponent<EnemyMovement>().Speed / 2f;
     }
 

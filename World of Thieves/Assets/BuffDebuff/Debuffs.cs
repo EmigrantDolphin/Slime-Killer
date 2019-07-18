@@ -7,5 +7,6 @@ public enum Debuffs {
     TranscendenceEmpty,
     TranscendenceDamage,
     TranscendenceDefense,
-    TranscendenceControl
+    TranscendenceControl,
+    DoubleOrbs
 }

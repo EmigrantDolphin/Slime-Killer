@@ -55,6 +55,8 @@ MonoBehaviour:
   stellarBoltObj: {fileID: 174832, guid: 2ad1bb4796d1c144dbcdabad97bd52b7, type: 3}
   transferenceProjectileObj: {fileID: 6893109488755418061, guid: 9d8769b35264f174ab2a8ef0809e7e04,
     type: 3}
+  barrageProjectileObj: {fileID: 6402661182548064386, guid: b87ea9cae365a5443bfe1c810eefb379,
+    type: 3}
   CurrRadians: 0
   ParentPlayer: {fileID: 0}
   Orbs: []

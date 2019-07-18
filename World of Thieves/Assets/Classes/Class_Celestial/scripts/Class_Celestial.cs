@@ -34,6 +34,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public GameObject stellarBoltObj;
     [Tooltip("Transference Projectile Obj")]
     public GameObject transferenceProjectileObj;
+    [Tooltip("Barrage Projectile Obj")]
+    public GameObject barrageProjectileObj;
 
     private float rotationSpeed = 0.5f * Mathf.PI;
     public float RotationSpeed {
@@ -51,7 +53,6 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public List<GameObject> Orbs = new List<GameObject>(); // whenever an orb is created, it is added here
 
     Skill_Manipulate manipulate;
-    Skill_Collapse collapse;
     Skill_ChannelHeat channelHeat;
     Skill_Teleport teleport;
     Skill_Stun stun;
@@ -61,6 +62,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     Skill_Transcendence transcendence;
     Skill_Heal heal;
     Skill_Transference transference;
+    Skill_Barrage barrage;
 
     void Start() {
         ParentPlayer = transform.parent.gameObject;
@@ -74,7 +76,6 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         ManipulateSkillBarClone.SetActive(false);
 
         manipulate = new Skill_Manipulate(this);
-        collapse = new Skill_Collapse(this);
         channelHeat = new Skill_ChannelHeat(this);
         teleport = new Skill_Teleport(this);
         stun = new Skill_Stun(this);
@@ -84,6 +85,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         transcendence = new Skill_Transcendence(this);
         heal = new Skill_Heal(this);
         transference = new Skill_Transference(this, transferenceProjectileObj);
+        barrage = new Skill_Barrage(this, barrageProjectileObj);
+        
     }
 
  
@@ -94,15 +97,16 @@ public class Class_Celestial : MonoBehaviour, IPClass {
             switch (num) {
                 case 0: return transference;
                 case 1: return manipulate;
-                case 2: return collapse;
+                case 2: return rift;
                 case 3: return masochism;
                 case 4: return stellarBolt;
                 case 5: return stun;
                 case 6: return channelHeat;
-                case 7: return teleport;
-                case 8: return rift;
-                case 9: return transcendence;
-                case 10: return heal;
+                case 7: return transcendence;
+                case 8: return null;
+                case 9: return heal;
+                case 10: return barrage;
+                case 11: return teleport;
                 default: return null;
             }
     }
@@ -125,7 +129,6 @@ public class Class_Celestial : MonoBehaviour, IPClass {
 
     private void abilityLoop() {
         manipulate.Loop();
-        collapse.Loop();
         channelHeat.Loop();
         teleport.Loop();
         stun.Loop();
@@ -135,25 +138,43 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         transcendence.Loop();
         heal.Loop();
         transference.Loop();
+        barrage.Loop();
     }
 
     public GameObject InstantiateOrb(GameObject orb, GameObject target) {
-        var temp = Instantiate(orb);
+        GameObject orb1 = Instantiate(orb);
+        GameObject orb2 = null;
+        if (target.GetComponent<BuffDebuff>() != null)
+            if (target.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.DoubleOrbs)) 
+                orb2 = Instantiate(orb);
 
         if (ParentPlayer.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.TranscendenceEmpty)) {
-            transcendence.Use(temp);
-            return null;
+            transcendence.Use(orb1);
+            if (orb2 == null)
+                return null;
+            else {
+                orb1 = orb2;
+                orb2 = null;
+            }
         }
 
-        temp.transform.position = ParentPlayer.transform.position;
-        temp.GetComponent<OrbControls>().Set(this, target);
-        if (temp.GetComponent<OrbControls>().Instantiated) {
+        orb1.transform.position = ParentPlayer.transform.position;
+        orb1.GetComponent<OrbControls>().Set(this, target);
+
+
+        if (orb2 != null) {
+            orb2.transform.position = ParentPlayer.transform.position;
+            orb2.GetComponent<OrbControls>().Set(this, target);
+        }
+
+        if (orb1.GetComponent<OrbControls>().Instantiated) {
             RecalculateModifiers();
-            return temp;
+            return orb1;
         } else
             return null;
     }
 
+    //Deprecated
     public GameObject InstantiateOrb(GameObject orb, Vector3 pos) {
         var temp = Instantiate(orb);
 

@@ -57,6 +57,7 @@ public class SkillsInfo {
     public const float Player_StellarBolt_LifeTime = 10f;
 
     public const float Player_Transcendence_Cooldown = 0f;
+    public const float Player_Transcendence_BuffDuration = 10f;
 
     public const float Player_Heal_Cooldown = 0f;
     public const float Player_Heal_HealAmount = 25f;
@@ -66,12 +67,18 @@ public class SkillsInfo {
     public const float Player_Transference_CooldownAfterHit = 0f;
     public const float Player_Transference_CooldownAfterCancel = 7f;
 
+    public const float Player_Barrage_Speed = 20f;
+    public const float Player_Barrage_Cooldown = 1f;
+    public const float Player_Barrage_Damage = 4f;
+    public const float Player_Barrage_ProjectileLife = 10f;
+
 
     //Debuffs
 
     public const float Debuff_TranscendenceDamage_DamageModifierAdditive = 0.3f;
     public const float Debuff_TranscendenceDefense_DefenceModifierAdditive = 0.3f;
     public const float Debuff_TranscendenceControl_SpeedModifierAdditive = 0.3f;
+    
 
 
     // uhhm something else?

@@ -2,8 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class Skill_ChannelHeat : IAbility, IChanneling {
-    string name = "Channel Heat";
-    string description = "ASD";
+    const string name = "Channel Heat";
+    string description = " Name: " + name + " \n\n"+
+        " Channel heat to orbs surrounding your enemy. \n Longer channel results in more damage \n\n" +
+        " Damage: " + SkillsInfo.Player_ChannelHeat_Damage + " per orb on full channel \n" +
+        " Consumes: All orbs on enemies";
+
     bool active = false;
     Sprite icon;
 
@@ -80,9 +84,10 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
                             EndAction();
                         continue;
                     }
-
-                orbs[i].GetComponent<OrbControls>().addRadius -= collapseSpeed * Time.deltaTime;
-                heatOrbs[i].transform.position = orbs[i].transform.position;
+                if (orbs[i].GetComponent<OrbControls>().Radius > 0) {
+                    orbs[i].GetComponent<OrbControls>().addRadius -= collapseSpeed * Time.deltaTime;
+                    heatOrbs[i].transform.position = orbs[i].transform.position;
+                }
             }
             if (orbs.Count == 0)
                 active = false;
