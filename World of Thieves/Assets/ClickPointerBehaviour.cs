@@ -16,12 +16,12 @@ public class ClickPointerBehaviour : MonoBehaviour {
         if (timer > 0)
             timer -= Time.deltaTime;
         else
-            gameObject.SetActive(false);
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
 	}
 
     public void ClickAt(Vector2 pos) {
         transform.position = pos;
-        gameObject.SetActive(true);
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
         timer = activeTime;
         //TODO : add anim
     }

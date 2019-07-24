@@ -28,10 +28,14 @@ public class playerMovement : MonoBehaviour {
         
         rigidBody = GetComponent<Rigidbody2D>();
 
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (clickPointer == null)
+            clickPointer = GameObject.Find("ClickPointer").GetComponent<ClickPointerBehaviour>();
+
         UpdateIfSpeedModified();
 
         //Movement

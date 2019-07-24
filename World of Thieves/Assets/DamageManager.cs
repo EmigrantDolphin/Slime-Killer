@@ -21,6 +21,9 @@ public class DamageManager : MonoBehaviour {
     void Update() {
         if (damageToHealCounter > 0f)
             damageToHealCounter -= Time.deltaTime;
+
+        if (Health <= 0)
+            Destroy(gameObject);
     }
 
     public void DealDamage(float damageAmount, GameObject requester) {

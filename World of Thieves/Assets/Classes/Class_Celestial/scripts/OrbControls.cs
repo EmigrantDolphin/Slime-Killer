@@ -104,14 +104,13 @@ public class OrbControls : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
         if (target != null)
             IdleMovement();
         else if (positionSet && (Vector2)transform.position != position)
             MoveToPos();
         else if (FutureTarget != null)
             MoveToFutureTarget();
-        
-
 
 	}
 
@@ -150,6 +149,7 @@ public class OrbControls : MonoBehaviour {
 
 
     private Vector2 GetPosInSlot(ref GameObject targ) {
+
         Quaternion tempRotation = targ.transform.rotation;
         Vector3 tempScale = targ.transform.localScale;
         targ.transform.localScale = new Vector3(1, 1, 1);

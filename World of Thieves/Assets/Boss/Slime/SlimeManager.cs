@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class SlimeManager : MonoBehaviour {
+    public float AggroDistance = 10f;
+
     [Header("Needed Objects")]
     [Tooltip("Force Orb Object")]
     public GameObject ForceOrbObj;
@@ -44,6 +46,14 @@ public class SlimeManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         FindIfLost();
+        if (Player == null) {
+            if (ActiveBehaviour != null) {
+                (ActiveBehaviour as IBossBehaviour).End();
+                ActiveBehaviour = null;
+            }
+            return;
+        }
+
         TempBehaviourLoop();
         if (isStopped)
             return;
@@ -54,16 +64,17 @@ public class SlimeManager : MonoBehaviour {
             stunCounter -= Time.deltaTime;
             return;
         }
+        if (ActiveBehaviour is SlimeMeleeAttackBehaviour)
+            timer += Time.deltaTime;
 
-        timer += Time.deltaTime;
+        if ((int)timer % 25 == 0)
+            QueueAbility(flurryBehav);
 
-        if ((int)timer % 25 == 0 && (int)(timer - Time.deltaTime) == (int)timer - 1)
-            abilityQueueList.AddLast(flurryBehav);
+        if ( (int)timer % 10 == 0)
+            QueueAbility(pulseBehav);
 
-        if ( (int)timer % 10 == 0 && (int)(timer - Time.deltaTime) == (int)timer - 1) 
-            abilityQueueList.AddLast(pulseBehav);
-        if ((int)timer % 5 == 0 && (int)(timer - Time.deltaTime) == (int)timer - 1)
-            abilityQueueList.AddLast(forceOrbBehav);
+        if ((int)timer % 6 == 0)
+            QueueAbility(forceOrbBehav);
         
 
 
@@ -87,6 +98,11 @@ public class SlimeManager : MonoBehaviour {
 
         
 	}
+
+    private void QueueAbility(IBossBehaviour behaviour) {
+        abilityQueueList.AddLast(behaviour);
+        timer += 1;
+    }
 
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Rock")
@@ -167,8 +183,19 @@ public class SlimeManager : MonoBehaviour {
     }
 
     private void FindIfLost() {
-        if (Player == null)
-            Player = GameObject.Find("Player");
+        if (Player == null) {
+            Player = GameMaster.Player;
+
+            if (Player == null)
+                return;
+
+            if (GetComponent<DamageManager>().Health < GetComponent<DamageManager>().MaxHealth)
+                return;
+
+            if (Vector2.Distance(Player.transform.position, transform.position) > AggroDistance) 
+                Player = null;
+            
+        }
     }
 
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Class_Celestial : MonoBehaviour, IPClass {
 
     public GameObject SkillBar;
+    private GameObject SkillBarClone;
     //accessed from Skill_Manipulate
     public GameObject ManipulateSkillBar;
     [HideInInspector]
@@ -36,6 +37,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public GameObject transferenceProjectileObj;
     [Tooltip("Barrage Projectile Obj")]
     public GameObject barrageProjectileObj;
+    [Tooltip("Manipulate Particle System")]
+    private ParticleSystem manipulateParticleSystem;
 
     private float rotationSpeed = 0.5f * Mathf.PI;
     public float RotationSpeed {
@@ -67,15 +70,17 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     void Start() {
         ParentPlayer = transform.parent.gameObject;
         ManipulationTarget = ParentPlayer;
-        GameObject temp = (GameObject) Instantiate(SkillBar, Camera.main.transform.position, Quaternion.identity);
-        temp.transform.SetParent(Camera.main.transform);
+        GameObject SkillBarClone = (GameObject) Instantiate(SkillBar, Camera.main.transform.position, Quaternion.identity);
+        SkillBarClone.transform.SetParent(Camera.main.transform);
+
+        manipulateParticleSystem = SkillBarClone.transform.Find("ManipulateParticles").GetComponent<ParticleSystem>();
 
         //accessed in Skill_Manipulate scritp
         ManipulateSkillBarClone = (GameObject)Instantiate(ManipulateSkillBar, Camera.main.transform.position, Quaternion.identity);
         ManipulateSkillBarClone.transform.SetParent(Camera.main.transform);
         ManipulateSkillBarClone.SetActive(false);
 
-        manipulate = new Skill_Manipulate(this);
+        manipulate = new Skill_Manipulate(this, manipulateParticleSystem);
         channelHeat = new Skill_ChannelHeat(this);
         teleport = new Skill_Teleport(this);
         stun = new Skill_Stun(this);
@@ -112,6 +117,12 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     }
 
     void Update() {
+        for (int i = Orbs.Count - 1; i >= 0; i--)
+            if (Orbs[i].GetComponent<OrbControls>().Target == null) {
+                var temp = Orbs[i];
+                Orbs.Remove(temp);
+                Destroy(temp);
+            }
 
         RadiansUpdate();
     }
@@ -262,6 +273,14 @@ public class Class_Celestial : MonoBehaviour, IPClass {
             ParentPlayer.GetComponent<Modifiers>().DefenseModifier += defenceOrbsModifierAdditive;
             ParentPlayer.GetComponent<Modifiers>().SpeedModifier += controlOrbsModifierAdditive;
         
+    }
+
+    private void OnDestroy() {
+        Destroy(SkillBarClone);
+        Destroy(ManipulateSkillBarClone);
+        Destroy(ParentPlayer.GetComponent<BuffDebuff>().DebuffBarInstantiated);
+        foreach (var orb in Orbs)
+            Destroy(orb);
     }
 
 }

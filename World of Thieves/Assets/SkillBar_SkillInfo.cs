@@ -51,7 +51,10 @@ public class SkillBar_SkillInfo : MonoBehaviour {
     }
 
     void Update() {
-
+        if (GameMaster.Player == null) {
+            Destroy(gameObject);
+            return;
+        }
 
         //taking paren pos. adding anchorPosition, cuz anchor is on the middle of canvas and middle of canvas is directly on playerPos. i add player pos, anchor of canvas(skillbar), background and skill
         //this way i get world position of rect. all scales are one, canvas is set on world space, so i take world coords

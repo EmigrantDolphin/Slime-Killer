@@ -43,11 +43,11 @@ public class Skill_Manipulate : IAbility {
         get { return cooldownLeft; }
     }
 
+    ParticleSystem particleSystem;
 
-
-    public Skill_Manipulate(Class_Celestial cS) {
+    public Skill_Manipulate(Class_Celestial cS, ParticleSystem ps) {
         icon = Resources.Load<Sprite>("ManipulateIcon");
-
+        particleSystem = ps;
         celestial = cS;
 
         GetSkillRef(); // set skills GO to skill slots
@@ -90,14 +90,53 @@ public class Skill_Manipulate : IAbility {
         NextFrameActivate();
 
         if (active) {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) 
-                selectedOrb = celestial.OrbDamageObj;
+            if (Input.GetKeyDown(KeyCode.Alpha1)) {
+                var emission = particleSystem.emission;
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                selectedOrb = celestial.OrbControlObj;
+                if (selectedOrb != celestial.OrbDamageObj) {
+                    selectedOrb = celestial.OrbDamageObj;
 
-            if (Input.GetKeyDown(KeyCode.Alpha3)) 
-                selectedOrb = celestial.OrbDefenseObj;
+                    if (!emission.enabled)
+                        emission.enabled = true;
+                    var main = particleSystem.main;
+                    main.startColor = Color.red;
+                } else {
+                    selectedOrb = null;
+                    emission.enabled = false;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2)) {
+                var emission = particleSystem.emission;
+
+                if (selectedOrb != celestial.OrbControlObj) {
+                    selectedOrb = celestial.OrbControlObj;
+
+                    if (!emission.enabled)
+                        emission.enabled = true;
+                    var main = particleSystem.main;
+                    main.startColor = new Color(0, 255, 255);
+                } else {
+                    selectedOrb = null;
+                    emission.enabled = false;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3)) {
+                var emission = particleSystem.emission;
+
+                if (selectedOrb != celestial.OrbDefenseObj) {
+                    selectedOrb = celestial.OrbDefenseObj;
+
+                    if (!emission.enabled)
+                        emission.enabled = true;
+                    var main = particleSystem.main;
+                    main.startColor = Color.green;
+                } else {
+                    selectedOrb = null;
+                    emission.enabled = false;
+                }
+            }
 
             if (Input.GetKeyUp(KeyCode.Alpha1))
                 if (keyUped)

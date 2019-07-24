@@ -93,9 +93,15 @@ public class Skill_Transference : IAbility
         cooldownLeft = cooldown;
     }
 
-    public void Loop() {  // loops when active = true;
+    public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
         
+        if (celestial.ManipulationTarget == null) {
+            celestial.ManipulationTarget = celestial.ParentPlayer;
+            icon = transferenceIcon;
+            SkillBarControls.UpdateIcons();
+        }
+
     }
 }

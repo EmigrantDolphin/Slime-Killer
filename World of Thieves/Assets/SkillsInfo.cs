@@ -30,7 +30,7 @@ public class SkillsInfo {
     public const float Player_Compress_Speed = 10f;
     public const float Player_Compress_Cooldown = 3f;
 
-    public const float Player_Manipulate_Cooldown = 3f;
+    public const float Player_Manipulate_Cooldown = 1f;
     public const float Player_Manipulate_Interval = 2f;
 
     public const float Player_Rift_Cooldown = 1f;
@@ -62,10 +62,10 @@ public class SkillsInfo {
     public const float Player_Heal_Cooldown = 0f;
     public const float Player_Heal_HealAmount = 25f;
 
-    public const float Player_Transference_Speed = 10f;
+    public const float Player_Transference_Speed = 15f;
     public const float Player_Transference_CooldownAfterShoot = 3f;
     public const float Player_Transference_CooldownAfterHit = 0f;
-    public const float Player_Transference_CooldownAfterCancel = 7f;
+    public const float Player_Transference_CooldownAfterCancel = 3f;
 
     public const float Player_Barrage_Speed = 20f;
     public const float Player_Barrage_Cooldown = 1f;

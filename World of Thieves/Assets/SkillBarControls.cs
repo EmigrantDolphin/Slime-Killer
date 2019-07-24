@@ -58,6 +58,11 @@ public class SkillBarControls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (GameMaster.Player == null) {
+            Destroy(onMouseSprite);
+            Destroy(gameObject);
+        }
+
         KeyBindLoop();
         
         MovingSkills();

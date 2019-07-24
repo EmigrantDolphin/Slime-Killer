@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class CameraFollowPlayer : MonoBehaviour
 {
-    public GameObject Player;
-    // Start is called before the first frame update
 
-    // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, transform.position.z);
+        
+        if (GameMaster.Player != null)
+            transform.position = new Vector3(GameMaster.Player.transform.position.x, GameMaster.Player.transform.position.y, transform.position.z);
     }
 }
