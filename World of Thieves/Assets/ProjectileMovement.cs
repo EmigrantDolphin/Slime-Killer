@@ -18,6 +18,7 @@ public class ProjectileMovement : MonoBehaviour {
 
     public GameObject Target {
         set { target = value; }
+        get { return target; }
     }
     public float Speed {
         get { return speed; }

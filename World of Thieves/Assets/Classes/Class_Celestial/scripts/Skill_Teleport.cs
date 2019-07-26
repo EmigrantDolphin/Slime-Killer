@@ -62,9 +62,10 @@ public class Skill_Teleport : IAbility {
     }
 
     private bool CanPort(Vector2 pos) {
-        if ( null == Physics2D.OverlapBox(pos, celestial.ParentPlayer.GetComponent<BoxCollider2D>().size, 0))
-            return true;
-        return false;
+        Collider2D hit = Physics2D.OverlapBox(pos, celestial.ParentPlayer.GetComponent<BoxCollider2D>().size, 0);
+        if (!hit.isTrigger)
+            return false; 
+        return true;
     }
 
 }

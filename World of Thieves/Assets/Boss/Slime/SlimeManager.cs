@@ -105,8 +105,12 @@ public class SlimeManager : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Rock")
+        if (collision.gameObject.tag == "Rock") {
+            foreach (IBossBehaviour behav in abilityQueueList)
+                if (behav is SlimeJumpAttackBehaviour)
+                    return;
             abilityQueueList.AddLast(jumpAttackBehav);
+        }
     }
 
 

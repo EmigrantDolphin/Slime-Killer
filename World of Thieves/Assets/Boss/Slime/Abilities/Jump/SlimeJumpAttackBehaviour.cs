@@ -60,8 +60,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     private void CancelAnimations() {
         slime.GetComponent<Animator>().SetBool("Jump", false);
         slime.GetComponent<Animator>().SetBool("CancelAnim", true);
-
-        Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.Player.GetComponent<Collider2D>(), false);
+        if (slime.Player != null)
+            Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.Player.GetComponent<Collider2D>(), false);
         foreach (GameObject rockObj in GameObject.FindGameObjectsWithTag("Rock"))
             Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), rockObj.GetComponent<Collider2D>(), false);
 

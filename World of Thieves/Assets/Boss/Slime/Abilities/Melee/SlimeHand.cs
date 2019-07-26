@@ -9,7 +9,7 @@ public class SlimeHand : MonoBehaviour {
 
 
     void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.gameObject.name == "Player" && transform.root.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Slime1_AutoMeleeAttackAnim")) 
+        if (collider.gameObject.tag == "Player" && transform.root.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Slime1_AutoMeleeAttackAnim")) 
             collider.gameObject.GetComponent<DamageManager>().DealDamage(damage, owner);
     }
 	

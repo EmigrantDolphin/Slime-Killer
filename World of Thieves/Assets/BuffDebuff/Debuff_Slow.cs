@@ -35,7 +35,8 @@ public class Debuff_Slow : IDebuff {
             if (buffDebuff.tag == "Player") {
                 buffDebuff.GetComponent<playerMovement>().Speed -= speedReduction;
                 buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(this);
-            } else {
+            }
+            if (buffDebuff.tag == "Enemy") { 
                 buffDebuff.GetComponent<EnemyMovement>().Speed -= speedReduction;
                 buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(this);
             }
@@ -51,7 +52,8 @@ public class Debuff_Slow : IDebuff {
         if (buffDebuff.tag == "Player") {
             buffDebuff.GetComponent<playerMovement>().Speed += speedReduction;
             buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Remove(this);
-        }else {
+        }
+        if (buffDebuff.tag == "Enemy") {
             buffDebuff.GetComponent<EnemyMovement>().Speed += speedReduction;
             buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Remove(this);
         }

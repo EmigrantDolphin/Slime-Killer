@@ -5,11 +5,13 @@ public class Skill_Rift : IAbility, ITargetting {
 
     const string name = "Rift";
     string description = " Name: " + name + " \n\n" +
-        " Open a rift that damages and slows enemies, \n" +
-        " and doubles the amount of generated orbs \n\n" +
+        " Open a rift that damages and slows enemies. \n" +
+        " Doubles the amount of generated orbs \n" +
+        " Reduces generation interval by half \n\n" +
         " Damage: " + SkillsInfo.Player_Rift_Damage + "/s \n" +
         " Duration: " + SkillsInfo.Player_Rift_LifeTime + "s \n" +
-        " Effects: Slow, Double Orbs ";
+        " Effects: Slow, Double Orbs \n" + 
+        " Cooldown: " + SkillsInfo.Player_Rift_Cooldown + "s";
     Sprite icon;
     Sprite targettingIcon;
 

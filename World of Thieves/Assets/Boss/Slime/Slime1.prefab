@@ -224,8 +224,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthGreenImage: {fileID: 11426142}
-  MaxHealth: 100
-  Health: 100
+  MaxHealth: 2500
+  Health: 2500
 --- !u!61 &6150722
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -239,7 +239,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0000023241737, y: -0.077412}
+  m_Offset: {x: 0.004973173, y: -0.002201289}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -250,7 +250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.25, y: 1.452677}
+  m_Size: {x: 2.540996, y: 1.6030984}
   m_EdgeRadius: 0
 --- !u!50 &5074572
 Rigidbody2D:
@@ -299,6 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9470bb7d73e3c1746a8f39ef5687bbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AggroDistance: 10
   ForceOrbObj: {fileID: 129230, guid: 87c8f969e29130c4982929efadcc6008, type: 3}
   SlimeSplashObj: {fileID: 172840, guid: 50caa237925e1f448a858402251dc6ad, type: 3}
   SlimeBoundsSize: {x: 0, y: 0}
@@ -315,7 +316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0678d0aa79f0fe244b6cc0a72000f33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntityObject: {fileID: 0}
   DebuffBar: {fileID: 183686, guid: 401a4d6e924b3b94ba69e59bf62b79ce, type: 3}
   DebuffBarInstantiated: {fileID: 0}
 --- !u!1 &141798

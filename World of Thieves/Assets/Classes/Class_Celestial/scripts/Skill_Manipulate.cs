@@ -6,7 +6,8 @@ public class Skill_Manipulate : IAbility {
     const string name = "Manipulate";
     string description = " Name: " + name + " \n\n" +
         " Generates selcted orb each interval \n\n" + 
-        " Interval: " + SkillsInfo.Player_Manipulate_Interval +"s ";
+        " Interval: " + SkillsInfo.Player_Manipulate_Interval +"s \n" + 
+        " Cooldown: " + SkillsInfo.Player_Manipulate_Cooldown + "s ";
     bool active = false;
     bool keyUped = false;
     float cooldown = SkillsInfo.Player_Manipulate_Cooldown;
@@ -84,8 +85,19 @@ public class Skill_Manipulate : IAbility {
     public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
-        if (intervalCounter > 0f)
+        if (intervalCounter > 0f) {
             intervalCounter -= Time.deltaTime;
+            if (celestial.ManipulationTarget != null)
+                if (celestial.OrbsAmountOnTarget(celestial.ManipulationTarget) != OrbControls.SlotCap) {
+                    if (celestial.ManipulationTarget.GetComponent<BuffDebuff>() != null)
+                        if (celestial.ManipulationTarget.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.DoubleOrbs))
+                            intervalCounter -= Time.deltaTime;
+                }else {
+                    if (celestial.ParentPlayer.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.DoubleOrbs))
+                        intervalCounter -= Time.deltaTime;
+                }
+            
+        }
 
         NextFrameActivate();
 

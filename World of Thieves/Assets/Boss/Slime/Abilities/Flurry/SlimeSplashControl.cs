@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 public class SlimeSplashControl : MonoBehaviour {
 
-    public GameObject Owner;
+   // public GameObject Owner;
 
     public Vector2 TravelVector; // set on init by SlimeManager -> SlimeFlurryBehaviour
     bool animActive = false;
     public int Id = 0;
     public float AddedScale = 0.25f;
 
-    public float LifeLength = 10f;
+    public float LifeLength = 10;
     private float lifeLengthCounter = 0f;
     private float damage = 5f;
 
@@ -69,7 +69,7 @@ public class SlimeSplashControl : MonoBehaviour {
                 debuffApplyCounter += Time.deltaTime;
             } else {
                 player.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, debuffLength);
-                player.GetComponent<DamageManager>().DealDamage(damage, Owner);
+                player.GetComponent<DamageManager>().DealDamage(damage, gameObject);
                 debuffApplyCounter = 0;
             }
         
@@ -85,10 +85,12 @@ public class SlimeSplashControl : MonoBehaviour {
         animActive = false;
         GetComponent<CircleCollider2D>().enabled = true;
         GetComponent<Animator>().enabled = false;
+        transform.position = new Vector3(transform.position.x, transform.position.y, 3);
     }
 
     void StartMovement() {
         animActive = true;
+        transform.position = new Vector3(transform.position.x, transform.position.y, -1);
     }
 
 }

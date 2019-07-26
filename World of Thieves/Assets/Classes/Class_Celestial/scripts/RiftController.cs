@@ -36,13 +36,13 @@ public class RiftController : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.gameObject.tag == "Enemy") 
+        if (collider.gameObject.tag == "Enemy") {
             if (!trackedEnemies.Contains(collider.gameObject))
                 trackedEnemies.Add(collider.gameObject);
-
+            collider.gameObject.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, slowDuration);
+        }
         if (collider.gameObject.GetComponent<BuffDebuff>() != null)
-            collider.gameObject.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.DoubleOrbs, lifeTime);
-        
+            collider.gameObject.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.DoubleOrbs, lifeTime);    
 
     }
 

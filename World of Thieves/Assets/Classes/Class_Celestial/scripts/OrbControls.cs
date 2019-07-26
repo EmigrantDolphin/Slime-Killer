@@ -21,14 +21,14 @@ public class OrbControls : MonoBehaviour {
         get { return collidingTarget; }
     }
 
-    const int slotCap = 4;
-    const float oneThird2PI = (2 * Mathf.PI) / slotCap;
+    public const int SlotCap = 4;
+    const float oneThird2PI = (2 * Mathf.PI) / SlotCap;
     float radius;
     public float Radius { get { return radius; } }
     public float addRadius = 3f;
     float speed = 7f;
 
-    int slot = -50; // slot can be either 0, 1 or 2, depending ofc on slotCap ><
+    int slot = -50; // slot can be either 0, 1 or 2, depending ofc on SlotCap ><
     public int Slot {
         get { return slot; }
     }
@@ -45,7 +45,7 @@ public class OrbControls : MonoBehaviour {
     }
 
     public void Set(Class_Celestial celestialRef, GameObject orbTarget) {
-        Target = orbTarget;
+        target = orbTarget;
 
         celestial = celestialRef;
         if (CheckForSlot() == false)
@@ -70,23 +70,23 @@ public class OrbControls : MonoBehaviour {
 
     bool CheckForSlot() {
         int count = 0;
-        int[] taken = new int[slotCap];
-        for (int i = 0; i < slotCap; i++)
+        int[] taken = new int[SlotCap];
+        for (int i = 0; i < SlotCap; i++)
             taken[i] = -1;
         //checking for slot space on target
         foreach (GameObject orb in celestial.Orbs)           
-            if (orb.GetComponent<OrbControls>().target == target && count < slotCap && orb != gameObject) {
+            if (orb.GetComponent<OrbControls>().target == target && count < SlotCap && orb != gameObject) {
                 taken[count] = orb.GetComponent<OrbControls>().Slot;
                 count++;
             }
         
         //setting the slot if there is empty space
-        if (count < slotCap)
-            for (int i = 0; i < slotCap; i++) {
-                for (int j = 0; j < slotCap; j++) {
+        if (count < SlotCap)
+            for (int i = 0; i < SlotCap; i++) {
+                for (int j = 0; j < SlotCap; j++) {
                     if (taken[j] == i) // has any orb got a slot  [i] zero, one , two. If some slot has i, then break. otherwise if no orbs has a slot, hence no break, then if j is finished, do slot = i; if this slot = i was reached, then later if slot >= 0 then break; slot auto is -1
                         break;
-                    if (j == slotCap - 1)
+                    if (j == SlotCap - 1)
                         slot = i;
                 }
 
@@ -95,7 +95,7 @@ public class OrbControls : MonoBehaviour {
             }
 
 
-        if (count == slotCap)
+        if (count == SlotCap)
             return false;
         else
             return true;
@@ -208,17 +208,17 @@ public class OrbControls : MonoBehaviour {
 
     public bool ColliderHasSlot() {
         int count = 0;
-        int[] taken = new int[slotCap];
-        for (int i = 0; i < slotCap; i++)
+        int[] taken = new int[SlotCap];
+        for (int i = 0; i < SlotCap; i++)
             taken[i] = -1;
 
         foreach (GameObject orb in celestial.Orbs)
-            if (orb.GetComponent<OrbControls>().target == collidingTarget && count < slotCap) {
+            if (orb.GetComponent<OrbControls>().target == collidingTarget && count < SlotCap) {
                 taken[count] = orb.GetComponent<OrbControls>().Slot;
                 count++;
             }
 
-        if (count < slotCap)
+        if (count < SlotCap)
             return true;
         else
             return false;

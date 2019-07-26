@@ -36,8 +36,8 @@ public class SlimeFlurryBehaviour : IBossBehaviour, IAnimEvents {
             if (isSplashOn) {
                 if (splashSpawnDelta < splashSpawnCounter) {
                     GameObject tempSplash = Object.Instantiate(splash);
-                    tempSplash.GetComponent<SlimeSplashControl>().Owner = slime.gameObject;
-                    tempSplash.transform.position = new Vector3(slime.transform.position.x, slime.transform.position.y, 1);
+                    //tempSplash.GetComponent<SlimeSplashControl>().Owner = slime.gameObject;
+                    tempSplash.transform.position = new Vector3(slime.transform.position.x, slime.transform.position.y, tempSplash.transform.position.z);
                     splashIdCounter++;
 
                     int x = Random.Range(-100, 100);

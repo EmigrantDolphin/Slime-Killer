@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ForceOrbBehaviour : MonoBehaviour {
-    GameObject target;
+public class ForceOrbBehaviour : MonoBehaviour { 
     public GameObject Owner;
 
     float damage = SkillsInfo.Slime_ForceOrbDamage;
@@ -10,6 +9,11 @@ public class ForceOrbBehaviour : MonoBehaviour {
 
     void Start() {
         gameObject.GetComponent<ProjectileMovement>().Speed = speed;
+    }
+
+    void Update() {
+        if (GetComponent<ProjectileMovement>().Target == null)
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D collider) {

@@ -24,6 +24,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     //orb control
     List<GameObject> orbs = new List<GameObject>();
     List<GameObject> heatOrbs = new List<GameObject>();
+    public List<GameObject> HeatOrbs { get { return heatOrbs; } }
     Sprite heatOrbTemp;
     
     public Skill_ChannelHeat(Class_Celestial cs) {
@@ -67,6 +68,16 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
         if (active) {
+            if (orbs.Count > 0)
+                if (orbs[0].GetComponent<OrbControls>().Target == null) { // died
+                    foreach (var orb in orbs)
+                        Object.Destroy(orb);
+                    foreach (var heatOrb in heatOrbs)
+                        Object.Destroy(heatOrb);
+                    active = false;
+                    return;
+                }
+
             for (int i = 0; i < orbs.Count; i++) { 
                 if (orbs[i].GetComponent<OrbControls>().CollidingWith != null)
                     if (orbs[i].GetComponent<OrbControls>().CollidingWith == orbs[i].GetComponent<OrbControls>().Target) {
@@ -76,6 +87,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
                                               
                         GameObject tempOrb = orbs[i];
                         orbs.RemoveAt(i);
+
                         GameObject tempHeatOrb = heatOrbs[i];
                         heatOrbs.RemoveAt(i);
                         Object.Destroy(tempOrb);

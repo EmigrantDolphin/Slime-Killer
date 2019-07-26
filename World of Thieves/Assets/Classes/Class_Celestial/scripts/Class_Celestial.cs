@@ -70,7 +70,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     void Start() {
         ParentPlayer = transform.parent.gameObject;
         ManipulationTarget = ParentPlayer;
-        GameObject SkillBarClone = (GameObject) Instantiate(SkillBar, Camera.main.transform.position, Quaternion.identity);
+        SkillBarClone = (GameObject) Instantiate(SkillBar, Camera.main.transform.position, Quaternion.identity);
         SkillBarClone.transform.SetParent(Camera.main.transform);
 
         manipulateParticleSystem = SkillBarClone.transform.Find("ManipulateParticles").GetComponent<ParticleSystem>();
@@ -117,12 +117,19 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     }
 
     void Update() {
-        for (int i = Orbs.Count - 1; i >= 0; i--)
+        if (ManipulationTarget == null)
+            ManipulationTarget = ParentPlayer;
+        for (int i = Orbs.Count - 1; i >= 0; i--){
+            if (Orbs[i] == null){
+                Orbs.RemoveAt(i);
+                continue;
+            }
             if (Orbs[i].GetComponent<OrbControls>().Target == null) {
                 var temp = Orbs[i];
                 Orbs.Remove(temp);
                 Destroy(temp);
             }
+        }
 
         RadiansUpdate();
     }
@@ -212,6 +219,14 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         return counter >= count;
     }
 
+    public int OrbsAmountOnTarget(GameObject target) {
+        int amount = 0;
+        foreach (var orb in Orbs)
+            if (orb.GetComponent<OrbControls>().Target == target)
+                amount++;
+        return amount;
+    }
+
     public void DestroyOrbs(GameObject orbObj, int count) {
         int counter = 0;
 
@@ -278,7 +293,10 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     private void OnDestroy() {
         Destroy(SkillBarClone);
         Destroy(ManipulateSkillBarClone);
-        Destroy(ParentPlayer.GetComponent<BuffDebuff>().DebuffBarInstantiated);
+        Destroy(ParentPlayer.GetComponent<BuffDebuff>().DebuffBarInstantiated);     
+
+        foreach (var heatOrb in channelHeat.HeatOrbs)
+            Destroy(heatOrb);
         foreach (var orb in Orbs)
             Destroy(orb);
     }
