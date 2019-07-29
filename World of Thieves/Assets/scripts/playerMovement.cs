@@ -69,8 +69,11 @@ public class playerMovement : MonoBehaviour {
 
     void UpdateIfSpeedModified() {
         if (previousSpeedModifier != GetComponent<Modifiers>().SpeedModifier) {
-            Speed = initialSpeed;
-            Speed *= GetComponent<Modifiers>().SpeedModifier;
+            var prevSpeedAdditive = (initialSpeed * previousSpeedModifier) - initialSpeed;
+            var currSpeedAdditive = (initialSpeed * GetComponent<Modifiers>().SpeedModifier) - initialSpeed;
+            Speed -= prevSpeedAdditive;
+            Speed += currSpeedAdditive;
+
             previousSpeedModifier = GetComponent<Modifiers>().SpeedModifier;
             UpdateSpeed();
         }

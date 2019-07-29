@@ -23,6 +23,7 @@ public class SlimeManager : MonoBehaviour {
     SlimeFlurryBehaviour flurryBehav;
     SlimePulseBehaviour pulseBehav;
     SlimeForceOrbBehaviour forceOrbBehav;
+    SlimeChargeBehaviour chargeBehav;
     float stunCounter = 0f;
     float timer = 1f;
 
@@ -35,10 +36,12 @@ public class SlimeManager : MonoBehaviour {
         flurryBehav = new SlimeFlurryBehaviour(this, SlimeSplashObj);
         pulseBehav = new SlimePulseBehaviour(this);
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
+        chargeBehav = new SlimeChargeBehaviour(this);
 
         abilityQueueList = new LinkedList<IBossBehaviour>();
 
         SlimeBoundsSize = GetComponent<SpriteRenderer>().bounds.size;
+
 	}
 
 
@@ -53,6 +56,7 @@ public class SlimeManager : MonoBehaviour {
             }
             return;
         }
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
         TempBehaviourLoop();
         if (isStopped)
@@ -67,7 +71,7 @@ public class SlimeManager : MonoBehaviour {
         if (ActiveBehaviour is SlimeMeleeAttackBehaviour)
             timer += Time.deltaTime;
 
-        if ((int)timer % 25 == 0)
+        if ((int)timer % 15 == 0)
             QueueAbility(flurryBehav);
 
         if ( (int)timer % 10 == 0)
@@ -111,6 +115,8 @@ public class SlimeManager : MonoBehaviour {
                     return;
             abilityQueueList.AddLast(jumpAttackBehav);
         }
+        if (ActiveBehaviour is SlimeChargeBehaviour)
+            chargeBehav.OnCollision2D(collision);
     }
 
 
@@ -151,6 +157,13 @@ public class SlimeManager : MonoBehaviour {
                 ActiveBehaviour = forceOrbBehav;
             }
 
+            if (Input.GetKeyDown(KeyCode.X)) {
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
+                chargeBehav.Start();
+                ActiveBehaviour = chargeBehav;
+            }
+
             if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
                 (ActiveBehaviour as IBossBehaviour).End();
                 isStopped = true;
@@ -178,7 +191,7 @@ public class SlimeManager : MonoBehaviour {
     }
 
     private void Movement() {
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+       // GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         if (!GetComponent<EnemyMovement>().MovementEnabled)
             return;
 

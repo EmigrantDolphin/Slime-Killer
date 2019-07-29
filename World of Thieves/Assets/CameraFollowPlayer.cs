@@ -13,8 +13,9 @@ public class CameraFollowPlayer : MonoBehaviour
 
         if (GameMaster.Player != null) {
             Vector2 absolute = GameMaster.Player.transform.position - transform.position;
-            
+
             rigidBody.velocity = absolute * CameraSpeed;
-        }
+        } else
+            rigidBody.velocity = Vector2.zero;
     }
 }

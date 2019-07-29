@@ -10,6 +10,7 @@ TagManager:
   - Rock
   - colliderr
   - Totem
+  - Fire
   layers:
   - Default
   - TransparentFX

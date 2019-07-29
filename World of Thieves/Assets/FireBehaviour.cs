@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class testScript : MonoBehaviour
+public class FireBehaviour : MonoBehaviour
 {
     List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
     ParticleSystem ps;
@@ -20,7 +19,4 @@ public class testScript : MonoBehaviour
 
         GameMaster.Player.GetComponent<DamageManager>().DealDamage(1 * hitCount, null);
     }
-
 }
-
-

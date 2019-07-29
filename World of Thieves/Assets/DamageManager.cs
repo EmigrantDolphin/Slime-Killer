@@ -31,7 +31,7 @@ public class DamageManager : MonoBehaviour {
         float addedDamage = 0;
         if (GetComponent<Modifiers>() != null)
             substractedDamage = (damageAmount * GetComponent<Modifiers>().DefenseModifier) - damageAmount;
-        if (requester.GetComponent<Modifiers>() != null)
+        if (requester != null && requester.GetComponent<Modifiers>() != null)
             addedDamage = (damageAmount * requester.GetComponent<Modifiers>().DamageModifier) - addedDamage;
 
         damageAmount += addedDamage - substractedDamage;

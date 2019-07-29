@@ -86,6 +86,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
                         orbs[i].GetComponent<OrbControls>().CollidingWith.GetComponent<DamageManager>().DealDamage(damage * (currentChannelTime / timeTillFullChannel), celestial.ParentPlayer);
                                               
                         GameObject tempOrb = orbs[i];
+                        celestial.Orbs.Remove(orbs[i]);
                         orbs.RemoveAt(i);
 
                         GameObject tempHeatOrb = heatOrbs[i];
@@ -141,9 +142,6 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     public void OnChannelingEnd() {
         for (int i = 0; i < orbs.Count; i++)
             orbs[i].transform.localScale = new Vector3(0, 0, 0);
-
-        for (int i = 0; i < orbs.Count; i++)
-            celestial.Orbs.Remove(orbs[i]);
 
         active = true;
         cooldownLeft = cooldown;
