@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FireBehaviour : MonoBehaviour
 {
+    float damagePerParticle = SkillsInfo.Slime_FireTurret_ParticleDamage;
     List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
     ParticleSystem ps;
 
@@ -17,6 +18,6 @@ public class FireBehaviour : MonoBehaviour
         ps.trigger.SetCollider(0, GameMaster.Player.transform);
         int hitCount = ps.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
 
-        GameMaster.Player.GetComponent<DamageManager>().DealDamage(1 * hitCount, null);
+        GameMaster.Player.GetComponent<DamageManager>().DealDamage(damagePerParticle * hitCount, null);
     }
 }

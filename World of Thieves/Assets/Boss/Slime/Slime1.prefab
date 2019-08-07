@@ -302,6 +302,8 @@ MonoBehaviour:
   AggroDistance: 10
   ForceOrbObj: {fileID: 129230, guid: 87c8f969e29130c4982929efadcc6008, type: 3}
   SlimeSplashObj: {fileID: 172840, guid: 50caa237925e1f448a858402251dc6ad, type: 3}
+  FireTurretObj: {fileID: 1860375781620187755, guid: 4a868640311986d43b665d16ae7dbeef,
+    type: 3}
   SlimeBoundsSize: {x: 0, y: 0}
   Player: {fileID: 0}
 --- !u!114 &11427524

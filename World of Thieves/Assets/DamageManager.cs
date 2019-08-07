@@ -66,7 +66,6 @@ public class DamageManager : MonoBehaviour {
     private void UIHealthUpdate() {
         float newWidth = (Health * uiHealthWidth) / MaxHealth;
         HealthGreenImage.GetComponent<RectTransform>().sizeDelta = new Vector2(newWidth, 0);
-        
     }
 
 }

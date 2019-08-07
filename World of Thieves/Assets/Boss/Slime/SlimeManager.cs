@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class SlimeManager : MonoBehaviour {
@@ -9,6 +10,8 @@ public class SlimeManager : MonoBehaviour {
     public GameObject ForceOrbObj;
     [Tooltip("Slime Splash Object")]
     public GameObject SlimeSplashObj;
+    [Tooltip("Fire Turret Object")]
+    public GameObject FireTurretObj;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -62,6 +65,13 @@ public class SlimeManager : MonoBehaviour {
         if (isStopped)
             return;
 
+        if (SceneManager.GetActiveScene().name == "SlimeBossRoom1")
+            RoomOneLoop();
+        
+        
+	}
+
+    private void RoomOneLoop() {
         if (timer > 10000)
             timer = 0;
         if (stunCounter > 0f) {
@@ -74,12 +84,12 @@ public class SlimeManager : MonoBehaviour {
         if ((int)timer % 15 == 0)
             QueueAbility(flurryBehav);
 
-        if ( (int)timer % 10 == 0)
+        if ((int)timer % 10 == 0)
             QueueAbility(pulseBehav);
 
         if ((int)timer % 6 == 0)
             QueueAbility(forceOrbBehav);
-        
+
 
 
         if (abilityQueueList.Count == 0 && ActiveBehaviour == null) {
@@ -96,12 +106,7 @@ public class SlimeManager : MonoBehaviour {
                 (ActiveBehaviour as IBossBehaviour).Start();
             }
         }
-        
-
-
-
-        
-	}
+    }
 
     private void QueueAbility(IBossBehaviour behaviour) {
         abilityQueueList.AddLast(behaviour);
@@ -131,11 +136,10 @@ public class SlimeManager : MonoBehaviour {
                 isStopped = false;
             }
             if (Input.GetKeyDown(KeyCode.D)) {
-                //if (ActiveBehaviour != null)
-                //    (ActiveBehaviour as IBossBehaviour).End();
-                GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, 5f);
-                //jumpAttackBehav.Start();
-               // ActiveBehaviour = jumpAttackBehav;
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
+                jumpAttackBehav.Start();
+                ActiveBehaviour = jumpAttackBehav;
             }
             if (Input.GetKeyDown(KeyCode.F)) {
                 if (ActiveBehaviour != null)

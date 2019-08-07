@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
 public class RiftController : MonoBehaviour {
@@ -36,6 +37,10 @@ public class RiftController : MonoBehaviour {
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.gameObject.name.Contains("lavaRocks") && collider.GetComponent<Tilemap>().color.a == 0) {
+            collider.gameObject.GetComponent<Tilemap>().color = new Color(255,255,255,255);
+        }
+
         if (collider.gameObject.tag == "Enemy") {
             if (!trackedEnemies.Contains(collider.gameObject))
                 trackedEnemies.Add(collider.gameObject);

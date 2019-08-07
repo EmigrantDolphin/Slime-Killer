@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
@@ -20,6 +22,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     }
 
     SlimeManager slime;
+
+    GameObject lavaRockOnJump;
 
     public SlimeJumpAttackBehaviour(SlimeManager sm) {
         slime = sm;
@@ -55,6 +59,7 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         active = false;
         animEvent = 0;
         slime.ActiveBehaviour = null;
+        lavaRockOnJump = null;
     }
 
     private void CancelAnimations() {
@@ -98,6 +103,11 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         float speed = distance / animTime;
         jumpVector = normalizedVector * speed;
         slime.GetComponent<EnemyMovement>().MovementEnabled = true;
+
+        if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
+            if (GameMaster.CurrentLavaRock != null)
+                lavaRockOnJump = GameMaster.CurrentLavaRock;
+
     }
 
     private void OnLand() {
@@ -118,6 +128,14 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.Player.GetComponent<Collider2D>(), false);
         foreach (GameObject rockObj in GameObject.FindGameObjectsWithTag("Rock"))
             Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), rockObj.GetComponent<Collider2D>(), false);
+
+        if (SceneManager.GetActiveScene().name == "SlimeBossRoom2") {
+            if (lavaRockOnJump != null) {
+                var tilemap = lavaRockOnJump.GetComponent<Tilemap>();
+                tilemap.color = new Color(255, 255, 255, 0);
+                lavaRockOnJump = null;
+            }
+        }
     }
 
     
