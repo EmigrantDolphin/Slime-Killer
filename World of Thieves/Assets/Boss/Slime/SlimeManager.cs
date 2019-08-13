@@ -6,6 +6,8 @@ public class SlimeManager : MonoBehaviour {
     public float AggroDistance = 10f;
 
     [Header("Needed Objects")]
+    [Tooltip("HoldingItemObj")]
+    public GameObject HoldingItemObj;
     [Tooltip("Force Orb Object")]
     public GameObject ForceOrbObj;
     [Tooltip("Slime Splash Object")]
@@ -27,6 +29,7 @@ public class SlimeManager : MonoBehaviour {
     SlimePulseBehaviour pulseBehav;
     SlimeForceOrbBehaviour forceOrbBehav;
     SlimeChargeBehaviour chargeBehav;
+    SlimeFireTurretBehaviour turretBehav;
     float stunCounter = 0f;
     float timer = 1f;
 
@@ -40,6 +43,7 @@ public class SlimeManager : MonoBehaviour {
         pulseBehav = new SlimePulseBehaviour(this);
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
         chargeBehav = new SlimeChargeBehaviour(this);
+        turretBehav = new SlimeFireTurretBehaviour(this, FireTurretObj);
 
         abilityQueueList = new LinkedList<IBossBehaviour>();
 
@@ -166,6 +170,12 @@ public class SlimeManager : MonoBehaviour {
                     (ActiveBehaviour as IBossBehaviour).End();
                 chargeBehav.Start();
                 ActiveBehaviour = chargeBehav;
+            }
+            if (Input.GetKeyDown(KeyCode.C)){
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
+                turretBehav.Start();
+                ActiveBehaviour = turretBehav;
             }
 
             if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {

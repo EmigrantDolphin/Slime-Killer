@@ -17,7 +17,9 @@ public class FireBehaviour : MonoBehaviour
             return;
         ps.trigger.SetCollider(0, GameMaster.Player.transform);
         int hitCount = ps.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
-
+ 
         GameMaster.Player.GetComponent<DamageManager>().DealDamage(damagePerParticle * hitCount, null);
     }
+
+ 
 }

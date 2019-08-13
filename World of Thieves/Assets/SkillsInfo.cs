@@ -16,6 +16,8 @@ public class SkillsInfo {
     public const float Slime_ForceOrbSpeed = 5f;
 
     public const float Slime_FireTurret_ParticleDamage = 20f;
+    public const float Slime_FireTurret_ThrowSpeed = 10f;
+    public const float Slime_FireTurret_LifeTime = 20f;
 
 
     // PLAYER SKILLS //
