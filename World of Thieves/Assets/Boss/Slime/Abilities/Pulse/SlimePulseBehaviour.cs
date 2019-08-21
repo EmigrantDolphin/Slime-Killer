@@ -1,18 +1,13 @@
 using UnityEngine;
-using System.Collections;
 
 public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
 
     private float damage = SkillsInfo.Slime_PulseDamage;
 
-    private bool active = false;
-    private bool animActive = false;
-    private float cooldown = 5f;
-
-    public bool IsActive { get { return active; } }
-    public bool IsAnimActive { get { return animActive; } }
-    public float Cooldown { get { return cooldown; } }
-    private SlimeManager slimeManager;
+    public bool IsActive { get; private set; } = false;
+    public bool IsAnimActive { get; private set; } = false;
+    public float Cooldown { get; } = 5f;
+    private readonly SlimeManager slimeManager;
 
     public SlimePulseBehaviour(SlimeManager sm) {
         slimeManager = sm;
@@ -20,7 +15,7 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
 
     public void Start() {
         slimeManager.GetComponent<Animator>().SetBool("Pulse", true);
-        active = true;        
+        IsActive = true;        
     }
 
     public void Loop() {
@@ -30,17 +25,17 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
 
     }
     public void End() {
-        active = false;
+        IsActive = false;
         slimeManager.GetComponent<Animator>().SetBool("Pulse", false);
         slimeManager.GetComponent<Animator>().SetBool("CancelAnim", true);
         slimeManager.ActiveBehaviour = null;
     }
 
     public void OnAnimStart() {
-        animActive = true;
+        IsAnimActive = true;
     }
     public void OnAnimEnd() {
-        animActive = false;
+        IsAnimActive = false;
         End();
     }
 

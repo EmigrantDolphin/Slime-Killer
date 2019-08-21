@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class DamageManager : MonoBehaviour {
 
     public Image HealthGreenImage;
+    public GameObject DamageFloater;
 
     public float MaxHealth = 100;
     public float Health = 100;
@@ -35,32 +36,53 @@ public class DamageManager : MonoBehaviour {
             addedDamage = (damageAmount * requester.GetComponent<Modifiers>().DamageModifier) - addedDamage;
 
         damageAmount += addedDamage - substractedDamage;
+        damageAmount = Mathf.Round(damageAmount);
 
+        
         if (damageToHealCounter <= 0f) {
-            if (Health - damageAmount > 0)
-                Health -= damageAmount;
-            else
+            if (Health - damageAmount > 0) 
+                Health -= damageAmount;               
+             else 
                 Health = 0;
+            InstantiateDamageFloater(damageAmount, Color.red);
+
         } else {
-            if (Health + damageAmount < MaxHealth)
+            if (Health + damageAmount < MaxHealth) 
                 Health += damageAmount;
             else
                 Health = MaxHealth;
+
+            InstantiateDamageFloater(damageAmount, Color.green);
         }
+
+        
 
         UIHealthUpdate();
     }
 
     public void Heal(float healAmount) {
-        if (Health + healAmount > MaxHealth)
+
+        InstantiateDamageFloater(healAmount, Color.green);
+
+        if (Health + healAmount > MaxHealth) 
             Health = MaxHealth;
-        else
+         else 
             Health += healAmount;
+ 
+        
         UIHealthUpdate();
     }
 
+
     public void DamageToHealFor(float dur) {
         damageToHealCounter = dur;
+    }
+
+    private void InstantiateDamageFloater(float damage, Color color) {
+        var damageFloater = Instantiate(DamageFloater);
+        damageFloater.transform.position = new Vector3(transform.position.x, transform.position.y, damageFloater.transform.position.z);
+        damageFloater.GetComponent<TextMesh>().color = color;
+        damageFloater.GetComponent<TextMesh>().text = damage.ToString();
     }
 
     private void UIHealthUpdate() {

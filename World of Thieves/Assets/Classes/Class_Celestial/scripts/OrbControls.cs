@@ -37,7 +37,7 @@ public class OrbControls : MonoBehaviour {
         if (collider.tag == "Enemy") {
             collidingTarget = collider.gameObject;
 
-            collidingTarget.GetComponent<DamageManager>().DealDamage(damage, celestial.ParentPlayer);
+            //collidingTarget.GetComponent<DamageManager>().DealDamage(damage, celestial.ParentPlayer);
         }
     }
     void OnTriggerExit2D(Collider2D collider) {

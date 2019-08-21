@@ -299,6 +299,10 @@ public class Class_Celestial : MonoBehaviour, IPClass {
             Destroy(heatOrb);
         foreach (var orb in Orbs)
             Destroy(orb);
+        barrage.Dispose();
+        rift.Dispose();
+        stellarBolt.Dispose();
+        stun.Dispose();
     }
 
 }

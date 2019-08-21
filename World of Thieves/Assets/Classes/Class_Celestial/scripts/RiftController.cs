@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using System;
 
 public class RiftController : MonoBehaviour {
 
@@ -11,10 +12,14 @@ public class RiftController : MonoBehaviour {
     float interval = SkillsInfo.Player_Rift_DamageInterval;
     float intervalTimer = SkillsInfo.Player_Rift_DamageInterval;
     float slowDuration = SkillsInfo.Player_Rift_SlowDuration;
-    
+
+    private Action onReset;
 	// Use this for initialization
 	void Start () {
-	
+        onReset = () => {
+            Destroy(gameObject);
+        };
+        GameMaster.OnReset.Add(onReset);
 	}
 	
 	// Update is called once per frame
@@ -58,5 +63,9 @@ public class RiftController : MonoBehaviour {
 
         if (collider.gameObject.GetComponent<BuffDebuff>() != null)
             collider.gameObject.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.DoubleOrbs, 0f);
+    }
+
+    private void OnDestroy() {
+        GameMaster.OnReset.Remove(onReset);
     }
 }

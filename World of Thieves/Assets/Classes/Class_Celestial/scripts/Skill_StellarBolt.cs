@@ -1,7 +1,8 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
-public class Skill_StellarBolt : IAbility, ITargetting {
+public class Skill_StellarBolt : IAbility, ITargetting, IDisposable {
     const string name = "Stellar Bolt";
     string description = " Name : " + name + " \n\n" +
         " Launch a bolt that damages foes \n\n" +
@@ -37,7 +38,7 @@ public class Skill_StellarBolt : IAbility, ITargetting {
         active = false;
         cooldownLeft = cooldown;
 
-        var temp = Object.Instantiate(stellarBolt);
+        var temp = UnityEngine.Object.Instantiate(stellarBolt);
         temp.transform.position = celestial.ParentPlayer.transform.position;
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -62,6 +63,11 @@ public class Skill_StellarBolt : IAbility, ITargetting {
             active = true;
         }
         targetting.Targetting();  
+    }
+
+    public void Dispose() {
+        if (targetting != null)
+            targetting.Stop();
     }
 
 }

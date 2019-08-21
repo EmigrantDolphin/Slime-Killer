@@ -55,7 +55,7 @@ public class SlimeFireTurretBehaviour : IBossBehaviour, IAnimEvents
         animActive = false;
         preparing = false;
         slime.GetComponent<Animator>().SetBool("ThrowTurret", false);
-
+        slime.ActiveBehaviour = null;
     }
 
 
@@ -80,7 +80,7 @@ public class SlimeFireTurretBehaviour : IBossBehaviour, IAnimEvents
     public void OnAnimEvent() {
         //instantiate and throw
         var turret = GameObject.Instantiate(fireTurret);
-        turret.transform.position = new Vector2(slime.HoldingItemObj.transform.position.x, slime.HoldingItemObj.transform.position.y);
+        turret.transform.position = new Vector2(slime.HoldingItemObjOne.transform.position.x, slime.HoldingItemObjOne.transform.position.y);
         
         
         turret.GetComponent<ProjectileMovement>().Target = targetWaypoint;

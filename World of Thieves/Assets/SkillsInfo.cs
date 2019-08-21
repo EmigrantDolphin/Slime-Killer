@@ -17,8 +17,17 @@ public class SkillsInfo {
 
     public const float Slime_FireTurret_ParticleDamage = 20f;
     public const float Slime_FireTurret_ThrowSpeed = 10f;
-    public const float Slime_FireTurret_LifeTime = 20f;
+    public const float Slime_FireTurret_LifeTime = 15f;
 
+    public const float Slime_FireBolt_Damage = 20f;
+    public const float Slime_FireBolt_LifeTime = 5f;
+    public const float Slime_FireBolt_Speed = 20f;
+    public const int Slime_FireBolt_Loops = 10;
+
+    public const float Slime_Meteor_Damage = 40f;
+    public const float Slime_MeteorShower_Diameter = 15f;
+    public const float Slime_MeteorShower_Lifetime = 10f;
+    public const float Slime_MeteorShower_Interval = 0.03f;
 
     // PLAYER SKILLS //
     public const float Player_Orb_Damage = 1f;

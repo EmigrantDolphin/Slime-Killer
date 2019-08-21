@@ -1,7 +1,8 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
-public class Skill_Rift : IAbility, ITargetting {
+public class Skill_Rift : IAbility, ITargetting, IDisposable {
 
     const string name = "Rift";
     string description = " Name: " + name + " \n\n" +
@@ -60,11 +61,11 @@ public class Skill_Rift : IAbility, ITargetting {
     public void Use(GameObject target) {
         cooldownLeft = cooldown;
         active = false;
-        Object.Destroy(targettingObject);
+        UnityEngine.Object.Destroy(targettingObject);
         targettingObject = null;
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var temp = Object.Instantiate(riftObj);
+        var temp = UnityEngine.Object.Instantiate(riftObj);
         temp.transform.position = new Vector3(mousePos.x, mousePos.y, riftObj.transform.position.z);
 
 
@@ -91,5 +92,10 @@ public class Skill_Rift : IAbility, ITargetting {
         mousePos.z = 0f;
         targettingObject.transform.position = mousePos;
 
+    }
+
+    public void Dispose() {
+        if (targettingObject != null)
+            UnityEngine.Object.Destroy(targettingObject);
     }
 }

@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
-public class Skill_Stun : IAbility, ITargetting {
+public class Skill_Stun : IAbility, ITargetting, IDisposable {
     const string name = "Stun";
     string descritpion = " Name: " + name + " \n\n" + 
         " Stun your foe to prevent from ability casting and movement \n\n" + 
@@ -68,7 +69,7 @@ public class Skill_Stun : IAbility, ITargetting {
         if (cooldownLeft > 0f)
             return;
 
-        Object.Destroy(targettingObject);
+        UnityEngine.Object.Destroy(targettingObject);
         targettingObject = null;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -91,6 +92,11 @@ public class Skill_Stun : IAbility, ITargetting {
     public void Loop() {
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
+    }
+
+    public void Dispose() {
+        if (targettingObject != null)
+            UnityEngine.Object.Destroy(targettingObject);
     }
 
 }

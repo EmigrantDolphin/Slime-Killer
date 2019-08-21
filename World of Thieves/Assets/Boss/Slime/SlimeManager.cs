@@ -6,14 +6,20 @@ public class SlimeManager : MonoBehaviour {
     public float AggroDistance = 10f;
 
     [Header("Needed Objects")]
-    [Tooltip("HoldingItemObj")]
-    public GameObject HoldingItemObj;
+    [Tooltip("HoldingItemObj 1")]
+    public GameObject HoldingItemObjOne;
+    [Tooltip("HoldingItemObj 2")]
+    public GameObject HoldingItemObjTwo;
     [Tooltip("Force Orb Object")]
     public GameObject ForceOrbObj;
     [Tooltip("Slime Splash Object")]
     public GameObject SlimeSplashObj;
     [Tooltip("Fire Turret Object")]
     public GameObject FireTurretObj;
+    [Tooltip("Fire Bolt Object")]
+    public GameObject FireBoltObj;
+    [Tooltip("Meter Shower Object")]
+    public GameObject MeteorShowerObj;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -30,6 +36,8 @@ public class SlimeManager : MonoBehaviour {
     SlimeForceOrbBehaviour forceOrbBehav;
     SlimeChargeBehaviour chargeBehav;
     SlimeFireTurretBehaviour turretBehav;
+    SlimeThrowFireBoltsBehaviour fireBoltsBehav;
+    SlimeMeteorShowerBehaviour meteorShowerBehav;
     float stunCounter = 0f;
     float timer = 1f;
 
@@ -44,6 +52,8 @@ public class SlimeManager : MonoBehaviour {
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
         chargeBehav = new SlimeChargeBehaviour(this);
         turretBehav = new SlimeFireTurretBehaviour(this, FireTurretObj);
+        fireBoltsBehav = new SlimeThrowFireBoltsBehaviour(this, FireBoltObj);
+        meteorShowerBehav = new SlimeMeteorShowerBehaviour(this, MeteorShowerObj);
 
         abilityQueueList = new LinkedList<IBossBehaviour>();
 
@@ -71,6 +81,8 @@ public class SlimeManager : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().name == "SlimeBossRoom1")
             RoomOneLoop();
+        if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
+            RoomTwoLoop();
         
         
 	}
@@ -109,6 +121,40 @@ public class SlimeManager : MonoBehaviour {
                 abilityQueueList.RemoveFirst();
                 (ActiveBehaviour as IBossBehaviour).Start();
             }
+        }
+    }
+
+    private void RoomTwoLoop() {
+        if (timer > 10000)
+            timer = 0;
+        if (stunCounter > 0f) {
+            stunCounter -= Time.deltaTime;
+            return;
+        }
+        if (ActiveBehaviour == null)
+            timer += Time.deltaTime;
+
+        if ((int)timer % 20 == 0)
+            QueueAbility(turretBehav);
+
+        if ((int)timer % 10 == 0)
+            QueueAbility(fireBoltsBehav);
+
+        if ((int)timer % 15 == 0)
+            QueueAbility(meteorShowerBehav);
+
+        if ((int)timer % 5 == 0)
+            QueueAbility(jumpAttackBehav);
+
+        if ((int)timer % 6 == 0)
+            QueueAbility(chargeBehav);
+
+
+
+        if (abilityQueueList.Count > 0 && ActiveBehaviour == null) {
+            ActiveBehaviour = abilityQueueList.First.Value;
+            (ActiveBehaviour as IBossBehaviour).Start();
+            abilityQueueList.RemoveFirst();
         }
     }
 
@@ -171,11 +217,25 @@ public class SlimeManager : MonoBehaviour {
                 chargeBehav.Start();
                 ActiveBehaviour = chargeBehav;
             }
-            if (Input.GetKeyDown(KeyCode.C)){
+            if (Input.GetKeyDown(KeyCode.C)) {
                 if (ActiveBehaviour != null)
                     (ActiveBehaviour as IBossBehaviour).End();
                 turretBehav.Start();
                 ActiveBehaviour = turretBehav;
+            }
+
+            if (Input.GetKeyDown(KeyCode.V)) {
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
+                fireBoltsBehav.Start();
+                ActiveBehaviour = fireBoltsBehav;
+            }
+
+            if (Input.GetKeyDown(KeyCode.B)) {
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
+                meteorShowerBehav.Start();
+                ActiveBehaviour = meteorShowerBehav;
             }
 
             if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {

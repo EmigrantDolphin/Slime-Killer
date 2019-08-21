@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Skill_Barrage : IAbility, ITargetting
+public class Skill_Barrage : IAbility, ITargetting, IDisposable
 {
 
     const string skillName = "Barrage";
@@ -68,7 +69,7 @@ public class Skill_Barrage : IAbility, ITargetting
 
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         foreach (var orb in celestial.Orbs) {
-            var temp = Object.Instantiate(projectile);
+            var temp = UnityEngine.Object.Instantiate(projectile);
             temp.transform.position = orb.transform.position;
             
             Vector2 absolute = mousePos - (Vector2)orb.transform.position;
@@ -93,5 +94,12 @@ public class Skill_Barrage : IAbility, ITargetting
         }
         targetting.Targetting();
     }
+
+    public void Dispose() {
+        if (targetting != null) {
+            targetting.Stop();
+        }
+    }
+
 
 }

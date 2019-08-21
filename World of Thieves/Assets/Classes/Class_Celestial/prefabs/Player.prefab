@@ -424,6 +424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthGreenImage: {fileID: 11494296}
+  DamageFloater: {fileID: 8295416127909033210, guid: 42d2492880f633f42a7825e0cf728732,
+    type: 3}
   MaxHealth: 100
   Health: 100
 --- !u!114 &11457346

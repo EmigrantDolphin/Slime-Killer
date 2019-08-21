@@ -142,6 +142,7 @@ Transform:
   - {fileID: 22413884}
   - {fileID: 461898}
   - {fileID: 1485000675}
+  - {fileID: 998173977}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.27249998}
@@ -225,6 +226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthGreenImage: {fileID: 11426142}
+  DamageFloater: {fileID: 8295416127909033210, guid: 42d2492880f633f42a7825e0cf728732,
+    type: 3}
   MaxHealth: 2500
   Health: 2500
 --- !u!61 &6150722
@@ -301,10 +304,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AggroDistance: 10
-  HoldingItemObj: {fileID: 1485000674}
+  HoldingItemObjOne: {fileID: 1485000674}
+  HoldingItemObjTwo: {fileID: 998173976}
   ForceOrbObj: {fileID: 129230, guid: 87c8f969e29130c4982929efadcc6008, type: 3}
   SlimeSplashObj: {fileID: 172840, guid: 50caa237925e1f448a858402251dc6ad, type: 3}
   FireTurretObj: {fileID: 1860375781620187755, guid: 4a868640311986d43b665d16ae7dbeef,
+    type: 3}
+  FireBoltObj: {fileID: 9069069468511661713, guid: c77a46dc09cce3c49b7d82372f21fded,
+    type: 3}
+  MeteorShowerObj: {fileID: 8310455972870709717, guid: 4721a5650bb2d7344a71b58dff7937b5,
     type: 3}
   SlimeBoundsSize: {x: 0, y: 0}
   Player: {fileID: 0}
@@ -418,7 +426,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144402}
   m_LocalRotation: {x: 0, y: 0, z: -0.38268346, w: 0.9238795}
-  m_LocalPosition: {x: -0.5303397, y: -0.3691063, z: -1}
+  m_LocalPosition: {x: -0.52, y: -0.3691063, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 483780}
@@ -960,6 +968,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &998173976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 998173977}
+  m_Layer: 0
+  m_Name: HoldingItemPosition 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &998173977
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998173976}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 418748}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1485000674
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +1008,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1485000675}
   m_Layer: 0
-  m_Name: HoldingItemPosition
+  m_Name: HoldingItemPosition 1
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -984,7 +1022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1485000674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -1.22, z: 0}
+  m_LocalPosition: {x: 0, y: -1.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 418748}
