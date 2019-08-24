@@ -5,21 +5,23 @@ using System;
 
 public class testScript : MonoBehaviour
 {
-    List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
-    ParticleSystem ps;
 
     private void Start() {
-        ps = GetComponent<ParticleSystem>();
+     
     }
 
-    private void OnParticleTrigger() {
-        if (GameMaster.Player == null)
-            return;
-        ps.trigger.SetCollider(0, GameMaster.Player.transform);
-        int hitCount = ps.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
+    private void Update() {
+        var sprite = GetComponent<SpriteRenderer>().sprite;
 
-        GameMaster.Player.GetComponent<DamageManager>().DealDamage(1 * hitCount, null);
-    }
+        var tra = sprite.triangles;
+
+        for (int i = 0; i < tra.Length; i += 6) {
+            Debug.DrawLine(new Vector3(tra[i], tra[i + 1], tra[i + 2]), new Vector3(tra[i + 3], tra[i + 4], tra[i + 5]), Color.blue);
+            print(new Vector3(tra[i], tra[i + 1], tra[i + 2]));
+            print(new Vector3(tra[i + 3], tra[i + 4], tra[i + 5]));
+        }
+
+        }
 
 }
 

@@ -314,6 +314,10 @@ MonoBehaviour:
     type: 3}
   MeteorShowerObj: {fileID: 8310455972870709717, guid: 4721a5650bb2d7344a71b58dff7937b5,
     type: 3}
+  FireCircleObj: {fileID: 3217002904059761187, guid: bdb1a70ee3bd15349870a086bb027370,
+    type: 3}
+  smashParticlesObj: {fileID: 4361389074991983320, guid: 581a516ce8cab914a8dd1e39abebf922,
+    type: 3}
   SlimeBoundsSize: {x: 0, y: 0}
   Player: {fileID: 0}
 --- !u!114 &11427524

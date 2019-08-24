@@ -20,6 +20,10 @@ public class SlimeManager : MonoBehaviour {
     public GameObject FireBoltObj;
     [Tooltip("Meter Shower Object")]
     public GameObject MeteorShowerObj;
+    [Tooltip("Fire Circle Object")]
+    public GameObject FireCircleObj;
+    [Tooltip("Smash Particles Object")]
+    public GameObject smashParticlesObj;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -38,6 +42,8 @@ public class SlimeManager : MonoBehaviour {
     SlimeFireTurretBehaviour turretBehav;
     SlimeThrowFireBoltsBehaviour fireBoltsBehav;
     SlimeMeteorShowerBehaviour meteorShowerBehav;
+    SlimeFireCircleBehaviour fireCircleBehav;
+
     float stunCounter = 0f;
     float timer = 1f;
 
@@ -54,6 +60,7 @@ public class SlimeManager : MonoBehaviour {
         turretBehav = new SlimeFireTurretBehaviour(this, FireTurretObj);
         fireBoltsBehav = new SlimeThrowFireBoltsBehaviour(this, FireBoltObj);
         meteorShowerBehav = new SlimeMeteorShowerBehaviour(this, MeteorShowerObj);
+        fireCircleBehav = new SlimeFireCircleBehaviour(this, FireCircleObj, smashParticlesObj);
 
         abilityQueueList = new LinkedList<IBossBehaviour>();
 
@@ -66,6 +73,11 @@ public class SlimeManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         FindIfLost();
+        if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
+            (ActiveBehaviour as IBossBehaviour).End();
+            isStopped = true;
+        }
+
         if (Player == null) {
             if (ActiveBehaviour != null) {
                 (ActiveBehaviour as IBossBehaviour).End();
@@ -125,22 +137,27 @@ public class SlimeManager : MonoBehaviour {
     }
 
     private void RoomTwoLoop() {
-        if (timer > 10000)
-            timer = 0;
+        if (timer > 25)
+            timer = 1;
         if (stunCounter > 0f) {
             stunCounter -= Time.deltaTime;
             return;
         }
-        if (ActiveBehaviour == null)
+        if (ActiveBehaviour is SlimeMeleeAttackBehaviour)
             timer += Time.deltaTime;
 
-        if ((int)timer % 20 == 0)
+        if ((ActiveBehaviour is SlimeMeleeAttackBehaviour) && GetComponent<Animator>().GetBool("Moving")
+            && Vector2.Distance(transform.position, Player.transform.position) < 3
+            && GameObject.FindGameObjectsWithTag("FireCircle").Length == 0)
+            abilityQueueList.AddLast(fireCircleBehav);
+
+        if ((int)timer % 21 == 0) 
             QueueAbility(turretBehav);
 
-        if ((int)timer % 10 == 0)
+        if ((int)timer % 9 == 0)
             QueueAbility(fireBoltsBehav);
 
-        if ((int)timer % 15 == 0)
+        if ((int)timer % 14 == 0)
             QueueAbility(meteorShowerBehav);
 
         if ((int)timer % 5 == 0)
@@ -149,12 +166,22 @@ public class SlimeManager : MonoBehaviour {
         if ((int)timer % 6 == 0)
             QueueAbility(chargeBehav);
 
+        
 
 
-        if (abilityQueueList.Count > 0 && ActiveBehaviour == null) {
-            ActiveBehaviour = abilityQueueList.First.Value;
-            (ActiveBehaviour as IBossBehaviour).Start();
-            abilityQueueList.RemoveFirst();
+        if (abilityQueueList.Count == 0 && ActiveBehaviour == null) {
+            meleeAttackBehav.Start();
+            ActiveBehaviour = meleeAttackBehav;
+        } else if (abilityQueueList.Count > 0) {
+            if (ActiveBehaviour is SlimeMeleeAttackBehaviour) {
+                (ActiveBehaviour as IBossBehaviour).End();
+                ActiveBehaviour = null;
+            }
+            if (ActiveBehaviour == null) {
+                ActiveBehaviour = abilityQueueList.First.Value;
+                abilityQueueList.RemoveFirst();
+                (ActiveBehaviour as IBossBehaviour).Start();
+            }
         }
     }
 
@@ -238,10 +265,14 @@ public class SlimeManager : MonoBehaviour {
                 ActiveBehaviour = meteorShowerBehav;
             }
 
-            if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
-                (ActiveBehaviour as IBossBehaviour).End();
-                isStopped = true;
+            if (Input.GetKeyDown(KeyCode.R)) {
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
+                fireCircleBehav.Start();
+                ActiveBehaviour = fireCircleBehav;
             }
+
+
 
             if (ActiveBehaviour != null)
                 (ActiveBehaviour as IBossBehaviour).Loop();

@@ -16,11 +16,13 @@ public class GameMaster : MonoBehaviour {
     public static GameObject CurrentLavaRock;
 
     [HideInInspector]
-    public static List<Action> OnReset = new List<Action>();
+    public readonly static List<Action> OnReset = new List<Action>();
+    private readonly static List<Tuple<string, string>> SavedOrbsInfo = new List<Tuple<string, string>>();
 
 
     private void Awake() {
         OnReset.Clear();
+        SavedOrbsInfo.Clear();
     }
     private void Start() {
         
@@ -61,6 +63,17 @@ public class GameMaster : MonoBehaviour {
                 SceneManager.LoadScene("SlimeBossRoom1");
         }
 
+    }
+
+    public static void SaveOrbs(List<GameObject> orbs) {
+        SavedOrbsInfo.Clear();
+
+        foreach (var orb in orbs)
+            SavedOrbsInfo.Add(new Tuple<string, string>(orb.name, orb.GetComponent<OrbControls>().Target.name));
+    }
+
+    public static List<Tuple<string,string>> GetSavedOrbs() {
+        return SavedOrbsInfo;
     }
 
 }

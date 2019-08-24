@@ -23,11 +23,15 @@ public class SkillsInfo {
     public const float Slime_FireBolt_LifeTime = 5f;
     public const float Slime_FireBolt_Speed = 20f;
     public const int Slime_FireBolt_Loops = 10;
+    public const float Slime_FireBolt_BurnLength = 5f;
 
     public const float Slime_Meteor_Damage = 40f;
     public const float Slime_MeteorShower_Diameter = 15f;
     public const float Slime_MeteorShower_Lifetime = 10f;
     public const float Slime_MeteorShower_Interval = 0.03f;
+
+    public const float Slime_FireCircle_BurnDuration = 10f;
+    public const float Slime_FireCircle_LifeTime = 5f;
 
     // PLAYER SKILLS //
     public const float Player_Orb_Damage = 1f;
@@ -91,7 +95,10 @@ public class SkillsInfo {
     public const float Debuff_TranscendenceDamage_DamageModifierAdditive = 0.5f;
     public const float Debuff_TranscendenceDefense_DefenceModifierAdditive = 0.5f;
     public const float Debuff_TranscendenceControl_SpeedModifierAdditive = 0.5f;
-    
+
+    public const float Debuff_Burn_Damage = 10f;
+    public const float Debuff_Burn_Interval = 1f;
+
 
 
     // uhhm something else?

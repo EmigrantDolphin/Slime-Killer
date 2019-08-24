@@ -119,8 +119,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
                     coverSprite.transform.position = orb.transform.position;
                     orbs.Add(orb);
                     heatOrbs.Add(coverSprite);
-                }
-            
+                }                 
     }
 
     public void OnChanneling() {
@@ -142,6 +141,9 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     public void OnChannelingEnd() {
         for (int i = 0; i < orbs.Count; i++)
             orbs[i].transform.localScale = new Vector3(0, 0, 0);
+
+        foreach (var orb in orbs)
+            celestial.Orbs.Remove(orb);
 
         active = true;
         cooldownLeft = cooldown;

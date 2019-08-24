@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class SlimeMeleeAttackBehaviour : IBossBehaviour {
@@ -42,6 +43,10 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
         if (active) {
             if (cooldownCounter < attackCooldown)
                 cooldownCounter += Time.deltaTime;
+
+            if (SceneManager.GetActiveScene().name == "SlimeBossRoom2" && GameObject.FindGameObjectsWithTag("FireCircle").Length == 0)
+                return;
+
             if (Vector2.Distance(slime.Player.transform.position, slime.transform.position) <= meleeRange && attackCooldown <= cooldownCounter) {
                 MeleeAutoAttack();
                 cooldownCounter = 0;

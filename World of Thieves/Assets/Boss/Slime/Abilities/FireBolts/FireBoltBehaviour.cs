@@ -8,6 +8,7 @@ public class FireBoltBehaviour : MonoBehaviour
     public GameObject Owner { get; set; }
     private readonly float damage = SkillsInfo.Slime_FireBolt_Damage;
     private readonly float lifeTime = SkillsInfo.Slime_FireBolt_LifeTime;
+    private readonly float burnLength = SkillsInfo.Slime_FireBolt_BurnLength;
     private float lifeTimeCounter;
     void Start()
     {
@@ -25,7 +26,10 @@ public class FireBoltBehaviour : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player" && GetComponent<ProjectileMovement>().Velocity != Vector2.zero) {
             collision.GetComponent<DamageManager>().DealDamage(damage, Owner);
+            collision.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Burn, burnLength);
             Destroy(gameObject);
         }
     }
+
+
 }

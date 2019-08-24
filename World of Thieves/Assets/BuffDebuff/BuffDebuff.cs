@@ -12,6 +12,7 @@ public class BuffDebuff : MonoBehaviour {
     Debuff_TranscendenceDefense debuff_transcendenceDefense;
     Debuff_TranscendenceControl debuff_transcendenceControl;
     Debuff_DoubleOrbs debuff_doubleOrbs;
+    Debuff_Burn debuff_burn;
     
     public List<IDebuff> debuffList = new List<IDebuff>();
     
@@ -37,13 +38,14 @@ public class BuffDebuff : MonoBehaviour {
         debuff_transcendenceDamage = new Debuff_TranscendenceDamage(this);
         debuff_transcendenceDefense = new Debuff_TranscendenceDefense(this);
         debuff_doubleOrbs = new Debuff_DoubleOrbs(this);
+        debuff_burn = new Debuff_Burn(this);
     }
 	
 	// Update is called once per frame
 	void Update () {
 
         if (Input.GetKeyDown(KeyCode.L))
-            ApplyDebuff(Debuffs.TranscendenceEmpty, 3f);
+            ApplyDebuff(Debuffs.Burn, 3f);
 
         for (int i = debuffList.Count-1; i >= 0; i-- ){
             debuffList[i].Loop();
@@ -58,67 +60,35 @@ public class BuffDebuff : MonoBehaviour {
     public void ApplyDebuff(Debuffs debuff, float timeLength) {
         switch (debuff) {
             case Debuffs.Slow:
-                ApplySlow(timeLength);
+                Apply(debuff_slow, timeLength);
                 break;
             case Debuffs.TranscendenceEmpty:
-                ApplyTranscendenceEmpty(timeLength);
+                Apply(debuff_transcendenceEmpty, timeLength);
                 break;
             case Debuffs.TranscendenceDamage:
-                ApplyTranscendenceDamage(timeLength);
+                Apply(debuff_transcendenceDamage, timeLength);
                 break;
             case Debuffs.TranscendenceDefense:
-                ApplyTranscendenceDefense(timeLength);
+                Apply(debuff_transcendenceDefense, timeLength);
                 break;
             case Debuffs.TranscendenceControl:
-                ApplyTranscendenceControl(timeLength);
+                Apply(debuff_transcendenceControl, timeLength);
                 break;
             case Debuffs.DoubleOrbs:
-                ApplyDoubleOrbs(timeLength);
+                Apply(debuff_doubleOrbs, timeLength);
+                break;
+            case Debuffs.Burn:
+                Apply(debuff_burn, timeLength);
                 break;
         }
 
     }
 
-    void ApplySlow(float timeLength) {
-        if (debuff_slow.IsActive == false) 
-            debuffList.Add(debuff_slow); // adding to list only once.
-        debuff_slow.Apply(timeLength);
+    void Apply(IDebuff debuff, float timeLength) {
+        if (debuff.IsActive == false)
+            debuffList.Add(debuff);
+        debuff.Apply(timeLength);
     }
-
-    void ApplyTranscendenceEmpty(float timeLength) {
-        if (debuff_transcendenceEmpty.IsActive == false) {
-            debuffList.Add(debuff_transcendenceEmpty);
-            debuff_transcendenceEmpty.Apply(timeLength);
-        } else {
-            debuff_transcendenceEmpty.Cleanse();
-            Update();
-        }
-    }
-
-    void ApplyTranscendenceDamage(float timeLength) {
-        if (debuff_transcendenceDamage.IsActive == false) 
-            debuffList.Add(debuff_transcendenceDamage);
-        debuff_transcendenceDamage.Apply(timeLength);
-    }
-
-    void ApplyTranscendenceDefense(float timeLength) {
-        if (debuff_transcendenceDefense.IsActive == false) 
-            debuffList.Add(debuff_transcendenceDefense);
-        debuff_transcendenceDefense.Apply(timeLength);
-    }
-
-    void ApplyTranscendenceControl(float timeLength) {
-        if (debuff_transcendenceControl.IsActive == false)
-            debuffList.Add(debuff_transcendenceControl);
-        debuff_transcendenceControl.Apply(timeLength);
-    }
-
-    void ApplyDoubleOrbs(float timeLength) {
-        if (debuff_doubleOrbs.IsActive == false)
-            debuffList.Add(debuff_doubleOrbs);
-        debuff_doubleOrbs.Apply(timeLength);
-    }
-
 
     public bool IsDebuffActive(Debuffs debuffCheck) {
         foreach (var debuff in debuffList)

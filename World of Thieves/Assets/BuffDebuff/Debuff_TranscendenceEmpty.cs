@@ -29,8 +29,11 @@ public class Debuff_TranscendenceEmpty : IDebuff
     public bool IsActive { get { return active; } }
 
     public void Apply(float timeLength) {
-        if (timeCounter > 0f)
+        if (active) {
             Cleanse();
+            return;
+        }
+
         active = true;
         timeCounter = timeLength;
         buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(this);

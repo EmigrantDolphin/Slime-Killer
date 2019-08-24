@@ -29,7 +29,6 @@ public class Skill_Transference : IAbility
     Class_Celestial celestial;
     GameObject projectile;
 
-
     public Skill_Transference(Class_Celestial cS, GameObject projectile) {
         this.projectile = projectile;
         transferenceIcon = Resources.Load<Sprite>("TransferenceIcon");

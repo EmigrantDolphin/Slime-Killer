@@ -91,7 +91,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         heal = new Skill_Heal(this);
         transference = new Skill_Transference(this, transferenceProjectileObj);
         barrage = new Skill_Barrage(this, barrageProjectileObj);
-        
+
+        LoadSavedOrbs();
     }
 
  
@@ -131,11 +132,36 @@ public class Class_Celestial : MonoBehaviour, IPClass {
             }
         }
 
+        SaveOrbTargetLoop();
+        
         RadiansUpdate();
     }
 
     void LateUpdate() {
         abilityLoop();
+    }
+
+    private void SaveOrbTargetLoop() {
+        if (Input.GetKeyDown(KeyCode.T)) 
+            GameMaster.SaveOrbs(Orbs);    
+    }
+
+    private void LoadSavedOrbs() {
+        var orbInfo = GameMaster.GetSavedOrbs();
+        foreach (var orb in orbInfo) {
+            if (orb.Item1.Contains("Damage")) {
+                var tempOrb = Instantiate(OrbDamageObj);
+                tempOrb.GetComponent<OrbControls>().Set(this, GameObject.Find(orb.Item2));
+            }
+            if (orb.Item1.Contains("Control")) {
+                var tempOrb = Instantiate(OrbControlObj);
+                tempOrb.GetComponent<OrbControls>().Set(this, GameObject.Find(orb.Item2));
+            }
+            if (orb.Item1.Contains("Defense")) {
+                var tempOrb = Instantiate(OrbDefenseObj);
+                tempOrb.GetComponent<OrbControls>().Set(this, GameObject.Find(orb.Item2));
+            }
+        }
     }
 
     private void RadiansUpdate() {

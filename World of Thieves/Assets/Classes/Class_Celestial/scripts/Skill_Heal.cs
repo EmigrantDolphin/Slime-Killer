@@ -6,7 +6,7 @@ public class Skill_Heal : IAbility
 {
     const string name = "Heal";
     string descritpion = " Name: " + name + "\n\n" +
-        " Heal yourself \n\n" +
+        " Heal yourself and remove debuffs \n\n" +
         " Heal: "+SkillsInfo.Player_Heal_HealAmount+" \n" + 
         " Consumes: 1 Green Orb ";
     Sprite icon;
@@ -53,6 +53,10 @@ public class Skill_Heal : IAbility
 
         if (celestial.HasOrbs(celestial.OrbDefenseObj, 1)) {
             celestial.ParentPlayer.GetComponent<DamageManager>().Heal(healAmount);
+            if (celestial.ParentPlayer.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.Burn))
+                celestial.ParentPlayer.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Burn, 0f);
+            if (celestial.ParentPlayer.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.Slow))
+                celestial.ParentPlayer.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, 0f);
             celestial.DestroyOrbs(celestial.OrbDefenseObj, 1);
         }
 

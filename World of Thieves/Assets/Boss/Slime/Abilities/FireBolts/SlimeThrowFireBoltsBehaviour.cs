@@ -73,6 +73,8 @@ public class SlimeThrowFireBoltsBehaviour : IBossBehaviour, IAnimEvents
     }
 
     public void OnAnimEvent(){
+        if (slimeManager.Player == null)
+            End();
         eventCounter++;
 
         if (eventCounter == 1){
