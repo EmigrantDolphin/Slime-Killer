@@ -46,7 +46,7 @@ public class SlimeManager : MonoBehaviour {
 
     float stunCounter = 0f;
     float timer = 1f;
-
+    
     LinkedList<IBossBehaviour> abilityQueueList;
 
 	// Use this for initialization
@@ -95,7 +95,6 @@ public class SlimeManager : MonoBehaviour {
             RoomOneLoop();
         if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
             RoomTwoLoop();
-        
         
 	}
 

@@ -59,8 +59,12 @@ public class GameMaster : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.N)) {
             if (SceneManager.GetActiveScene().name == "SlimeBossRoom1")
                 SceneManager.LoadScene("SlimeBossRoom2");
-            else
+            if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
+                SceneManager.LoadScene("SlimeBossRoom3");
+            if (SceneManager.GetActiveScene().name == "SlimeBossRoom3")
                 SceneManager.LoadScene("SlimeBossRoom1");
+
+
         }
 
     }

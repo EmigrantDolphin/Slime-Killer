@@ -9,5 +9,6 @@ public enum Debuffs {
     TranscendenceDefense,
     TranscendenceControl,
     DoubleOrbs,
-    Burn
+    Burn,
+    PoisonImmunity
 }

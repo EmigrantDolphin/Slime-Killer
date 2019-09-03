@@ -13,6 +13,7 @@ public class BuffDebuff : MonoBehaviour {
     Debuff_TranscendenceControl debuff_transcendenceControl;
     Debuff_DoubleOrbs debuff_doubleOrbs;
     Debuff_Burn debuff_burn;
+    Debuff_PoisonImmunity debuff_poisonImmunity;
     
     public List<IDebuff> debuffList = new List<IDebuff>();
     
@@ -39,13 +40,14 @@ public class BuffDebuff : MonoBehaviour {
         debuff_transcendenceDefense = new Debuff_TranscendenceDefense(this);
         debuff_doubleOrbs = new Debuff_DoubleOrbs(this);
         debuff_burn = new Debuff_Burn(this);
+        debuff_poisonImmunity = new Debuff_PoisonImmunity(this);
     }
 	
 	// Update is called once per frame
 	void Update () {
 
         if (Input.GetKeyDown(KeyCode.L))
-            ApplyDebuff(Debuffs.Burn, 3f);
+            ApplyDebuff(Debuffs.PoisonImmunity, 3f);
 
         for (int i = debuffList.Count-1; i >= 0; i-- ){
             debuffList[i].Loop();
@@ -79,6 +81,9 @@ public class BuffDebuff : MonoBehaviour {
                 break;
             case Debuffs.Burn:
                 Apply(debuff_burn, timeLength);
+                break;
+            case Debuffs.PoisonImmunity:
+                Apply(debuff_poisonImmunity, timeLength);
                 break;
         }
 

@@ -16,14 +16,13 @@ public class Skill_Transcendence : IAbility
         " Defense multiplier: +" + (1+SkillsInfo.Debuff_TranscendenceDefense_DefenceModifierAdditive) + "x \n\n" +
         " Multiplier duration: " + SkillsInfo.Player_Transcendence_BuffDuration + "s ";
     Sprite icon;
-    bool active;
     float cooldown = SkillsInfo.Player_Transcendence_Cooldown;
     float cooldownLeft = 0f;
 
     public string Name { get { return name; } }
     public string Description { get { return description; } }
     public Sprite Icon { get { return icon; } }
-    public bool IsActive { get { return active; } }
+    public bool IsActive { get; }
     public float Cooldown { get { return cooldown; } }
     public float CooldownLeft { get { return cooldownLeft; } }
 

@@ -6,7 +6,7 @@ public class OrbControls : MonoBehaviour {
     public GameObject DestroyParticles;
     public Vector2 Direction { get { return direction; } }
 
-    float damage = SkillsInfo.Player_Orb_Damage;
+    //float damage = SkillsInfo.Player_Orb_Damage;
 
     private GameObject target;
     public GameObject FutureTarget;
