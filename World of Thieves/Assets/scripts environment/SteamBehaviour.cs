@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SteamBehaviour : MonoBehaviour{
 
-    float damagePerParticle = SkillsInfo.Slime_FireTurret_ParticleDamage;
+    float damagePerParticle = SkillsInfo.Slime_Steam_Damage;  
     List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
     ParticleSystem ps;
 
@@ -25,6 +25,6 @@ public class SteamBehaviour : MonoBehaviour{
         int hitCount = ps.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
 
         if (hitCount > 0)
-            GameMaster.Player.GetComponent<DamageManager>().DealDamage(1f * hitCount, null);
+            GameMaster.Player.GetComponent<DamageManager>().DealDamage(damagePerParticle * hitCount, null);
     }
 }

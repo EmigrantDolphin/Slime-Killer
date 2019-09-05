@@ -42,7 +42,7 @@ Animator:
   m_GameObject: {fileID: 900918748336084766}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d529a4b3f37b03d4cadf2818e8c02e90, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -63,4 +63,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0cf121c7302c9c45880f17c627c06b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Portal: {fileID: 0}
+  Portal: {fileID: 3934115942773337317, guid: bbb1acaa2d2a7c149a0b0c524c60d573, type: 3}
+  Speed: 5
+  TransitionSpeed: 15
+  SnapThreshold: 0.2
+  TopLeft: {fileID: 0}
+  TopRight: {fileID: 0}
+  BottomRight: {fileID: 0}
+  BottomLeft: {fileID: 0}
+  Beam: {fileID: 5041087820098720041, guid: 77d91b7561a443e419540d852fee9bbf, type: 3}
+  PortalProjectile: {fileID: 5201181224130338253, guid: d4947a7b3fbe20b4d94887b34ad00b84,
+    type: 3}
+  Radius: 10
+  AngleSpeed: 45
+  Amplitude: 5
+  Longtitude: 4
+  InfinityXCap: 3.15
+  InfinitySpeed: 2

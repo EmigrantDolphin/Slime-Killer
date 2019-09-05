@@ -12,13 +12,10 @@ public class SlimeFireCircleBehaviour : IBossBehaviour, IAnimEvents{
 
     private readonly GameObject fireCircleObj;
     private readonly GameObject smashParticleObj;
- 
-    private bool holdingBoltOne = false;
-    private bool holdingBoltTwo = false;
 
     public SlimeFireCircleBehaviour(SlimeManager sm, GameObject fireCircleObj, GameObject smashParticleObj) {
         slimeManager = sm;
-        this.fireCircleObj = fireCircleObj;
+        this.fireCircleObj = fireCircleObj;  
         this.smashParticleObj = smashParticleObj;
     }
 

@@ -8,7 +8,6 @@ public class SlimeThrowFireBoltsBehaviour : IBossBehaviour, IAnimEvents
     private readonly int loopCount = SkillsInfo.Slime_FireBolt_Loops;
     private int loopCounter = 0;
 
-    private readonly float damage = SkillsInfo.Slime_FireBolt_Damage;
     private readonly float speed = SkillsInfo.Slime_FireBolt_Speed;
     public bool IsActive { get; private set; } = false;
     public bool IsAnimActive { get; private set; } = false;

@@ -7384,12 +7384,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
         type: 3}
-      propertyPath: Portal
-      value: 
-      objectReference: {fileID: 3934115942773337317, guid: bbb1acaa2d2a7c149a0b0c524c60d573,
-        type: 3}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
       propertyPath: TopLeft
       value: 
       objectReference: {fileID: 1113546396}
@@ -7410,60 +7404,14 @@ PrefabInstance:
       objectReference: {fileID: 1243322010}
     - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
         type: 3}
-      propertyPath: Speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: TransitionSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: SnapThreshold
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: Radius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: AngleSpeed
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: Amplitude
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: Longtitude
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
       propertyPath: XCap
       value: 3.15
       objectReference: {fileID: 0}
     - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
         type: 3}
-      propertyPath: InfinityXCap
-      value: 3.15
+      propertyPath: Radius
+      value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: InfinitySpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: Beam
-      value: 
-      objectReference: {fileID: 5041087820098720041, guid: 77d91b7561a443e419540d852fee9bbf,
-        type: 3}
     m_RemovedComponents:
     - {fileID: 900918748336084767, guid: 9d7226cf7f8563943a8b61ff35a52a9e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9d7226cf7f8563943a8b61ff35a52a9e, type: 3}

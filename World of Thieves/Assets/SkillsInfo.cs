@@ -33,6 +33,13 @@ public class SkillsInfo {
     public const float Slime_FireCircle_BurnDuration = 10f;
     public const float Slime_FireCircle_LifeTime = 5f;
 
+    public const float Slime_Steam_Damage = 1f;
+
+    public const float Slime_PortalProjectile_Damage = 200f;
+    public const float Slime_PortalProjectile_Speed = 10f;
+    public const float Slime_PortalProjectile_Interval = 0.5f;
+    public const float Slime_PortalProjectile_LifeTime = 5f;
+
     // PLAYER SKILLS //
     public const float Player_Orb_Damage = 1f;
     public const float Player_DamageOrb_ModifierAdditive = 0.02f;

@@ -45,8 +45,7 @@ public class PortalBehaviour : MonoBehaviour{
 
         private Vector2 center;
         private readonly float speed;
-        private readonly float radius;
-        private float direction = 1;
+        private readonly float radius; 
         private float curAngle = 0;
 
         public Circle(Transform center, float radius, float speed) {
@@ -135,8 +134,11 @@ public class PortalBehaviour : MonoBehaviour{
     private GameObject beamOne;
     private GameObject beamTwo;
     [Header("Pattern Circle")]
+    public GameObject PortalProjectile;
     public float Radius;
     public float AngleSpeed;
+    private readonly float projectileInterval = SkillsInfo.Slime_PortalProjectile_Interval;
+    private float projectileIntervalCounter;
     [Header("Pattern Infinity")]
     public float Amplitude;
     public float Longtitude;
@@ -170,12 +172,7 @@ public class PortalBehaviour : MonoBehaviour{
             pattern.Loop();
 
         PortalLoop();
-        if (selectedPattern is Blinds || previousPattern is Blinds) {
-            beamOne.GetComponent<LineRenderer>().SetPosition(0, portals[0].transform.position);
-            beamOne.GetComponent<LineRenderer>().SetPosition(1, portals[2].transform.position);
-            beamTwo.GetComponent<LineRenderer>().SetPosition(0, portals[1].transform.position);
-            beamTwo.GetComponent<LineRenderer>().SetPosition(1, portals[3].transform.position);
-        }
+        PortalAddonLoop();       
 
         if (Input.GetKeyDown(KeyCode.Alpha5)) {
             previousPattern = selectedPattern;
@@ -220,15 +217,34 @@ public class PortalBehaviour : MonoBehaviour{
     }
 
     private void PortalLoop() {
-
         for (int i = 0; i < portals.Length; i++) {
             if (Vector2.Distance(portals[i].transform.position, selectedPattern.position[i]) < SnapThreshold) 
                 portals[i].transform.position = selectedPattern.position[i];
              else {
                 var direction = (selectedPattern.position[i] - (Vector2)portals[i].transform.position).normalized;
                 portals[i].transform.position = (Vector2)portals[i].transform.position + direction * TransitionSpeed * Time.deltaTime;
-            }
-            
+            }       
+        }
+    }
+
+    private void PortalAddonLoop() {
+        if (selectedPattern is Blinds || previousPattern is Blinds) {
+            beamOne.GetComponent<LineRenderer>().SetPosition(0, portals[0].transform.position);
+            beamOne.GetComponent<LineRenderer>().SetPosition(1, portals[2].transform.position);
+            beamTwo.GetComponent<LineRenderer>().SetPosition(0, portals[1].transform.position);
+            beamTwo.GetComponent<LineRenderer>().SetPosition(1, portals[3].transform.position);
+        }
+        if (selectedPattern is Circle || previousPattern is Circle) {
+            if (projectileIntervalCounter <= 0) {
+                foreach (var portal in portals) {
+                    var dir = ((Vector2)transform.position - (Vector2)portal.transform.position).normalized * -1;
+                    var bullet = Instantiate(PortalProjectile);
+                    bullet.transform.position = portal.transform.position;
+                    bullet.GetComponent<ProjectileMovement>().Velocity = dir * SkillsInfo.Slime_PortalProjectile_Speed;
+                }
+                projectileIntervalCounter = projectileInterval;
+            } else
+                projectileIntervalCounter -= Time.deltaTime;
         }
     }
 
