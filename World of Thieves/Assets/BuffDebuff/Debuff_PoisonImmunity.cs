@@ -27,7 +27,7 @@ public class Debuff_PoisonImmunity : IDebuff{
 
     public void Apply(float timeLength) {
         if (active == false) { // if called first time
-            
+            buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(this);
             active = true;
         }
         timerCount = timeLength; // this and below if buff hasn't ended and was called again. refreshed durations and so on
@@ -37,6 +37,7 @@ public class Debuff_PoisonImmunity : IDebuff{
     public void Cleanse() {
         active = false;
         timerCount = 0f;
+        buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Remove(this);
     }
 
     public void Loop() {

@@ -14,7 +14,7 @@ public class SteamBehaviour : MonoBehaviour{
 
     private void Update() {
         if (ps.emission.enabled)
-            GameObject.Find("Floor").GetComponent<GreenFloorBehaviour>().PoisonFillPercentage += 1 * Time.deltaTime;
+            GameObject.Find("Floor").GetComponent<GreenFloorBehaviour>().PoisonFillPercentage += 0.1f * Time.deltaTime;
     }
 
     private void OnParticleTrigger() {

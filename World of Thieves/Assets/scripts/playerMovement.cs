@@ -39,25 +39,31 @@ public class playerMovement : MonoBehaviour {
         UpdateIfSpeedModified();
 
         //Movement
-        if (Input.GetMouseButton(1)) {
-            //TODO : add onClick animation    
-            posToMoveTo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clickPointer.ClickAt(posToMoveTo);
-            Debug.DrawLine(posToMoveTo, transform.position, Color.black, 10f);
+        if (Input.GetMouseButton(1)) 
+            OnClick();
+        if (Input.GetMouseButtonDown(0))
+            OnClick();
+        
+    }
 
-            var absoluteVector = posToMoveTo - (Vector2)transform.position;
-            direction = absoluteVector.normalized;
-            distanceToTravel = absoluteVector.magnitude;
-            distanceTraveled = 0f;
-            isMoving = true;
-            GetComponent<Animator>().SetBool("Moving", true);
+    private void OnClick() {
+        //TODO : add onClick animation   
+        posToMoveTo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        clickPointer.ClickAt(posToMoveTo);
+        Debug.DrawLine(posToMoveTo, transform.position, Color.black, 10f);
 
-            float angle = Mathf.Atan2(absoluteVector.y, absoluteVector.x) * 180 / Mathf.PI;
-            angle += 90;
+        var absoluteVector = posToMoveTo - (Vector2)transform.position;
+        direction = absoluteVector.normalized;
+        distanceToTravel = absoluteVector.magnitude;
+        distanceTraveled = 0f;
+        isMoving = true;
+        GetComponent<Animator>().SetBool("Moving", true);
 
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-            UpdateSpeed();
-        }
+        float angle = Mathf.Atan2(absoluteVector.y, absoluteVector.x) * 180 / Mathf.PI;
+        angle += 90;
+
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+        UpdateSpeed();
     }
 
     void UpdateSpeed() {

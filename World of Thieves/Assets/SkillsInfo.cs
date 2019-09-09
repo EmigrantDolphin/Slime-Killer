@@ -39,6 +39,7 @@ public class SkillsInfo {
     public const float Slime_PortalProjectile_Speed = 10f;
     public const float Slime_PortalProjectile_Interval = 0.5f;
     public const float Slime_PortalProjectile_LifeTime = 5f;
+    public const float Slime_PortalBeam_Damage = 50f;
 
     // PLAYER SKILLS //
     public const float Player_Orb_Damage = 1f;

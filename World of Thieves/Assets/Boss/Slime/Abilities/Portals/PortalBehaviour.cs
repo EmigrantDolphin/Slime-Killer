@@ -118,6 +118,38 @@ public class PortalBehaviour : MonoBehaviour{
         }
     }
 
+    internal class Spikes : IPattern {
+        public Vector2[] position { get; } = new Vector2[4];
+        private GameObject slime;
+        private readonly float speed;
+        private readonly float radius;
+        private float curAngle = 0;
+
+        public Spikes(float radius, float speed) {
+            
+            this.speed = speed;
+            this.radius = radius;
+        }
+
+        public void Loop() {
+            FindSlime();
+            if (slime == null)
+                return;
+            for (int i = 0; i < position.Length; i++)
+                position[i] = (Vector2)slime.transform.position + new Vector2(Mathf.Cos(Mathf.Deg2Rad * (curAngle + i * 90)), Mathf.Sin(Mathf.Deg2Rad * (curAngle + i * 90))).normalized * radius;
+
+            curAngle += speed * Time.deltaTime;
+            if (curAngle >= 360)
+                curAngle = 0;
+        }
+
+        private void FindSlime() {
+            if (slime == null)
+                slime = GameObject.Find("Slime1(Clone)");
+        }
+
+    }
+
     public GameObject Portal;
     
 
@@ -144,10 +176,15 @@ public class PortalBehaviour : MonoBehaviour{
     public float Longtitude;
     public float InfinityXCap;
     public float InfinitySpeed;
+    public float InfinityExplosionThreshold;
+    public float InfinityExplosionDistance;
+    public float InfinityExplosionDamage;
+    public float InfinityExplosionCooldown;
+    private float infinityExplosionCooldownCounter = 0;
 
-    private GameObject[] portals = new GameObject[4];
+    private readonly GameObject[] portals = new GameObject[4];
 
-    private IPattern[] patterns = new IPattern[4];
+    private readonly IPattern[] patterns = new IPattern[5];
     private IPattern previousPattern;
     private IPattern selectedPattern;
     private IPattern nextPattern;
@@ -162,6 +199,7 @@ public class PortalBehaviour : MonoBehaviour{
         patterns[1] = new Circle(transform, Radius, AngleSpeed);
         patterns[2] = new Center(transform, Speed);
         patterns[3] = new Infinity(transform, Amplitude, Longtitude, InfinityXCap, InfinitySpeed);
+        patterns[4] = new Spikes(Radius, AngleSpeed);
         selectedPattern = patterns[1];
         transitionPattern = patterns[2];
     }
@@ -172,48 +210,38 @@ public class PortalBehaviour : MonoBehaviour{
             pattern.Loop();
 
         PortalLoop();
-        PortalAddonLoop();       
+        PortalAddonLoop();
+        if (!(selectedPattern is Center)){
+            if (Input.GetKeyDown(KeyCode.Alpha5)) {
+                previousPattern = selectedPattern;
+                selectedPattern = transitionPattern;
+                nextPattern = patterns[0];
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha6)) {
+                previousPattern = selectedPattern;
+                selectedPattern = transitionPattern;
+                nextPattern = patterns[1];
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha7)) {
+                previousPattern = selectedPattern;
+                selectedPattern = transitionPattern;
+                nextPattern = patterns[3];
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha8)) {
+                previousPattern = selectedPattern;
+                selectedPattern = transitionPattern;
+                nextPattern = patterns[4];
+            }
 
-        if (Input.GetKeyDown(KeyCode.Alpha5)) {
-            previousPattern = selectedPattern;
-            selectedPattern = transitionPattern;
-            nextPattern = patterns[0];
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6)) {
-            previousPattern = selectedPattern;
-            selectedPattern = transitionPattern;
-            nextPattern = patterns[1];
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7)) {
-            previousPattern = selectedPattern;
-            selectedPattern = transitionPattern;
-            nextPattern = patterns[3];
+
         }
 
         if (selectedPattern == transitionPattern)
             if (Vector2.Distance(portals[0].transform.position, selectedPattern.position[0]) < SnapThreshold) {
                 selectedPattern = nextPattern;
-                DisablePatternAddons(previousPattern);
-                ActivatePatternAddons(selectedPattern);
+                previousPattern = null;
                 nextPattern = null;
             }
-    }
-
-
-    private void ActivatePatternAddons(IPattern pattern) {
-        if (pattern is Blinds) {
-            beamOne = Instantiate(Beam);
-            beamTwo = Instantiate(Beam);
-        }
-        previousPattern = null;
-    }
-
-    private void DisablePatternAddons(IPattern pattern) {
-        if (pattern is Blinds) {
-            Destroy(beamOne);
-            Destroy(beamTwo);
-        }
-        previousPattern = null;
     }
 
     private void PortalLoop() {
@@ -223,17 +251,26 @@ public class PortalBehaviour : MonoBehaviour{
              else {
                 var direction = (selectedPattern.position[i] - (Vector2)portals[i].transform.position).normalized;
                 portals[i].transform.position = (Vector2)portals[i].transform.position + direction * TransitionSpeed * Time.deltaTime;
-            }       
+            }
         }
     }
 
     private void PortalAddonLoop() {
         if (selectedPattern is Blinds || previousPattern is Blinds) {
+            if (beamOne == null) {
+                beamOne = Instantiate(Beam);
+                beamTwo = Instantiate(Beam);
+            }
             beamOne.GetComponent<LineRenderer>().SetPosition(0, portals[0].transform.position);
             beamOne.GetComponent<LineRenderer>().SetPosition(1, portals[2].transform.position);
             beamTwo.GetComponent<LineRenderer>().SetPosition(0, portals[1].transform.position);
             beamTwo.GetComponent<LineRenderer>().SetPosition(1, portals[3].transform.position);
+        }else if (beamOne != null) {
+            Destroy(beamOne);
+            Destroy(beamTwo);
         }
+
+
         if (selectedPattern is Circle || previousPattern is Circle) {
             if (projectileIntervalCounter <= 0) {
                 foreach (var portal in portals) {
@@ -246,6 +283,36 @@ public class PortalBehaviour : MonoBehaviour{
             } else
                 projectileIntervalCounter -= Time.deltaTime;
         }
+
+        if (selectedPattern is Infinity || previousPattern is Infinity) {
+            if (infinityExplosionCooldownCounter > 0) {
+                infinityExplosionCooldownCounter -= Time.deltaTime;
+                return;
+            }
+
+            if (Vector2.Distance(portals[0].transform.position, portals[2].transform.position) < InfinityExplosionThreshold)
+                if (GameMaster.Player != null)
+                    if (Vector2.Distance(portals[0].transform.position, GameMaster.Player.transform.position) < InfinityExplosionDistance * 2f) { 
+                        GameMaster.Player.GetComponent<DamageManager>().DealDamage(InfinityExplosionDamage*2f, null);
+                        infinityExplosionCooldownCounter = InfinityExplosionCooldown;
+                        return;
+                    }
+
+            if (Vector2.Distance(portals[0].transform.position, portals[1].transform.position) < InfinityExplosionThreshold)
+                if (GameMaster.Player != null) {
+                    if (Vector2.Distance(portals[0].transform.position, GameMaster.Player.transform.position) < InfinityExplosionDistance ||
+                        Vector2.Distance(portals[2].transform.position, GameMaster.Player.transform.position) < InfinityExplosionDistance) {
+                        GameMaster.Player.GetComponent<DamageManager>().DealDamage(InfinityExplosionDamage, null);
+                        infinityExplosionCooldownCounter = InfinityExplosionCooldown;
+                    }
+                    return;
+                }
+        }
+
+        if (selectedPattern is Spikes || previousPattern is Spikes) {
+
+        }
+
     }
 
 }
