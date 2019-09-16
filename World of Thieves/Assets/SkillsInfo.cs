@@ -3,13 +3,10 @@ using System.Collections;
 
 public class SkillsInfo {
 
-    //Slime hand attack
     public const float Slime_HandDamage = 15;
 
-    //Slime jump attack
     public const float Slime_JumpAttackDamage = 50;
 
-    //Slime pulse attack
     public const float Slime_PulseDamage = 50f;
 
     public const float Slime_ForceOrbDamage = 100;
@@ -60,10 +57,11 @@ public class SkillsInfo {
 
     public const float Player_Rift_Cooldown = 10f;
     public const float Player_Rift_RadiusScale = 1f;
-    public const float Player_Rift_Damage = 5f;
-    public const float Player_Rift_DamageInterval = 1f;
-    public const float Player_Rift_LifeTime = 5f;
+    public const float Player_Rift_Damage = 10f;
+    public const float Player_Rift_DamageInterval = 1.5f;
+    public const float Player_Rift_LifeTime = 4f;
     public const float Player_Rift_SlowDuration = 5f;
+    public const float Player_Rift_DoubleOrbDuration = 4f;
 
     public const float Player_Collapse_Cooldown = 10f;
 

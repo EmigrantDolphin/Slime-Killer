@@ -184,6 +184,12 @@ public class SlimeManager : MonoBehaviour {
         }
     }
 
+    private void RoomThreeLoop() {
+        
+
+
+    }
+
     private void QueueAbility(IBossBehaviour behaviour) {
         abilityQueueList.AddLast(behaviour);
         timer += 1;

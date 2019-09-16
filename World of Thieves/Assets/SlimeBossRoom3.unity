@@ -7382,11 +7382,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 900918748336084765, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
-        type: 3}
-      propertyPath: InfinityExplosionDistance
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d7226cf7f8563943a8b61ff35a52a9e, type: 3}
 --- !u!1 &562109805
@@ -7443,12 +7438,12 @@ PrefabInstance:
     - target: {fileID: 7317068916549475465, guid: fe4b8558a0770744cb5f54fc7dcb9f21,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.91
+      value: -5.92
       objectReference: {fileID: 0}
     - target: {fileID: 7317068916549475465, guid: fe4b8558a0770744cb5f54fc7dcb9f21,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.17
+      value: 0.53
       objectReference: {fileID: 0}
     - target: {fileID: 7317068916549475465, guid: fe4b8558a0770744cb5f54fc7dcb9f21,
         type: 3}

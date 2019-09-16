@@ -11,14 +11,17 @@ public class GreenFloorBehaviour : MonoBehaviour{
     private float intervalCounter = 0f;
 
     Tilemap tilemap;
+    Color initColor;
 
 
 
     // Start is called before the first frame update
     void Start(){
+        initColor = tilemap.color;
         tilemap = GetComponent<Tilemap>();
         GameMaster.OnReset.Add(() => {
             PoisonFillPercentage = 0;
+            tilemap.color = initColor;
         });
     }
 

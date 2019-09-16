@@ -17,6 +17,8 @@ public class PortalBehaviour : MonoBehaviour{
         private Vector2 topLeft, topRight, bottomRight, bottomLeft;
         private readonly float speed;
         private float direction = 1;
+        private readonly float TurnCooldown = 1f;
+        private float turnCooldownCounter = 1f;
 
         public Blinds(Transform topLeft, Transform topRight, Transform bottomRight, Transform bottomLeft, float speed) {
             this.topLeft = topLeft.position;
@@ -33,9 +35,12 @@ public class PortalBehaviour : MonoBehaviour{
         public void Loop() {
             position[0].x = position[2].x += speed * Time.deltaTime * direction;
             position[1].x = position[3].x += speed * Time.deltaTime * -direction;
+            turnCooldownCounter -= Time.deltaTime;
 
-            if (position[0].x > topRight.x || position[0].x < topLeft.x)
+            if ((position[0].x > topRight.x || position[0].x < topLeft.x) && turnCooldownCounter <= 0) {
                 direction *= -1;
+                turnCooldownCounter = TurnCooldown;
+            }
 
         }
     }
@@ -246,11 +251,13 @@ public class PortalBehaviour : MonoBehaviour{
 
     private void PortalLoop() {
         for (int i = 0; i < portals.Length; i++) {
-            if (Vector2.Distance(portals[i].transform.position, selectedPattern.position[i]) < SnapThreshold) 
+            if (Vector2.Distance(portals[i].transform.position, selectedPattern.position[i]) < SnapThreshold) {
                 portals[i].transform.position = selectedPattern.position[i];
-             else {
+                portals[i].transform.position = new Vector3(portals[i].transform.position.x, portals[i].transform.position.y, -2);
+            } else {
                 var direction = (selectedPattern.position[i] - (Vector2)portals[i].transform.position).normalized;
                 portals[i].transform.position = (Vector2)portals[i].transform.position + direction * TransitionSpeed * Time.deltaTime;
+                portals[i].transform.position = new Vector3(portals[i].transform.position.x, portals[i].transform.position.y, -2);
             }
         }
     }
