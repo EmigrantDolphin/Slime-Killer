@@ -318,6 +318,12 @@ MonoBehaviour:
     type: 3}
   smashParticlesObj: {fileID: 4361389074991983320, guid: 581a516ce8cab914a8dd1e39abebf922,
     type: 3}
+  PortalsObj: {fileID: 900918748336084766, guid: 9d7226cf7f8563943a8b61ff35a52a9e,
+    type: 3}
+  RedMineObj: {fileID: 3275788154330471338, guid: 4d989f53f0fc26846a64a7e15ac934ba,
+    type: 3}
+  BlueMineObj: {fileID: 187827821411446351, guid: ac91c8dcc43e8e7438120d9ba45c81e2,
+    type: 3}
   SlimeBoundsSize: {x: 0, y: 0}
   Player: {fileID: 0}
 --- !u!114 &11427524

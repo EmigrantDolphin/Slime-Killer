@@ -17,8 +17,8 @@ public class GreenFloorBehaviour : MonoBehaviour{
 
     // Start is called before the first frame update
     void Start(){
-        initColor = tilemap.color;
         tilemap = GetComponent<Tilemap>();
+        initColor = tilemap.color;
         GameMaster.OnReset.Add(() => {
             PoisonFillPercentage = 0;
             tilemap.color = initColor;

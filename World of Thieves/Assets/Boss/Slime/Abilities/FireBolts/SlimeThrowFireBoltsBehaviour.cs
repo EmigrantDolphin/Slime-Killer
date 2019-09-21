@@ -32,8 +32,7 @@ public class SlimeThrowFireBoltsBehaviour : IBossBehaviour, IAnimEvents
     }
 
     public void Loop(){
-        if (IsActive) {
-
+        if (IsActive) {          
             var absolute = slimeManager.Player.transform.position - slimeManager.transform.position;
             float angle = Mathf.Atan2(absolute.y, absolute.x) * Mathf.Rad2Deg;
             slimeManager.transform.rotation = Quaternion.Euler(0, 0, angle + 90);

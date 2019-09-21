@@ -916,6 +916,7 @@ GameObject:
   - component: {fileID: 6280127171804757839}
   - component: {fileID: 6280127171804757838}
   - component: {fileID: 847497263}
+  - component: {fileID: -8410192434974553434}
   m_Layer: 0
   m_Name: Totem
   m_TagString: Totem
@@ -996,7 +997,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1047,3 +1048,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebuffBar: {fileID: 752824602}
   DebuffBarInstantiated: {fileID: 0}
+--- !u!114 &-8410192434974553434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6280127171804757833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e81771e073113f4f9d6b533083263be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerCollision: 1
+  SlimeCollision: 1

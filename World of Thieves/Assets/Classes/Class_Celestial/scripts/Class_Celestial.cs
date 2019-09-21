@@ -188,7 +188,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public GameObject InstantiateOrb(GameObject orb, GameObject target) {
         GameObject orb1 = Instantiate(orb);
         GameObject orb2 = null;
-        if (target.GetComponent<BuffDebuff>() != null)
+        if (target != null && target.GetComponent<BuffDebuff>() != null)
             if (target.GetComponent<BuffDebuff>().IsDebuffActive(Debuffs.DoubleOrbs)) 
                 orb2 = Instantiate(orb);
 

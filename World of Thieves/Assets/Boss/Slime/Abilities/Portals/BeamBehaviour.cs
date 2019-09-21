@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BeamBehaviour : MonoBehaviour{
     LineRenderer lineRendeder;
@@ -10,9 +11,14 @@ public class BeamBehaviour : MonoBehaviour{
     private const float cooldown = 1f;
     private float cooldownCounter = 0;
 
+    private Action onReset;
+
     // Start is called before the first frame update
     void Start(){
         lineRendeder = GetComponent<LineRenderer>();
+
+        onReset = () => { Destroy(gameObject); };
+        GameMaster.OnReset.Add(onReset);
     }
 
     // Update is called once per frame
@@ -26,6 +32,9 @@ public class BeamBehaviour : MonoBehaviour{
             }
         if (cooldownCounter > 0)
             cooldownCounter -= Time.deltaTime;
-        
+    }
+
+    private void OnDestroy() {
+        GameMaster.OnReset.Remove(onReset);
     }
 }

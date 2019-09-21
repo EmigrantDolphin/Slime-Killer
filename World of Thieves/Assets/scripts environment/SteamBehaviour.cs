@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SteamBehaviour : MonoBehaviour{
 
     float damagePerParticle = SkillsInfo.Slime_Steam_Damage;  
     List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
     ParticleSystem ps;
+
 
     private void Start() {
         ps = GetComponent<ParticleSystem>();
@@ -27,4 +29,6 @@ public class SteamBehaviour : MonoBehaviour{
         if (hitCount > 0)
             GameMaster.Player.GetComponent<DamageManager>().DealDamage(damagePerParticle * hitCount, null);
     }
+
+
 }

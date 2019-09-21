@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+public enum PhaseThreePattern { None, Blinds, Circle, Infinity, Spikes }
 
 public class PortalBehaviour : MonoBehaviour{
 
+    
     internal interface IPattern {
         Vector2[] position { get; }
         void Loop();
@@ -188,58 +191,43 @@ public class PortalBehaviour : MonoBehaviour{
     private float infinityExplosionCooldownCounter = 0;
 
     private readonly GameObject[] portals = new GameObject[4];
+    private bool arePortalsSpawned = false;
 
     private readonly IPattern[] patterns = new IPattern[5];
     private IPattern previousPattern;
     private IPattern selectedPattern;
     private IPattern nextPattern;
     private IPattern transitionPattern;
+
+    public PhaseThreePattern CurrentPattern { get; private set; }
+
+    private Action onReset;
     // Start is called before the first frame update
     void Start(){
-        for (int i = 0; i < portals.Length; i++) {
-            portals[i] = Instantiate(Portal);
-            portals[i].transform.position = transform.position;
-        }
+        //SpawnPortalsOn(gameObject);
         patterns[0] = new Blinds(TopLeft, TopRight, BottomRight, BottomLeft, Speed);
         patterns[1] = new Circle(transform, Radius, AngleSpeed);
         patterns[2] = new Center(transform, Speed);
         patterns[3] = new Infinity(transform, Amplitude, Longtitude, InfinityXCap, InfinitySpeed);
         patterns[4] = new Spikes(Radius, AngleSpeed);
-        selectedPattern = patterns[1];
+        selectedPattern = patterns[4];
         transitionPattern = patterns[2];
+
+        onReset = () => Destroy(gameObject);
+        GameMaster.OnReset.Add(onReset);
     }
 
     // Update is called once per frame
     void Update(){
+        if (!arePortalsSpawned)
+            return;
+
         foreach (var pattern in patterns)
             pattern.Loop();
 
         PortalLoop();
         PortalAddonLoop();
-        if (!(selectedPattern is Center)){
-            if (Input.GetKeyDown(KeyCode.Alpha5)) {
-                previousPattern = selectedPattern;
-                selectedPattern = transitionPattern;
-                nextPattern = patterns[0];
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha6)) {
-                previousPattern = selectedPattern;
-                selectedPattern = transitionPattern;
-                nextPattern = patterns[1];
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha7)) {
-                previousPattern = selectedPattern;
-                selectedPattern = transitionPattern;
-                nextPattern = patterns[3];
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha8)) {
-                previousPattern = selectedPattern;
-                selectedPattern = transitionPattern;
-                nextPattern = patterns[4];
-            }
-
-
-        }
+        SelectWithKeyLoop();
 
         if (selectedPattern == transitionPattern)
             if (Vector2.Distance(portals[0].transform.position, selectedPattern.position[0]) < SnapThreshold) {
@@ -247,6 +235,43 @@ public class PortalBehaviour : MonoBehaviour{
                 previousPattern = null;
                 nextPattern = null;
             }
+    }
+
+    private void SelectWithKeyLoop() {
+        if (!(selectedPattern is Center)) {
+            if (Input.GetKeyDown(KeyCode.Alpha5)) 
+                SwitchToBlindsPattern();           
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+                SwitchToCirclePattern();
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+                SwitchToInfinityPattern();
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+                SwitchToSpikesPattern();
+        }
+    }
+    public void SwitchToBlindsPattern() {
+        previousPattern = selectedPattern;
+        selectedPattern = transitionPattern;
+        nextPattern = patterns[0];
+        CurrentPattern = PhaseThreePattern.Blinds;
+    }
+    public void SwitchToCirclePattern() {
+        previousPattern = selectedPattern;
+        selectedPattern = transitionPattern;
+        nextPattern = patterns[1];
+        CurrentPattern = PhaseThreePattern.Circle;
+    }
+    public void SwitchToInfinityPattern() {
+        previousPattern = selectedPattern;
+        selectedPattern = transitionPattern;
+        nextPattern = patterns[3];
+        CurrentPattern = PhaseThreePattern.Infinity;
+    }
+    public void SwitchToSpikesPattern() {
+        previousPattern = selectedPattern;
+        selectedPattern = transitionPattern;
+        nextPattern = patterns[4];
+        CurrentPattern = PhaseThreePattern.Spikes;
     }
 
     private void PortalLoop() {
@@ -320,6 +345,23 @@ public class PortalBehaviour : MonoBehaviour{
 
         }
 
+    }
+
+    public void SpawnPortalsOn(GameObject target) {       
+        for (int i = 0; i < portals.Length; i++) {
+            portals[i] = Instantiate(Portal);
+            portals[i].transform.position = (Vector2) target.transform.position;
+        }
+        
+        selectedPattern = patterns[4];
+        CurrentPattern = PhaseThreePattern.Spikes;
+        arePortalsSpawned = true;
+    }
+
+    private void OnDestroy() {
+        foreach (var portal in portals)
+            Destroy(portal);
+        GameMaster.OnReset.Remove(onReset);
     }
 
 }

@@ -58,8 +58,12 @@ public class RiftController : MonoBehaviour {
 
         if (collider.GetComponent<BuffDebuff>() != null) 
             if (!trackedEntities.Contains(collider.gameObject))
-                trackedEntities.Add(collider.gameObject); 
+                trackedEntities.Add(collider.gameObject);
 
+        for (int i = 0; i < trackedEntities.Count; i++) {
+            ps.trigger.SetCollider(i, trackedEntities[i].transform);
+           // print(trackedEntities[i].name);
+        }
     }
 
     void OnTriggerExit2D(Collider2D collider) {
@@ -71,9 +75,6 @@ public class RiftController : MonoBehaviour {
     private void OnParticleTrigger() {
         if (GameMaster.Player == null)
             return;
-
-        for (int i = 0; i < trackedEntities.Count; i++)
-            ps.trigger.SetCollider(i, trackedEntities[i].transform);
 
         int hitCount = ps.GetTriggerParticles(ParticleSystemTriggerEventType.Inside, enter);
 

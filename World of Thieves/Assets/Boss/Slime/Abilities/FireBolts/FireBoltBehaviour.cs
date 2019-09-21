@@ -21,6 +21,9 @@ public class FireBoltBehaviour : MonoBehaviour
         lifeTimeCounter -= Time.deltaTime;
         if (lifeTimeCounter <= 0)
             Destroy(gameObject);
+
+        if (GameMaster.Player == null && GetComponent<ProjectileMovement>().Velocity == Vector2.zero)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

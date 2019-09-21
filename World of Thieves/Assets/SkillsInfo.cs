@@ -38,6 +38,10 @@ public class SkillsInfo {
     public const float Slime_PortalProjectile_LifeTime = 5f;
     public const float Slime_PortalBeam_Damage = 50f;
 
+    public const float Slime_Mine_AliveDuration = 30f;
+    public const float Slime_RedMine_Damage = 69;
+    public const float Slime_BlueMine_SlowDuration = 5f;
+
     // PLAYER SKILLS //
     public const float Player_Orb_Damage = 1f;
     public const float Player_DamageOrb_ModifierAdditive = 0.02f;

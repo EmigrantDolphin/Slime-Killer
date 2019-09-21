@@ -24,6 +24,12 @@ public class SlimeManager : MonoBehaviour {
     public GameObject FireCircleObj;
     [Tooltip("Smash Particles Object")]
     public GameObject smashParticlesObj;
+    [Tooltip("Portals Object")]
+    public GameObject PortalsObj;
+    [Tooltip("Red Mine Object")]
+    public GameObject RedMineObj;
+    [Tooltip("Blue Mine Object")]
+    public GameObject BlueMineObj;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -43,6 +49,10 @@ public class SlimeManager : MonoBehaviour {
     SlimeThrowFireBoltsBehaviour fireBoltsBehav;
     SlimeMeteorShowerBehaviour meteorShowerBehav;
     SlimeFireCircleBehaviour fireCircleBehav;
+    SlimePortalBehaviour portalBehav;
+
+    private PortalBehaviour portalsComponent;
+    private bool isPortalSummoned = false;
 
     float stunCounter = 0f;
     float timer = 1f;
@@ -61,11 +71,12 @@ public class SlimeManager : MonoBehaviour {
         fireBoltsBehav = new SlimeThrowFireBoltsBehaviour(this, FireBoltObj);
         meteorShowerBehav = new SlimeMeteorShowerBehaviour(this, MeteorShowerObj);
         fireCircleBehav = new SlimeFireCircleBehaviour(this, FireCircleObj, smashParticlesObj);
+        portalBehav = new SlimePortalBehaviour(this, PortalsObj);
+        portalsComponent = portalBehav.Portals.GetComponent<PortalBehaviour>();
 
         abilityQueueList = new LinkedList<IBossBehaviour>();
 
         SlimeBoundsSize = GetComponent<SpriteRenderer>().bounds.size;
-
 	}
 
 
@@ -95,6 +106,8 @@ public class SlimeManager : MonoBehaviour {
             RoomOneLoop();
         if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
             RoomTwoLoop();
+        if (SceneManager.GetActiveScene().name == "SlimeBossRoom3")
+            RoomThreeLoop();
         
 	}
 
@@ -185,8 +198,82 @@ public class SlimeManager : MonoBehaviour {
     }
 
     private void RoomThreeLoop() {
+        if (timer > 12)
+            timer = 1;
+        if (ActiveBehaviour is SlimeMeleeAttackBehaviour)
+            timer += Time.deltaTime;
+
+        if ((int)timer % 5 == 0 && !isPortalSummoned) {
+            QueueAbility(portalBehav);
+            GetComponent<EnemyMovement>().Speed = GetComponent<EnemyMovement>().Speed * 2;
+            isPortalSummoned = true;
+            timer = 1f;
+        }
+
+
+
+        if ((int)timer % 12 == 0) {
+            switch (portalsComponent.CurrentPattern) {
+                case PhaseThreePattern.Blinds:
+                    portalsComponent.SwitchToInfinityPattern();
+                    break;
+                case PhaseThreePattern.Infinity:
+                    portalsComponent.SwitchToCirclePattern();
+                    break;
+                case PhaseThreePattern.Circle:
+                    portalsComponent.SwitchToSpikesPattern();
+                    GetComponent<EnemyMovement>().Speed = GetComponent<EnemyMovement>().Speed * 2;
+                    break;
+                case PhaseThreePattern.Spikes:
+                    portalsComponent.SwitchToBlindsPattern();
+                    GetComponent<EnemyMovement>().Speed = GetComponent<EnemyMovement>().Speed / 2f;
+                    break;
+            }
+            timer += 1f;
+        }
         
 
+
+
+        // portalBehav.Portals.GetComponent<PortalBehaviour>();
+        if (portalsComponent.CurrentPattern == PhaseThreePattern.Blinds) {
+            if ((int)timer % 5 == 0)
+                QueueAbility(fireBoltsBehav);
+        }
+        if (portalsComponent.CurrentPattern == PhaseThreePattern.Circle) {
+
+        }
+
+        if (portalsComponent.CurrentPattern == PhaseThreePattern.Infinity) {
+            if ((int)timer % 2 == 0) {
+                QueueAbility(jumpAttackBehav);
+                if (Random.Range((int)0, (int)2) == 0) {
+                    var mine = Instantiate(RedMineObj);
+                    mine.transform.position = transform.position;
+                } else {
+                    var mine = Instantiate(BlueMineObj);
+                    mine.transform.position = transform.position;
+                }
+            }
+        }
+        if (portalsComponent.CurrentPattern == PhaseThreePattern.Spikes) {
+            
+        }
+
+        if (abilityQueueList.Count == 0 && ActiveBehaviour == null) {
+            meleeAttackBehav.Start();
+            ActiveBehaviour = meleeAttackBehav;
+        } else if (abilityQueueList.Count > 0) {
+            if (ActiveBehaviour is SlimeMeleeAttackBehaviour) {
+                (ActiveBehaviour as IBossBehaviour).End();
+                ActiveBehaviour = null;
+            }
+            if (ActiveBehaviour == null) {
+                ActiveBehaviour = abilityQueueList.First.Value;
+                abilityQueueList.RemoveFirst();
+                (ActiveBehaviour as IBossBehaviour).Start();
+            }
+        }
 
     }
 
@@ -275,6 +362,13 @@ public class SlimeManager : MonoBehaviour {
                     (ActiveBehaviour as IBossBehaviour).End();
                 fireCircleBehav.Start();
                 ActiveBehaviour = fireCircleBehav;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Y)) {
+                if (ActiveBehaviour != null)
+                    (ActiveBehaviour as IBossBehaviour).End();
+                portalBehav.Start();
+                ActiveBehaviour = portalBehav;
             }
 
 
