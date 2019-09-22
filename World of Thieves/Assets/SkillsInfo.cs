@@ -42,6 +42,8 @@ public class SkillsInfo {
     public const float Slime_RedMine_Damage = 69;
     public const float Slime_BlueMine_SlowDuration = 5f;
 
+    public const float Slime_Spikes_Damage = 50f;
+
     // PLAYER SKILLS //
     public const float Player_Orb_Damage = 1f;
     public const float Player_DamageOrb_ModifierAdditive = 0.02f;

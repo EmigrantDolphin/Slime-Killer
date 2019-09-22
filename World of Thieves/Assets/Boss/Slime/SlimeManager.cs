@@ -205,7 +205,7 @@ public class SlimeManager : MonoBehaviour {
 
         if ((int)timer % 5 == 0 && !isPortalSummoned) {
             QueueAbility(portalBehav);
-            GetComponent<EnemyMovement>().Speed = GetComponent<EnemyMovement>().Speed * 2;
+            GetComponent<EnemyMovement>().SpeedModifier += 1f;
             isPortalSummoned = true;
             timer = 1f;
         }
@@ -222,11 +222,11 @@ public class SlimeManager : MonoBehaviour {
                     break;
                 case PhaseThreePattern.Circle:
                     portalsComponent.SwitchToSpikesPattern();
-                    GetComponent<EnemyMovement>().Speed = GetComponent<EnemyMovement>().Speed * 2;
+                    GetComponent<EnemyMovement>().SpeedModifier += 1f;
                     break;
                 case PhaseThreePattern.Spikes:
                     portalsComponent.SwitchToBlindsPattern();
-                    GetComponent<EnemyMovement>().Speed = GetComponent<EnemyMovement>().Speed / 2f;
+                    GetComponent<EnemyMovement>().SpeedModifier -= 1f;
                     break;
             }
             timer += 1f;

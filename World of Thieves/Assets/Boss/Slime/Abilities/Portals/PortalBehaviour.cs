@@ -191,6 +191,8 @@ public class PortalBehaviour : MonoBehaviour{
     private float infinityExplosionCooldownCounter = 0;
 
     private readonly GameObject[] portals = new GameObject[4];
+    private readonly SpriteRenderer[] spikesRenderers = new SpriteRenderer[4];
+    private readonly CircleCollider2D[] spikesColliders = new CircleCollider2D[4];
     private bool arePortalsSpawned = false;
 
     private readonly IPattern[] patterns = new IPattern[5];
@@ -231,9 +233,15 @@ public class PortalBehaviour : MonoBehaviour{
 
         if (selectedPattern == transitionPattern)
             if (Vector2.Distance(portals[0].transform.position, selectedPattern.position[0]) < SnapThreshold) {
+                if (previousPattern is Spikes)
+                    SpikesEnabled(false);
+
                 selectedPattern = nextPattern;
                 previousPattern = null;
                 nextPattern = null;
+
+                if (selectedPattern is Spikes)
+                    SpikesEnabled(true);
             }
     }
 
@@ -342,16 +350,30 @@ public class PortalBehaviour : MonoBehaviour{
         }
 
         if (selectedPattern is Spikes || previousPattern is Spikes) {
-
+            
         }
 
+    }
+
+    private void SpikesEnabled(bool enabled) {
+        for (int i = 0; i < portals.Length; i++) {
+            spikesRenderers[i].enabled = enabled;
+            spikesColliders[i].enabled = enabled;
+        }
     }
 
     public void SpawnPortalsOn(GameObject target) {       
         for (int i = 0; i < portals.Length; i++) {
             portals[i] = Instantiate(Portal);
             portals[i].transform.position = (Vector2) target.transform.position;
+
+            var spike = portals[i].transform.Find("Spikes");
+
+            spikesRenderers[i] = spike.GetComponent<SpriteRenderer>();
+            spikesColliders[i] = spike.GetComponent<CircleCollider2D>();
         }
+
+        
         
         selectedPattern = patterns[4];
         CurrentPattern = PhaseThreePattern.Spikes;
