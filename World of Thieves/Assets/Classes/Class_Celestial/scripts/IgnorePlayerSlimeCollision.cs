@@ -18,8 +18,7 @@ public class IgnorePlayerSlimeCollision : MonoBehaviour{
             if (PlayerCollision)
                 Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), GameMaster.Player.GetComponent<Collider2D>());
             if (SlimeCollision) {
-                var slime = GameObject.Find("Slime1(Clone)");
-                Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), slime.GetComponent<Collider2D>());
+                Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), GameMaster.Slime.GetComponent<Collider2D>());
             }
             isSet = true;
         }

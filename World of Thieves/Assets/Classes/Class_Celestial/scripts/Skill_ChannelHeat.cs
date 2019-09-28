@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
-
-public class Skill_ChannelHeat : IAbility, IChanneling {
+using System;
+public class Skill_ChannelHeat : IAbility, IChanneling, IDisposable {
     const string name = "Channel Heat";
     string description = " Name: " + name + " \n\n"+
-        " Channel heat to orbs surrounding your enemy. \n Longer channel results in more damage \n\n" +
+        " Channel heat to orbs surrounding your enemy. \n Longer channel results in more damage. \n\n" +
         " Damage: " + SkillsInfo.Player_ChannelHeat_Damage + " per orb on full channel \n" +
         " Consumes: All orbs on enemies";
 
@@ -24,7 +24,6 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
     //orb control
     List<GameObject> orbs = new List<GameObject>();
     List<GameObject> heatOrbs = new List<GameObject>();
-    public List<GameObject> HeatOrbs { get { return heatOrbs; } }
     Sprite heatOrbTemp;
     
     public Skill_ChannelHeat(Class_Celestial cs) {
@@ -71,9 +70,9 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
             if (orbs.Count > 0)
                 if (orbs[0].GetComponent<OrbControls>().Target == null) { // died
                     foreach (var orb in orbs)
-                        Object.Destroy(orb);
+                        UnityEngine.Object.Destroy(orb);
                     foreach (var heatOrb in heatOrbs)
-                        Object.Destroy(heatOrb);
+                        UnityEngine.Object.Destroy(heatOrb);
                     active = false;
                     return;
                 }
@@ -91,8 +90,8 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
 
                         GameObject tempHeatOrb = heatOrbs[i];
                         heatOrbs.RemoveAt(i);
-                        Object.Destroy(tempOrb);
-                        Object.Destroy(tempHeatOrb);
+                        UnityEngine.Object.Destroy(tempOrb);
+                        UnityEngine.Object.Destroy(tempHeatOrb);
                         if (orbs.Count == 0)
                             EndAction();
                         continue;
@@ -147,6 +146,13 @@ public class Skill_ChannelHeat : IAbility, IChanneling {
 
         active = true;
         cooldownLeft = cooldown;
+    }
+
+    public void Dispose() {
+        for (int i = 0; i < orbs.Count; i++)
+            UnityEngine.GameObject.Destroy(orbs[i]);
+        for (int i = 0; i < heatOrbs.Count; i++)
+            UnityEngine.GameObject.Destroy(heatOrbs[i]);
     }
 
 }

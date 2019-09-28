@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Skill_Manipulate : IAbility {
     const string name = "Manipulate";
     string description = " Name: " + name + " \n\n" +
-        " Generates selcted orb each interval \n\n" + 
+        " Generates selcted orb each interval. \n\n" + 
         " Interval: " + SkillsInfo.Player_Manipulate_Interval +"s \n" + 
         " Cooldown: " + SkillsInfo.Player_Manipulate_Cooldown + "s ";
     bool active = false;
@@ -150,25 +150,16 @@ public class Skill_Manipulate : IAbility {
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.Alpha1))
+            if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetKeyUp(KeyCode.Alpha2) ||
+                Input.GetKeyUp(KeyCode.Alpha3) || Input.GetKeyUp(KeyCode.Q) ||
+                Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.E) ||
+                Input.GetKeyUp(KeyCode.BackQuote))
                 if (keyUped)
                     EndAction();
                 else
                     keyUped = true;
+
             
-
-            if (Input.GetKeyUp(KeyCode.Alpha2))
-                if (keyUped)
-                    EndAction();
-                else
-                    keyUped = true;
-
-
-            if (Input.GetKeyUp(KeyCode.Alpha3))
-                if (keyUped)
-                    EndAction();
-                else
-                    keyUped = true;
 
         }
 

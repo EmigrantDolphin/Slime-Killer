@@ -46,3 +46,4 @@ MonoBehaviour:
   PlayerObj: {fileID: 175380, guid: 0d34c7b6bc4313d40be0301799988a12, type: 3}
   SlimeObj: {fileID: 118042, guid: c547419375f76a24eb585bca17e0df67, type: 3}
   DeathMessage: {fileID: 0}
+  SpawnLocation: {fileID: 0}

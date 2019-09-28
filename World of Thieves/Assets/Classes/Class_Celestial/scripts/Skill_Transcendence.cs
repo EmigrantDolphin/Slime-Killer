@@ -8,9 +8,9 @@ public class Skill_Transcendence : IAbility
     const string name = "Transcendence";
     string description = " Name: " + name + " \n\n"+
         " Prepare yourself to consume the next generated orb. \n" +
-        " Red Orb increases damage \n" + 
-        " Blue Orb increases speed \n" +
-        " Green Orb increases defense \n\n" +
+        " Red Orb increases damage. \n" + 
+        " Blue Orb increases speed. \n" +
+        " Green Orb increases defense. \n\n" +
         " Damage multiplier: +" + (1+SkillsInfo.Debuff_TranscendenceDamage_DamageModifierAdditive) + "x \n" +
         " Speed multiplier: +" + (1+SkillsInfo.Debuff_TranscendenceControl_SpeedModifierAdditive) + "x \n" +
         " Defense multiplier: +" + (1+SkillsInfo.Debuff_TranscendenceDefense_DefenceModifierAdditive) + "x \n\n" +

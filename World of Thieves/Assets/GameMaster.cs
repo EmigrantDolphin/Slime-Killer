@@ -9,7 +9,10 @@ public class GameMaster : MonoBehaviour {
     public GameObject SlimeObj;
     public Text DeathMessage;
     public static GameObject Player;
-    private GameObject Slime;
+    public static GameObject Slime;
+
+    public Transform SpawnLocation;
+    public Transform BossSpawnLocation;
 
 
     [HideInInspector]
@@ -25,10 +28,11 @@ public class GameMaster : MonoBehaviour {
         SavedOrbsInfo.Clear();
     }
     private void Start() {
-        
-        Player = Instantiate(PlayerObj);
-        Player.transform.position = new Vector2(-10, 0);
-        Slime = Instantiate(SlimeObj);
+
+        InstantiatePlayer();
+
+
+        InstantiateSlime();
     }
 
     private void Update() {
@@ -43,10 +47,9 @@ public class GameMaster : MonoBehaviour {
         }
 
         if ( Player == null && Input.GetKeyDown(KeyCode.M)) {
-            Player = Instantiate(PlayerObj);
-            Player.transform.position = new Vector2(-15, -5);
+            InstantiatePlayer();
             Destroy(Slime);
-            Slime = Instantiate(SlimeObj);
+            InstantiateSlime();
 
             foreach (var slimeSplash in FindObjectsOfType<SlimeSplashControl>())
                 Destroy(slimeSplash.gameObject);
@@ -57,16 +60,29 @@ public class GameMaster : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.N)) {
+            if (Player != null)
+                Destroy(Player);
+
             if (SceneManager.GetActiveScene().name == "SlimeBossRoom1")
                 SceneManager.LoadScene("SlimeBossRoom2");
             if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
                 SceneManager.LoadScene("SlimeBossRoom3");
             if (SceneManager.GetActiveScene().name == "SlimeBossRoom3")
                 SceneManager.LoadScene("SlimeBossRoom1");
-
-
         }
 
+    }
+    private void InstantiatePlayer() {
+        Player = Instantiate(PlayerObj);
+        Player.transform.position = new Vector2(SpawnLocation.position.x, SpawnLocation.position.y);
+    }
+    private void InstantiateSlime() {
+        Slime = Instantiate(SlimeObj);
+        Slime.transform.position = new Vector2(BossSpawnLocation.position.x, BossSpawnLocation.position.y);
+        if (SceneManager.GetActiveScene().name == "TutorialRoom") {
+            Slime.GetComponent<DamageManager>().MaxHealth = 10000f;
+            Slime.GetComponent<DamageManager>().Health = 10000f;
+        }
     }
 
     public static void SaveOrbs(List<GameObject> orbs) {
@@ -78,6 +94,10 @@ public class GameMaster : MonoBehaviour {
 
     public static List<Tuple<string,string>> GetSavedOrbs() {
         return SavedOrbsInfo;
+    }
+
+    public static void DisplayMessage(string message, float duration) {
+
     }
 
 }

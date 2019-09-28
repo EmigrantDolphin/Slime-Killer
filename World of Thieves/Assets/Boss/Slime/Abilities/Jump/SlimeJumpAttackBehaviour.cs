@@ -6,6 +6,8 @@ using System.Collections;
 public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     private float jumpAttackDamage = SkillsInfo.Slime_JumpAttackDamage;
     private Vector2 jumpVector;
+    private Vector2 jumpTargetPos = Vector2.zero;
+    private bool wasOverloadedStart = false;
 
     bool active = false;
     bool animActive = false;
@@ -22,14 +24,28 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     }
 
     SlimeManager slime;
+    readonly GameObject landingParticleObj;
 
     GameObject lavaRockOnJump;
 
-    public SlimeJumpAttackBehaviour(SlimeManager sm) {
+    public SlimeJumpAttackBehaviour(SlimeManager sm, GameObject landingParticleObj) {
         slime = sm;
+        this.landingParticleObj = landingParticleObj;
+
     }
 
     public void Start() {
+        init();
+    }
+    public void Start(Vector2 targPos) {
+        init();
+        jumpTargetPos = targPos;
+        if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
+            lavaRockOnJump = GameMaster.CurrentLavaRock;
+        wasOverloadedStart = true;
+    }
+
+    private void init() {
         slime.GetComponent<EnemyMovement>().MovementEnabled = false;
         slime.GetComponent<Animator>().SetBool("Jump", true);
 
@@ -60,6 +76,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         animEvent = 0;
         slime.ActiveBehaviour = null;
         lavaRockOnJump = null;
+        jumpTargetPos = Vector2.zero;
+        wasOverloadedStart = false;
     }
 
     private void CancelAnimations() {
@@ -92,7 +110,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     }
 
     private void OnJump() {
-        Vector2 jumpTargetPos = slime.Player.transform.position;
+        if (jumpTargetPos == Vector2.zero)
+            jumpTargetPos = slime.Player.transform.position;
         var absoluteVector = jumpTargetPos - (Vector2)slime.transform.position;
         var distance = absoluteVector.magnitude;
         var normalizedVector = absoluteVector / distance;
@@ -104,10 +123,9 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         jumpVector = normalizedVector * speed;
         slime.GetComponent<EnemyMovement>().MovementEnabled = true;
 
-        if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
+        if (SceneManager.GetActiveScene().name == "SlimeBossRoom2" && !wasOverloadedStart)
             if (GameMaster.CurrentLavaRock != null)
                 lavaRockOnJump = GameMaster.CurrentLavaRock;
-
     }
 
     private void OnLand() {
@@ -128,6 +146,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), slime.Player.GetComponent<Collider2D>(), false);
         foreach (GameObject rockObj in GameObject.FindGameObjectsWithTag("Rock"))
             Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), rockObj.GetComponent<Collider2D>(), false);
+
+        GameObject.Instantiate(landingParticleObj, slime.transform.position, slime.transform.rotation);
 
         if (SceneManager.GetActiveScene().name == "SlimeBossRoom2") {
             if (lavaRockOnJump != null) {

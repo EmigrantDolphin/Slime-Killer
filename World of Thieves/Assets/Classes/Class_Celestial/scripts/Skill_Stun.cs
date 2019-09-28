@@ -4,8 +4,9 @@ using System;
 
 public class Skill_Stun : IAbility, ITargetting, IDisposable {
     const string name = "Stun";
-    string descritpion = " Name: " + name + " \n\n" + 
-        " Stun your foe to prevent from ability casting and movement \n\n" + 
+    string descritpion = " Name: " + name + " \n\n" +
+        " Stun your foe to prevent ability casting and movement. \n\n" +
+        " Generates: Blue orb \n" +
         " Duration: " + SkillsInfo.Player_Stun_Duration + "s \n" + 
         " Cooldown: " + SkillsInfo.Player_Stun_Cooldown + "s ";
     Sprite icon;

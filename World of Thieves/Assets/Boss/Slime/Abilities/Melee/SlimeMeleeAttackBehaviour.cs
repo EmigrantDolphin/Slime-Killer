@@ -64,7 +64,7 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     private void MeleeRangeMovement() {
         if (slime.GetComponent<Animator>().GetBool("MeleeAttack"))
             return;
-        var absoluteVector = slime.Player.transform.position - slime.transform.position;
+        var absoluteVector = (Vector2)slime.Player.transform.position - (Vector2)slime.transform.position;
         var distance = absoluteVector.magnitude;
         var direction = absoluteVector / distance;
         float angle = Mathf.Atan2(absoluteVector.y, absoluteVector.x) * 180 / Mathf.PI;
@@ -73,12 +73,13 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
         slime.transform.rotation = Quaternion.Euler(0, 0, angle);
 
 
-        Debug.DrawLine(slime.transform.position, slime.transform.position + direction * meleeRange);
+        //Debug.DrawLine(slime.transform.position, slime.transform.position + direction * meleeRange);
 
 
 
         if (Vector2.Distance(slime.transform.position, slime.Player.transform.position) >= meleeRange) {
-            slime.transform.position += direction * slime.gameObject.GetComponent<EnemyMovement>().Speed * Time.deltaTime;
+            var deltaPos = direction * slime.gameObject.GetComponent<EnemyMovement>().Speed * Time.deltaTime; ;
+            slime.transform.position = new Vector3(slime.transform.position.x + deltaPos.x, slime.transform.position.y + deltaPos.y, slime.transform.position.z);
             slime.GetComponent<Animator>().SetBool("Moving", true);
         }
 

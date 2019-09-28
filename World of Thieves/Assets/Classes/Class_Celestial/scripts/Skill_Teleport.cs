@@ -4,7 +4,7 @@ using System.Collections;
 public class Skill_Teleport : IAbility {
     const string name = "Teleport";
     string description = " Name: " + name + " \n\n" +
-        " Teleport to targeted location \n\n" + 
+        " Teleport to targeted location. \n\n" + 
         " Consumes: 1 Blue Orb ";
     Sprite icon;
     bool active = false;

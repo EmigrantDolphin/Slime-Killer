@@ -5,7 +5,8 @@ using System.Collections;
 public class Skill_StellarBolt : IAbility, ITargetting, IDisposable {
     const string name = "Stellar Bolt";
     string description = " Name : " + name + " \n\n" +
-        " Launch a bolt that damages foes \n\n" +
+        " Launch a bolt that damages foes. \n\n" +
+        " Generates: Red orb \n" +
         " Damage: " + SkillsInfo.Player_StellarBolt_Damage + " \n" + 
         " Cooldown: " + SkillsInfo.Player_StellarBolt_Cooldown + "s ";
     float speed = SkillsInfo.Player_StellarBolt_Speed;

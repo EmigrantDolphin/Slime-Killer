@@ -6,7 +6,7 @@ public class Skill_Heal : IAbility
 {
     const string name = "Heal";
     string descritpion = " Name: " + name + "\n\n" +
-        " Heal yourself and remove debuffs \n\n" +
+        " Heal yourself and remove debuffs. \n\n" +
         " Heal: "+SkillsInfo.Player_Heal_HealAmount+" \n" + 
         " Consumes: 1 Green Orb ";
     Sprite icon;

@@ -3,13 +3,13 @@ using System.Collections;
 
 public class SkillsInfo {
 
-    public const float Slime_HandDamage = 15;
+    public const float Slime_HandDamage = 15f;
 
-    public const float Slime_JumpAttackDamage = 50;
+    public const float Slime_JumpAttackDamage = 50f;
 
     public const float Slime_PulseDamage = 50f;
 
-    public const float Slime_ForceOrbDamage = 100;
+    public const float Slime_ForceOrbDamage = 100f;
     public const float Slime_ForceOrbSpeed = 5f;
 
     public const float Slime_FireTurret_ParticleDamage = 20f;
@@ -39,7 +39,7 @@ public class SkillsInfo {
     public const float Slime_PortalBeam_Damage = 50f;
 
     public const float Slime_Mine_AliveDuration = 30f;
-    public const float Slime_RedMine_Damage = 69;
+    public const float Slime_RedMine_Damage = 69f;
     public const float Slime_BlueMine_SlowDuration = 5f;
 
     public const float Slime_Spikes_Damage = 50f;
@@ -119,7 +119,7 @@ public class SkillsInfo {
 
     // static
 
-    public static float Player_DamageModifier = 1;
-    public static float Player_DefenceModifier = 1;
-    public static float Player_SpeedModifier = 1;
+    public static float Player_DamageModifier = 1f;
+    public static float Player_DefenceModifier = 1f;
+    public static float Player_SpeedModifier = 1f;
 }

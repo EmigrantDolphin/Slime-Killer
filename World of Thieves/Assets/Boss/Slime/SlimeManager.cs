@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class SlimeManager : MonoBehaviour {
     public float AggroDistance = 10f;
+    private bool isTransitionUsed = false;
+    private bool stunImmune = false;
 
     [Header("Needed Objects")]
     [Tooltip("HoldingItemObj 1")]
@@ -30,6 +32,10 @@ public class SlimeManager : MonoBehaviour {
     public GameObject RedMineObj;
     [Tooltip("Blue Mine Object")]
     public GameObject BlueMineObj;
+    [Tooltip("Jump Landing Particle Object")]
+    public GameObject LandingParticleObj;
+    [Tooltip("Transition Portal")]
+    public GameObject TransitionPortal;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -50,9 +56,15 @@ public class SlimeManager : MonoBehaviour {
     SlimeMeteorShowerBehaviour meteorShowerBehav;
     SlimeFireCircleBehaviour fireCircleBehav;
     SlimePortalBehaviour portalBehav;
+    SlimeTransitionBehaviour transitionBehav;
 
     private PortalBehaviour portalsComponent;
     private bool isPortalSummoned = false;
+
+    private readonly int jumpAttackLimit = 2;
+    private int jumpAttackCounter = 0;
+    private readonly float jumpAttackResetTime = 10f;
+    private float jumpAttackResetCounter = 0;
 
     float stunCounter = 0f;
     float timer = 1f;
@@ -62,7 +74,7 @@ public class SlimeManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         meleeAttackBehav = new SlimeMeleeAttackBehaviour(this);
-        jumpAttackBehav = new SlimeJumpAttackBehaviour(this);
+        jumpAttackBehav = new SlimeJumpAttackBehaviour(this, LandingParticleObj);
         flurryBehav = new SlimeFlurryBehaviour(this, SlimeSplashObj);
         pulseBehav = new SlimePulseBehaviour(this);
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
@@ -73,6 +85,7 @@ public class SlimeManager : MonoBehaviour {
         fireCircleBehav = new SlimeFireCircleBehaviour(this, FireCircleObj, smashParticlesObj);
         portalBehav = new SlimePortalBehaviour(this, PortalsObj);
         portalsComponent = portalBehav.Portals.GetComponent<PortalBehaviour>();
+        transitionBehav = new SlimeTransitionBehaviour(this);
 
         abilityQueueList = new LinkedList<IBossBehaviour>();
 
@@ -110,10 +123,15 @@ public class SlimeManager : MonoBehaviour {
             RoomThreeLoop();
         
 	}
-
+  
     private void RoomOneLoop() {
         if (timer > 10000)
             timer = 0;
+        if (jumpAttackResetCounter <= 0) {
+            jumpAttackCounter = 0;
+            jumpAttackResetCounter = jumpAttackResetTime;
+        } else
+            jumpAttackResetCounter += Time.deltaTime;
         if (stunCounter > 0f) {
             stunCounter -= Time.deltaTime;
             return;
@@ -129,6 +147,15 @@ public class SlimeManager : MonoBehaviour {
 
         if ((int)timer % 6 == 0)
             QueueAbility(forceOrbBehav);
+
+        if (GetComponent<DamageManager>().Health < 500 && !isTransitionUsed) {
+            if (ActiveBehaviour != null)
+                (ActiveBehaviour as IBossBehaviour).End();
+            transitionBehav.Start();
+            ActiveBehaviour = transitionBehav;
+            isTransitionUsed = true;
+            stunImmune = true;
+        }
 
 
 
@@ -178,7 +205,14 @@ public class SlimeManager : MonoBehaviour {
         if ((int)timer % 6 == 0)
             QueueAbility(chargeBehav);
 
-        
+        if (GetComponent<DamageManager>().Health < 500 && !isTransitionUsed) {
+            if (ActiveBehaviour != null)
+                (ActiveBehaviour as IBossBehaviour).End();
+            transitionBehav.Start();
+            ActiveBehaviour = transitionBehav;
+            isTransitionUsed = true;
+            stunImmune = true;
+        }
 
 
         if (abilityQueueList.Count == 0 && ActiveBehaviour == null) {
@@ -192,7 +226,10 @@ public class SlimeManager : MonoBehaviour {
             if (ActiveBehaviour == null) {
                 ActiveBehaviour = abilityQueueList.First.Value;
                 abilityQueueList.RemoveFirst();
-                (ActiveBehaviour as IBossBehaviour).Start();
+                if (ActiveBehaviour is SlimeJumpAttackBehaviour)
+                    (ActiveBehaviour as SlimeJumpAttackBehaviour).Start(GameMaster.CurrentLavaRock.GetComponent<JumpLocation>().Location.position);
+                else
+                    (ActiveBehaviour as IBossBehaviour).Start();
             }
         }
     }
@@ -203,6 +240,11 @@ public class SlimeManager : MonoBehaviour {
         if (ActiveBehaviour is SlimeMeleeAttackBehaviour)
             timer += Time.deltaTime;
 
+        if (stunCounter > 0f) {
+            stunCounter -= Time.deltaTime;
+            return;
+        }
+
         if ((int)timer % 5 == 0 && !isPortalSummoned) {
             QueueAbility(portalBehav);
             GetComponent<EnemyMovement>().SpeedModifier += 1f;
@@ -210,7 +252,7 @@ public class SlimeManager : MonoBehaviour {
             timer = 1f;
         }
 
-
+        stunImmune = (ActiveBehaviour is SlimePortalBehaviour) ? true : false;
 
         if ((int)timer % 12 == 0) {
             switch (portalsComponent.CurrentPattern) {
@@ -285,9 +327,16 @@ public class SlimeManager : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Rock") {
             foreach (IBossBehaviour behav in abilityQueueList)
-                if (behav is SlimeJumpAttackBehaviour)
+                if (behav is SlimeJumpAttackBehaviour || behav is SlimeForceOrbBehaviour)
                     return;
-            abilityQueueList.AddLast(jumpAttackBehav);
+            if (jumpAttackCounter < jumpAttackLimit) {
+                abilityQueueList.AddLast(jumpAttackBehav);
+                jumpAttackCounter++;
+            } else {
+                abilityQueueList.AddLast(forceOrbBehav);
+                jumpAttackCounter = 0;
+                jumpAttackResetCounter = jumpAttackResetTime;
+            }
         }
         if (ActiveBehaviour is SlimeChargeBehaviour)
             chargeBehav.OnCollision2D(collision);
@@ -367,8 +416,8 @@ public class SlimeManager : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Y)) {
                 if (ActiveBehaviour != null)
                     (ActiveBehaviour as IBossBehaviour).End();
-                portalBehav.Start();
-                ActiveBehaviour = portalBehav;
+                transitionBehav.Start();
+                ActiveBehaviour = transitionBehav;
             }
 
 
@@ -380,6 +429,8 @@ public class SlimeManager : MonoBehaviour {
             stunCounter -= Time.deltaTime;
     }
     public void Stun(float duration) {
+        if (stunImmune)
+            return;
         stunCounter = duration;
         if (ActiveBehaviour != null)
             (ActiveBehaviour as IBossBehaviour).End();

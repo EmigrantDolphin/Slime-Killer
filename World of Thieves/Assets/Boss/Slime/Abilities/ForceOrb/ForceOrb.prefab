@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5816918}
   - component: {fileID: 11494894}
   - component: {fileID: 11449982}
+  - component: {fileID: -1091892271196278415}
   m_Layer: 0
   m_Name: ForceOrb
   m_TagString: Untagged
@@ -145,3 +146,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Owner: {fileID: 0}
+--- !u!114 &-1091892271196278415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f66687b653e16c48bde1be281b0d88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Seconds: 0.6

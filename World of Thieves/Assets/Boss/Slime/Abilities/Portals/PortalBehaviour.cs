@@ -221,6 +221,12 @@ public class PortalBehaviour : MonoBehaviour{
 
     // Update is called once per frame
     void Update(){
+        if (GameMaster.Slime == null) {
+            for (int i = 0; i < portals.Length; i++)
+                Destroy(portals[i]);
+            Destroy(gameObject);
+        }
+
         if (!arePortalsSpawned)
             return;
 

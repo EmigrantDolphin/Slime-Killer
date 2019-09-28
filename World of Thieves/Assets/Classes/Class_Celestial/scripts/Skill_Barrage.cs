@@ -8,7 +8,7 @@ public class Skill_Barrage : IAbility, ITargetting, IDisposable
 
     const string skillName = "Barrage";
     string description = " Name: "+ skillName + " \n\n" +
-        " Launches a projectile from each active orb \n\n" +
+        " Launches a projectile from each active orb. \n\n" +
         " Damage: "+SkillsInfo.Player_Barrage_Damage + " per projectile \n" +
         " Consumes: 1 Red Orb ";
     float speed = SkillsInfo.Player_Barrage_Speed;

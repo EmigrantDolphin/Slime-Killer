@@ -12,7 +12,7 @@ public class ForceOrbBehaviour : MonoBehaviour {
     }
 
     void Update() {
-        if (GetComponent<ProjectileMovement>().Target == null)
+        if (GameMaster.Player == null)
             Destroy(gameObject);
     }
 

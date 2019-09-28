@@ -5,7 +5,8 @@ public class Skill_Masochism : IAbility {
 
     const string name = "Masochism";
     string description = " Name: " + name + " \n\n" +
-        " Converts all damage taken into health \n\n" +
+        " Converts all damage taken into health. \n\n" +
+        " Generates: Green orb \n" +
         " Duration: " + SkillsInfo.Player_Masochism_Duration + "s \n" +
         " Cooldown: " + SkillsInfo.Player_Masochism_Cooldown + "s ";
     Sprite icon;

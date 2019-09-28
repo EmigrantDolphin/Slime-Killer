@@ -3,8 +3,8 @@ using System.Collections;
 
 public class RockBehaviour : MonoBehaviour {
 
-    float respawnTime = 10f;
-    float respawnTimer = 10f;
+    const float respawnTime = 15f;
+    float respawnTimer = respawnTime;
 
 	// Use this for initialization
 	void Start () {

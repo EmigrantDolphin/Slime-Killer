@@ -321,14 +321,13 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         Destroy(ManipulateSkillBarClone);
         Destroy(ParentPlayer.GetComponent<BuffDebuff>().DebuffBarInstantiated);     
 
-        foreach (var heatOrb in channelHeat.HeatOrbs)
-            Destroy(heatOrb);
         foreach (var orb in Orbs)
             Destroy(orb);
         barrage.Dispose();
         rift.Dispose();
         stellarBolt.Dispose();
         stun.Dispose();
+        channelHeat.Dispose();
     }
 
 }

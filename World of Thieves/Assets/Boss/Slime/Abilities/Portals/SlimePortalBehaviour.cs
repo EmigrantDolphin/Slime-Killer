@@ -13,9 +13,6 @@ public class SlimePortalBehaviour : IBossBehaviour, IAnimEvents{
     public bool IsActive { get { return active; } }
     public bool IsAnimActive { get { return animActive; } }
     int animEvent = 0;
-    private bool isSummoning = false;
-    private readonly float summonInterval = 1f;
-    private float summonCounter = 1f;
 
     private readonly SlimeManager slime;
 
