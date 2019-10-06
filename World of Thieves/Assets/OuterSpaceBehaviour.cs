@@ -27,7 +27,8 @@ public class OuterSpaceBehaviour : MonoBehaviour{
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Fallers.Add(collision.gameObject);
+        if (collision.tag == "Player")
+            Fallers.Add(collision.gameObject);
         if (collision.tag == "Player") {
             collision.GetComponent<playerMovement>().enabled = false;
             collision.GetComponent<Animator>().enabled = false;

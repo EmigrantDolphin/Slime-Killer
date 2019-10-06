@@ -46,8 +46,8 @@ public class BuffDebuff : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.L))
-            ApplyDebuff(Debuffs.PoisonImmunity, 3f);
+        //if (Input.GetKeyDown(KeyCode.L))
+         //   ApplyDebuff(Debuffs.PoisonImmunity, 3f);
 
         for (int i = debuffList.Count-1; i >= 0; i-- ){
             debuffList[i].Loop();

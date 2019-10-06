@@ -24,6 +24,8 @@ public class TransitionPortalBehaviour : MonoBehaviour{
                     SceneManager.LoadScene("SlimeBossRoom2");
                 if (SceneManager.GetActiveScene().name == "SlimeBossRoom2")
                     SceneManager.LoadScene("SlimeBossRoom3");
+            } else {
+                Destroy(Entities.Last.Value);
             }
             Entities.Last.Value.GetComponent<BoxCollider2D>().enabled = false;
             Entities.Last.Value.GetComponent<SpriteRenderer>().enabled = false;

@@ -142,8 +142,14 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     }
 
     private void SaveOrbTargetLoop() {
-        if (Input.GetKeyDown(KeyCode.T)) 
-            GameMaster.SaveOrbs(Orbs);    
+        if (Input.GetKeyDown(KeyCode.T)) {
+            if (Orbs.Count > 0) {
+                GameMaster.SaveOrbs(Orbs);
+                GameMaster.DisplayMessage("Orb configuration saved", 3f);
+            } else {
+                GameMaster.DisplayMessage("No active orbs", 3f);
+            }
+        }
     }
 
     private void LoadSavedOrbs() {

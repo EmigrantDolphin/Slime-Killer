@@ -51,7 +51,7 @@ public class SkillsInfo {
     public const float Player_SpeedOrb_ModifierAdditive = 0.02f;
 
     public const float Player_ChannelHeat_Cooldown = 1f;
-    public const float Player_ChannelHeat_Damage = 30f;
+    public const float Player_ChannelHeat_Damage = 50f;
     public const float Player_ChannelHeat_CollapseSpeed = 12f;
     public const float Player_ChannelHeat_TimeTillFullChannel = 4f;
 
@@ -80,7 +80,7 @@ public class SkillsInfo {
 
     public const float Player_Teleport_Cooldown = 0f;
 
-    public const float Player_StellarBolt_Damage = 30f;
+    public const float Player_StellarBolt_Damage = 25f;
     public const float Player_StellarBolt_Cooldown = 3f;
     public const float Player_StellarBolt_Speed = 20f;
     public const float Player_StellarBolt_LifeTime = 10f;

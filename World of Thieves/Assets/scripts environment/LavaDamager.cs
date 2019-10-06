@@ -8,8 +8,8 @@ public class LavaDamager : MonoBehaviour
 
     public GameObject[] LavaRocks;
 
-    float invincibilityTime = 1f;
-    float invincibilityCounter = 0;
+    float invincibilityTime = 2f;
+    float invincibilityCounter = 2f;
     private void Start() {
         GameMaster.OnReset.Add(() => {
             foreach (var lavaRock in LavaRocks)
@@ -18,8 +18,7 @@ public class LavaDamager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         if (GameMaster.Player == null)
             invincibilityCounter = invincibilityTime;
 

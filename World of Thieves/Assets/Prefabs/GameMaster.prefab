@@ -47,3 +47,6 @@ MonoBehaviour:
   SlimeObj: {fileID: 118042, guid: c547419375f76a24eb585bca17e0df67, type: 3}
   DeathMessage: {fileID: 0}
   SpawnLocation: {fileID: 0}
+  BossSpawnLocation: {fileID: 0}
+  TextMeshNotification: {fileID: 5045274909955166015, guid: bdba2d6afd3be0e409061cc891ed862b,
+    type: 3}

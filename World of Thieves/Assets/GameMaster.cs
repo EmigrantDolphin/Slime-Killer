@@ -14,6 +14,9 @@ public class GameMaster : MonoBehaviour {
     public Transform SpawnLocation;
     public Transform BossSpawnLocation;
 
+    public GameObject TextMeshNotification;
+    private static GameObject textMeshNotification;
+    private static float textMeshNotificationCounter = 0;
 
     [HideInInspector]
     public static GameObject CurrentLavaRock;
@@ -28,6 +31,7 @@ public class GameMaster : MonoBehaviour {
         SavedOrbsInfo.Clear();
     }
     private void Start() {
+        textMeshNotification = Instantiate(TextMeshNotification, Camera.main.transform);
 
         InstantiatePlayer();
 
@@ -71,6 +75,8 @@ public class GameMaster : MonoBehaviour {
                 SceneManager.LoadScene("SlimeBossRoom1");
         }
 
+        MessageLoop();
+
     }
     private void InstantiatePlayer() {
         Player = Instantiate(PlayerObj);
@@ -97,7 +103,20 @@ public class GameMaster : MonoBehaviour {
     }
 
     public static void DisplayMessage(string message, float duration) {
+        textMeshNotification.GetComponent<TextMesh>().text = message;
+        textMeshNotificationCounter = duration;
+    }
 
+    public static void MessageLoop() {
+        if (textMeshNotificationCounter > 0) {
+            if (textMeshNotification.activeSelf == false)
+                textMeshNotification.SetActive(true);
+
+            textMeshNotificationCounter -= Time.deltaTime;
+        } else {
+            if (textMeshNotification.activeSelf == true)
+                textMeshNotification.SetActive(false);
+        }
     }
 
 }
