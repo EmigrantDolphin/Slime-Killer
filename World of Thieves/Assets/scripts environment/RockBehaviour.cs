@@ -3,6 +3,8 @@ using System.Collections;
 
 public class RockBehaviour : MonoBehaviour {
 
+    public AudioClip DestroySound;
+
     const float respawnTime = 15f;
     float respawnTimer = respawnTime;
 
@@ -25,7 +27,7 @@ public class RockBehaviour : MonoBehaviour {
 
     public void Destroy() {
         //TODO : add destroy animations
-
+        SoundMaster.PlayOneSound(DestroySound, 1f, 1.2f);
         GetComponent<EdgeCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
         respawnTimer = 0f;

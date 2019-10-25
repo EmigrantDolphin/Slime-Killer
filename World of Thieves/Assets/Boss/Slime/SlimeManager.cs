@@ -36,6 +36,14 @@ public class SlimeManager : MonoBehaviour {
     public GameObject LandingParticleObj;
     [Tooltip("Transition Portal")]
     public GameObject TransitionPortal;
+    [Tooltip("Moving Sound")]
+    public AudioClip MovingSound;
+    [Tooltip("Jump Sound")]
+    public AudioClip JumpSound;
+    [Tooltip("Land Sound")]
+    public AudioClip LandSound;
+    [Tooltip("Pulse Sound")]
+    public AudioClip PulseSound;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -73,10 +81,12 @@ public class SlimeManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        meleeAttackBehav = new SlimeMeleeAttackBehaviour(this);
-        jumpAttackBehav = new SlimeJumpAttackBehaviour(this, LandingParticleObj);
+        GetComponent<AudioSource>().volume = GameSettings.MasterVolume;
+
+        meleeAttackBehav = new SlimeMeleeAttackBehaviour(this, MovingSound);
+        jumpAttackBehav = new SlimeJumpAttackBehaviour(this, LandingParticleObj, JumpSound, LandSound);
         flurryBehav = new SlimeFlurryBehaviour(this, SlimeSplashObj);
-        pulseBehav = new SlimePulseBehaviour(this);
+        pulseBehav = new SlimePulseBehaviour(this, PulseSound);
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
         chargeBehav = new SlimeChargeBehaviour(this);
         turretBehav = new SlimeFireTurretBehaviour(this, FireTurretObj);

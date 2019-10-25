@@ -31,7 +31,7 @@ public class Debuff_Slow : IDebuff {
     public void Apply(float timeLength) {
         if (active == false) { // if called first time
             if (buffDebuff.tag == "Player") {
-                buffDebuff.GetComponent<playerMovement>().Speed -= speedReduction;
+                buffDebuff.GetComponent<Modifiers>().SpeedModifier -= 0.5f;
                 buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(this);
             }
             if (buffDebuff.tag == "Enemy") { 
@@ -48,7 +48,7 @@ public class Debuff_Slow : IDebuff {
         active = false;
         timerCount = 0f;
         if (buffDebuff.tag == "Player") {
-            buffDebuff.GetComponent<playerMovement>().Speed += speedReduction;
+            buffDebuff.GetComponent<Modifiers>().SpeedModifier += 0.5f;
             buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Remove(this);
         }
         if (buffDebuff.tag == "Enemy") {

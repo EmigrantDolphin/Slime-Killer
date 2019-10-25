@@ -5,22 +5,30 @@ using System;
 
 public class RiftController : MonoBehaviour {
 
+    public AudioClip PulseSound;
+    private AudioSource audioSource;
+
     List<GameObject> trackedEntities = new List<GameObject>();
     ParticleSystem ps;
     List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
 
-    float damage = SkillsInfo.Player_Rift_Damage;
-    float lifeTime = SkillsInfo.Player_Rift_LifeTime;
+    readonly float damage = SkillsInfo.Player_Rift_Damage;
+    readonly float lifeTime = SkillsInfo.Player_Rift_LifeTime;
     float lifeTimeTimer = 0f;
-    float interval = SkillsInfo.Player_Rift_DamageInterval;
+    readonly float interval = SkillsInfo.Player_Rift_DamageInterval;
     float intervalTimer = SkillsInfo.Player_Rift_DamageInterval;
-    float slowDuration = SkillsInfo.Player_Rift_SlowDuration;
-    float doubleOrbDuration = SkillsInfo.Player_Rift_DoubleOrbDuration;
+    float soundIntervalTimer = SkillsInfo.Player_Rift_DamageInterval;
+    readonly float slowDuration = SkillsInfo.Player_Rift_SlowDuration;
+    readonly float doubleOrbDuration = SkillsInfo.Player_Rift_DoubleOrbDuration;
 
     private Action onReset;
 	// Use this for initialization
 	void Start () {
         ps = GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = PulseSound;
+        audioSource.volume = 0.5f * GameSettings.MasterVolume;
+        audioSource.pitch = 1.25f;
         onReset = () => {
             Destroy(gameObject);
         };
@@ -30,6 +38,12 @@ public class RiftController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         intervalTimer += Time.deltaTime;
+        soundIntervalTimer += Time.deltaTime;
+
+        if (soundIntervalTimer >= interval) {
+            PlaySound();
+            soundIntervalTimer = 0;
+        }
 
         if (lifeTimeTimer < lifeTime)
             lifeTimeTimer += Time.deltaTime;
@@ -49,6 +63,10 @@ public class RiftController : MonoBehaviour {
             }
             entity.gameObject.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.DoubleOrbs, doubleOrbDuration);
         }
+    }
+
+    private void PlaySound() {
+        audioSource.Play();
     }
 
     void OnTriggerEnter2D(Collider2D collider) {

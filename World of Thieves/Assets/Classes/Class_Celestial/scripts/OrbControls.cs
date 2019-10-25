@@ -4,6 +4,8 @@ using System.Collections;
 public class OrbControls : MonoBehaviour {
     Vector2 direction;
     public GameObject DestroyParticles;
+    public AudioClip DeathSound;
+    private AudioSource audioSource;
     public Vector2 Direction { get { return direction; } }
 
     //float damage = SkillsInfo.Player_Orb_Damage;
@@ -14,6 +16,7 @@ public class OrbControls : MonoBehaviour {
     bool positionSet = false;
     Class_Celestial celestial;
     public bool Instantiated = false;
+
 
     //collision
     private GameObject collidingTarget;
@@ -234,6 +237,11 @@ public class OrbControls : MonoBehaviour {
             return;
         var temp = Instantiate(DestroyParticles);
         temp.transform.position = transform.position;
+        temp.AddComponent<AudioSource>();
+        audioSource = temp.GetComponent<AudioSource>();
+        audioSource.clip = DeathSound;
+        audioSource.volume = GameSettings.MasterVolume;
+        audioSource.Play();
     }
 
 

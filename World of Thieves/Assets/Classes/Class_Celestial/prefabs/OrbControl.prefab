@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DestroyParticles: {fileID: 1229007796690215731, guid: 735b51b9c72e15c4eab1d2ae4e7095b4,
     type: 3}
+  DeathSound: {fileID: 8300000, guid: 3814141f8d3b12a42bc3f9e67d5688e5, type: 3}
   FutureTarget: {fileID: 0}
   Instantiated: 0
   addRadius: 0.2

@@ -20,11 +20,13 @@ public class Skill_Stun : IAbility, ITargetting, IDisposable {
     float radius; // set when targetobject is created; if u wanna change it change icons Pixel Per Unit in Resources
     float radiusScale = SkillsInfo.Player_Stun_RadiusScale;
 
-    public Skill_Stun(Class_Celestial cs) {
+    private readonly AudioClip stunSound;
+    private readonly float stunVolume = 0.7f;
+    public Skill_Stun(Class_Celestial cs, AudioClip stunSound) {
         icon = Resources.Load<Sprite>("StunIcon");
         targettingIcon = Resources.Load<Sprite>("AoeTargetIcon");
         celestial = cs;
-
+        this.stunSound = stunSound;
     }
 
     public string Name {
@@ -75,7 +77,7 @@ public class Skill_Stun : IAbility, ITargetting, IDisposable {
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
-
+        PlaySound();
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(mousePos, radius);
         foreach (Collider2D targ in hitColliders)
             if (targ.gameObject.GetComponent<SlimeManager>() != null) {
@@ -84,6 +86,17 @@ public class Skill_Stun : IAbility, ITargetting, IDisposable {
             }
         celestial.InstantiateOrb(celestial.OrbControlObj, celestial.ParentPlayer);
         cooldownLeft = cooldown;
+    }
+
+    private void PlaySound() {
+        var audioObj = new GameObject();
+        var audioSource = audioObj.AddComponent<AudioSource>();
+        audioSource.clip = stunSound;
+        audioSource.volume = stunVolume * GameSettings.MasterVolume;
+        audioSource.Play();
+        audioObj.AddComponent<DestroyOnSoundEnd>();
+
+        
     }
 
     public void EndAction() {

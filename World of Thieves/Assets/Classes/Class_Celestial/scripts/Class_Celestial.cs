@@ -39,6 +39,10 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public GameObject barrageProjectileObj;
     [Tooltip("Manipulate Particle System")]
     private ParticleSystem manipulateParticleSystem;
+    [Tooltip("Stun Sound")]
+    public AudioClip StunSound;
+    [Tooltip("Masochism Sound")]
+    public AudioClip MasochismSound;
 
     private float rotationSpeed = 0.5f * Mathf.PI;
     public float RotationSpeed {
@@ -83,8 +87,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         manipulate = new Skill_Manipulate(this, manipulateParticleSystem);
         channelHeat = new Skill_ChannelHeat(this);
         teleport = new Skill_Teleport(this);
-        stun = new Skill_Stun(this);
-        masochism = new Skill_Masochism(this);
+        stun = new Skill_Stun(this, StunSound);
+        masochism = new Skill_Masochism(this, MasochismSound);
         rift = new Skill_Rift(this, riftObj);
         stellarBolt = new Skill_StellarBolt(this, stellarBoltObj);
         transcendence = new Skill_Transcendence(this);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class GameMaster : MonoBehaviour {
+
     public GameObject PlayerObj;
     public GameObject SlimeObj;
     public Text DeathMessage;
@@ -49,7 +50,8 @@ public class GameMaster : MonoBehaviour {
             if (DeathMessage.enabled == true)
                 DeathMessage.enabled = false;
         }
-
+        if (Input.GetKeyDown(KeyCode.I))
+            GameSettings.MasterVolume = 0.9f;
         if ( Player == null && Input.GetKeyDown(KeyCode.M)) {
             InstantiatePlayer();
             Destroy(Slime);

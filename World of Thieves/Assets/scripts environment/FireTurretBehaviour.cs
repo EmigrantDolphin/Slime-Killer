@@ -5,6 +5,9 @@ using System;
 
 public class FireTurretBehaviour : MonoBehaviour
 {
+    public AudioClip Sound;
+    private readonly float soundVolume = SkillsInfo.Slime_FireTurret_Volume;
+
     const float lifeTime = SkillsInfo.Slime_FireTurret_LifeTime;
     float lifeTimeCounter = lifeTime;
     GameObject targetWaypoint;
@@ -33,6 +36,10 @@ public class FireTurretBehaviour : MonoBehaviour
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GetComponent<ParticleSystem>().Play();
             GetComponent<RotationMovement>().StartRotation();
+            GetComponent<AudioSource>().clip = Sound;
+            GetComponent<AudioSource>().volume = soundVolume * GameSettings.MasterVolume;
+            GetComponent<AudioSource>().loop = true;
+            GetComponent<AudioSource>().Play();
         }
 
         if (GetComponent<Rigidbody2D>().velocity == Vector2.zero)

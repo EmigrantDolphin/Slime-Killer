@@ -6,6 +6,7 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     private float meleeRange = 1.65f;
     private float attackCooldown = 3f;
     private float cooldownCounter = 0f;
+    private float movementVolume = 0.2f;
 
     bool active = false;
     bool animActive = false;
@@ -18,9 +19,12 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
     public float Cooldown { get { return 0; } }
     SlimeManager slime;
 
-    public SlimeMeleeAttackBehaviour(SlimeManager sm) {
+    private readonly AudioClip walkingSound;
+
+    public SlimeMeleeAttackBehaviour(SlimeManager sm, AudioClip walkingSound) {
         slime = sm;
-        
+        this.walkingSound = walkingSound;
+
     }
 
 
@@ -73,23 +77,34 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
         slime.transform.rotation = Quaternion.Euler(0, 0, angle);
 
 
-        //Debug.DrawLine(slime.transform.position, slime.transform.position + direction * meleeRange);
-
-
-
         if (Vector2.Distance(slime.transform.position, slime.Player.transform.position) >= meleeRange) {
             var deltaPos = direction * slime.gameObject.GetComponent<EnemyMovement>().Speed * Time.deltaTime; ;
             slime.transform.position = new Vector3(slime.transform.position.x + deltaPos.x, slime.transform.position.y + deltaPos.y, slime.transform.position.z);
             slime.GetComponent<Animator>().SetBool("Moving", true);
+            MovingSound();
         }
 
     }
 
 
+    private void MovingSound() {
+        if (!slime.GetComponent<AudioSource>().isPlaying) {
+            slime.GetComponent<AudioSource>().clip = walkingSound;
+            slime.GetComponent<AudioSource>().volume = movementVolume * GameSettings.MasterVolume;
+            slime.GetComponent<AudioSource>().Play();
+            return;
+        }
+
+        if (slime.GetComponent<AudioSource>().time > slime.GetComponent<AudioSource>().clip.length - 1)
+            slime.GetComponent<AudioSource>().time = 1f;  
+
+    }
+
     private void MeleeAutoAttack() {
         if (slime.GetComponent<Animator>().GetBool("Moving")) {
             slime.GetComponent<Animator>().SetBool("Moving", false);
             slime.GetComponent<Animator>().SetBool("CancelAnim", true);
+            slime.GetComponent<AudioSource>().Stop();
         }
         slime.GetComponent<Animator>().SetBool("MeleeAttack", true);
     }
@@ -98,6 +113,7 @@ public class SlimeMeleeAttackBehaviour : IBossBehaviour {
         slime.GetComponent<Animator>().SetBool("MeleeAttack", false);
         slime.GetComponent<Animator>().SetBool("Moving", false);
         slime.GetComponent<Animator>().SetBool("CancelAnim", true);
+        slime.GetComponent<AudioSource>().Stop();
     }
 
     public void OnAnimStart() {

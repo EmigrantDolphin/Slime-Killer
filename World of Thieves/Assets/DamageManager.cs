@@ -6,6 +6,7 @@ public class DamageManager : MonoBehaviour {
 
     public Image HealthGreenImage;
     public GameObject DamageFloater;
+    public AudioClip HitSound;
 
     public float MaxHealth = 100;
     public float Health = 100;
@@ -55,7 +56,7 @@ public class DamageManager : MonoBehaviour {
             InstantiateDamageFloater(damageAmount, Color.green);
         }
 
-        
+        SoundMaster.PlayOneSound(HitSound, 1f);
 
         UIHealthUpdate();
     }

@@ -6,8 +6,11 @@ public class SkillsInfo {
     public const float Slime_HandDamage = 15f;
 
     public const float Slime_JumpAttackDamage = 50f;
+    public const float Slime_JumpAttack_JumpVolume = 1f;
+    public const float Slime_JumpAttack_LandVolume = 1f;
 
     public const float Slime_PulseDamage = 50f;
+    public const float Slime_Pulse_PulseVolume = 1f;
 
     public const float Slime_ForceOrbDamage = 100f;
     public const float Slime_ForceOrbSpeed = 5f;
@@ -15,6 +18,7 @@ public class SkillsInfo {
     public const float Slime_FireTurret_ParticleDamage = 20f;
     public const float Slime_FireTurret_ThrowSpeed = 10f;
     public const float Slime_FireTurret_LifeTime = 15f;
+    public const float Slime_FireTurret_Volume = 0.6f;
 
     public const float Slime_FireBolt_Damage = 20f;
     public const float Slime_FireBolt_LifeTime = 5f;
@@ -64,7 +68,7 @@ public class SkillsInfo {
     public const float Player_Rift_Cooldown = 10f;
     public const float Player_Rift_RadiusScale = 1f;
     public const float Player_Rift_Damage = 10f;
-    public const float Player_Rift_DamageInterval = 1.5f;
+    public const float Player_Rift_DamageInterval = 1.45f;
     public const float Player_Rift_LifeTime = 4f;
     public const float Player_Rift_SlowDuration = 5f;
     public const float Player_Rift_DoubleOrbDuration = 4f;
@@ -77,13 +81,16 @@ public class SkillsInfo {
 
     public const float Player_Masochism_Cooldown = 20f;
     public const float Player_Masochism_Duration = 4f;
+    public const float Player_Masochism_ActivationVolume = 1f;
 
     public const float Player_Teleport_Cooldown = 0f;
 
-    public const float Player_StellarBolt_Damage = 25f;
+    public const float Player_StellarBolt_Damage = 50f;
     public const float Player_StellarBolt_Cooldown = 3f;
     public const float Player_StellarBolt_Speed = 20f;
     public const float Player_StellarBolt_LifeTime = 10f;
+    public const float Player_StellarBolt_LaunchVolume = 0.2f;
+    public const float Player_StellarBolt_ExplosionVolume = 0.2f;
 
     public const float Player_Transcendence_Cooldown = 0f;
     public const float Player_Transcendence_BuffDuration = 20f;

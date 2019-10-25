@@ -15,11 +15,14 @@ public class Skill_Masochism : IAbility {
     float cooldownLeft = 0f;
     float duration = SkillsInfo.Player_Masochism_Duration;
 
+    private AudioClip activationSound;
+    private readonly float activationVolume = SkillsInfo.Player_Masochism_ActivationVolume;
     Class_Celestial celestial;
 
-    public Skill_Masochism(Class_Celestial cs) {
+    public Skill_Masochism(Class_Celestial cs, AudioClip activationSound) {
         icon = Resources.Load<Sprite>("MasochismIcon");
         celestial = cs;
+        this.activationSound = activationSound;
     }
 
     public string Name {
@@ -50,6 +53,7 @@ public class Skill_Masochism : IAbility {
             celestial.ParentPlayer.GetComponent<DamageManager>().DamageToHealFor(duration);
             cooldownLeft = cooldown;
             celestial.InstantiateOrb(celestial.OrbDefenseObj, celestial.ParentPlayer);
+            SoundMaster.PlayOneSound(activationSound, 1f, 2f);
         }
     }
 

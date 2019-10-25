@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
 
-    private float damage = SkillsInfo.Slime_PulseDamage;
+    private readonly float damage = SkillsInfo.Slime_PulseDamage;
+    private readonly float pulseVolume = SkillsInfo.Slime_Pulse_PulseVolume; 
 
     public bool IsActive { get; private set; } = false;
     public bool IsAnimActive { get; private set; } = false;
     public float Cooldown { get; } = 5f;
+
+    private readonly AudioClip pulseSound;
     private readonly SlimeManager slimeManager;
 
-    public SlimePulseBehaviour(SlimeManager sm) {
+
+    public SlimePulseBehaviour(SlimeManager sm, AudioClip pulseSound) {
         slimeManager = sm;
+        this.pulseSound = pulseSound;
     }
 
     public void Start() {
@@ -42,7 +47,7 @@ public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
     public void OnAnimEvent() {
         RaycastHit2D hit = Physics2D.Raycast(slimeManager.transform.position, slimeManager.Player.transform.position - slimeManager.transform.position, 50f, LayerMask.GetMask("RaycastDetectable"));
 
-        //destroy rocks
+        SoundMaster.PlayOneSound(pulseSound, pulseVolume, 1.2f);
 
         if (hit.collider == null)
             return;

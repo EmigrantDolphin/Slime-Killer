@@ -1,13 +1,15 @@
 using UnityEngine;
-using UnityEngine.Networking;
-using System.Collections;
 
 public class playerMovement : MonoBehaviour {
-    
+
+    public AudioClip StepSound;
+    private readonly float stepVolume = 0.3f;
+    private AudioSource audioSource;
+    private readonly float audioPitch = 2f;
+
     private Rigidbody2D rigidBody;
 
-    [Tooltip("Click Pointer Object")]
-    public ClickPointerBehaviour clickPointer;
+    private ClickPointerBehaviour clickPointer;
 
     // for movement
     float previousSpeedModifier = 1;
@@ -25,10 +27,14 @@ public class playerMovement : MonoBehaviour {
     void Start () {
         GameMaster.Player = gameObject;
         initialSpeed = Speed;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = StepSound;
+        audioSource.volume = stepVolume * GameSettings.MasterVolume;
+        audioSource.pitch = audioPitch;
         
         rigidBody = GetComponent<Rigidbody2D>();
 
-        
+        GameSettings.OnVolumeChange.Add(() => { audioSource.volume = stepVolume * GameSettings.MasterVolume; });
     }
 	
 	// Update is called once per frame
@@ -43,7 +49,8 @@ public class playerMovement : MonoBehaviour {
             OnClick();
         if (Input.GetMouseButtonDown(0))
             OnClick();
-        
+        if (isMoving)
+            WalkingSound();
     }
 
     private void OnClick() {
@@ -82,6 +89,9 @@ public class playerMovement : MonoBehaviour {
 
             previousSpeedModifier = GetComponent<Modifiers>().SpeedModifier;
             UpdateSpeed();
+
+            //audio
+            audioSource.pitch = audioPitch * (GetComponent<Modifiers>().SpeedModifier );
         }
     }
 
@@ -110,5 +120,10 @@ public class playerMovement : MonoBehaviour {
               
         }
     } 
+
+    private void WalkingSound() {
+        if (!audioSource.isPlaying) 
+            audioSource.Play();  
+    }
 
 }

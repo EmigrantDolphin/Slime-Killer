@@ -57,6 +57,8 @@ MonoBehaviour:
     type: 3}
   barrageProjectileObj: {fileID: 6402661182548064386, guid: b87ea9cae365a5443bfe1c810eefb379,
     type: 3}
+  StunSound: {fileID: 8300000, guid: 67237bb9d594f0c4787367d84c8c427f, type: 3}
+  MasochismSound: {fileID: 8300000, guid: 8e776b7404814fc49b1c34967bafa621, type: 3}
   CurrRadians: 0
   ParentPlayer: {fileID: 0}
   Orbs: []

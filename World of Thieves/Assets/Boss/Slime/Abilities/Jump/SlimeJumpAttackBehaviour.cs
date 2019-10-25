@@ -4,7 +4,9 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
-    private float jumpAttackDamage = SkillsInfo.Slime_JumpAttackDamage;
+    private readonly float jumpAttackDamage = SkillsInfo.Slime_JumpAttackDamage;
+    private readonly float jumpVolume = SkillsInfo.Slime_JumpAttack_JumpVolume;
+    private readonly float landVolume = SkillsInfo.Slime_JumpAttack_LandVolume;
     private Vector2 jumpVector;
     private Vector2 jumpTargetPos = Vector2.zero;
     private bool wasOverloadedStart = false;
@@ -26,12 +28,16 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
     SlimeManager slime;
     readonly GameObject landingParticleObj;
 
+    private readonly AudioClip jumpSound;
+    private readonly AudioClip landSound;
+
     GameObject lavaRockOnJump;
 
-    public SlimeJumpAttackBehaviour(SlimeManager sm, GameObject landingParticleObj) {
+    public SlimeJumpAttackBehaviour(SlimeManager sm, GameObject landingParticleObj, AudioClip jumpSound, AudioClip landSound) {
         slime = sm;
         this.landingParticleObj = landingParticleObj;
-
+        this.jumpSound = jumpSound;
+        this.landSound = landSound;
     }
 
     public void Start() {
@@ -122,6 +128,7 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
         float speed = distance / animTime;
         jumpVector = normalizedVector * speed;
         slime.GetComponent<EnemyMovement>().MovementEnabled = true;
+        SoundMaster.PlayOneSound(jumpSound, jumpVolume);
 
         if (SceneManager.GetActiveScene().name == "SlimeBossRoom2" && !wasOverloadedStart)
             if (GameMaster.CurrentLavaRock != null)
@@ -148,6 +155,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
             Physics2D.IgnoreCollision(slime.GetComponent<Collider2D>(), rockObj.GetComponent<Collider2D>(), false);
 
         GameObject.Instantiate(landingParticleObj, slime.transform.position, slime.transform.rotation);
+
+        SoundMaster.PlayOneSound(landSound, landVolume);
 
         if (SceneManager.GetActiveScene().name == "SlimeBossRoom2") {
             if (lavaRockOnJump != null) {
