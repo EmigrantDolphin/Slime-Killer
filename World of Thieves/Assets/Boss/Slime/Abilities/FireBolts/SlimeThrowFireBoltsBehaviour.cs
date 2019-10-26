@@ -20,9 +20,13 @@ public class SlimeThrowFireBoltsBehaviour : IBossBehaviour, IAnimEvents
     private bool holdingBoltOne = false;
     private bool holdingBoltTwo = false;
 
-    public SlimeThrowFireBoltsBehaviour(SlimeManager sm, GameObject fireBoltObj){
+    private readonly AudioClip boltSound;
+    private readonly AudioClip afterSound;
+    private readonly float boltVolume = SkillsInfo.Slime_FireBolt_Volume;
+    public SlimeThrowFireBoltsBehaviour(SlimeManager sm, GameObject fireBoltObj, AudioClip boltSound){
         slimeManager = sm;
         this.fireBoltObj = fireBoltObj;
+        this.boltSound = boltSound;
     }
 
     public void Start(){
@@ -89,6 +93,8 @@ public class SlimeThrowFireBoltsBehaviour : IBossBehaviour, IAnimEvents
             var absolute = slimeManager.Player.transform.position - slimeManager.HoldingItemObjOne.transform.position;
             fireBoltOne.GetComponent<ProjectileMovement>().Velocity = absolute.normalized * speed;
 
+            SoundMaster.PlayOneSound(boltSound, boltVolume, 0.5f);
+
             fireBoltOne = null;
             holdingBoltOne = false;
         }
@@ -105,6 +111,7 @@ public class SlimeThrowFireBoltsBehaviour : IBossBehaviour, IAnimEvents
             var absolute = slimeManager.Player.transform.position - slimeManager.HoldingItemObjTwo.transform.position;
             fireBoltTwo.GetComponent<ProjectileMovement>().Velocity = absolute.normalized * speed;
 
+            SoundMaster.PlayOneSound(boltSound, boltVolume, 0.5f);
 
             fireBoltTwo = null;
             holdingBoltTwo = false;

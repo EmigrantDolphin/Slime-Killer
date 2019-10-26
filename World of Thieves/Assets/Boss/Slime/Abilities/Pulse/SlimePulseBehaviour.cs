@@ -3,23 +3,29 @@ using UnityEngine;
 public class SlimePulseBehaviour : IBossBehaviour, IAnimEvents {
 
     private readonly float damage = SkillsInfo.Slime_PulseDamage;
-    private readonly float pulseVolume = SkillsInfo.Slime_Pulse_PulseVolume; 
+    private readonly float pulseVolume = SkillsInfo.Slime_Pulse_PulseVolume;
+    private readonly float chargeVolume = SkillsInfo.Slime_Pulse_ChargeVolume;
 
     public bool IsActive { get; private set; } = false;
     public bool IsAnimActive { get; private set; } = false;
     public float Cooldown { get; } = 5f;
 
     private readonly AudioClip pulseSound;
+    private readonly AudioClip chargeSound;
     private readonly SlimeManager slimeManager;
 
 
-    public SlimePulseBehaviour(SlimeManager sm, AudioClip pulseSound) {
+    public SlimePulseBehaviour(SlimeManager sm, AudioClip pulseSound, AudioClip chargeSound) {
         slimeManager = sm;
         this.pulseSound = pulseSound;
+        this.chargeSound = chargeSound;
     }
 
     public void Start() {
         slimeManager.GetComponent<Animator>().SetBool("Pulse", true);
+        var audioSource = SoundMaster.PlayOneSound(chargeSound, chargeVolume);
+        audioSource.time = audioSource.clip.length - 1f;
+
         IsActive = true;        
     }
 

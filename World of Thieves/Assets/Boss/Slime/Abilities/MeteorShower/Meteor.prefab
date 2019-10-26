@@ -225,3 +225,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Explosion: {fileID: 4644083752980165893, guid: c26687dee52ce83408c22be40d0810ec,
     type: 3}
+  ExplosionSound: {fileID: 8300000, guid: 5d9497264680e654fb368f39d8f140dd, type: 3}

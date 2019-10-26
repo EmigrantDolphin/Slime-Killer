@@ -11,6 +11,7 @@ public class SkillsInfo {
 
     public const float Slime_PulseDamage = 50f;
     public const float Slime_Pulse_PulseVolume = 1f;
+    public const float Slime_Pulse_ChargeVolume = 0.2f;
 
     public const float Slime_ForceOrbDamage = 100f;
     public const float Slime_ForceOrbSpeed = 5f;
@@ -25,14 +26,19 @@ public class SkillsInfo {
     public const float Slime_FireBolt_Speed = 20f;
     public const int Slime_FireBolt_Loops = 10;
     public const float Slime_FireBolt_BurnLength = 5f;
+    public const float Slime_FireBolt_Volume = 1f;
 
     public const float Slime_Meteor_Damage = 40f;
     public const float Slime_MeteorShower_Diameter = 15f;
     public const float Slime_MeteorShower_Lifetime = 10f;
     public const float Slime_MeteorShower_Interval = 0.03f;
+    public const float Slime_MeteorShower_ChantingVolume = 1f;
+    public const float Slime_MeteorShower_RumblingVolume = 1f;
 
     public const float Slime_FireCircle_BurnDuration = 10f;
     public const float Slime_FireCircle_LifeTime = 5f;
+    public const float Slime_FireCircle_BurningVolume = 0.4f;
+    public const float Slime_FireCircle_HitVolume = 0.7f;
 
     public const float Slime_Steam_Damage = 1f;
 
@@ -72,6 +78,7 @@ public class SkillsInfo {
     public const float Player_Rift_LifeTime = 4f;
     public const float Player_Rift_SlowDuration = 5f;
     public const float Player_Rift_DoubleOrbDuration = 4f;
+    public const float Player_Rift_BurstVolume = 0.1f;
 
     public const float Player_Collapse_Cooldown = 10f;
 

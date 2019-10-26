@@ -231,6 +231,7 @@ MonoBehaviour:
   DamageFloater: {fileID: 8295416127909033210, guid: 42d2492880f633f42a7825e0cf728732,
     type: 3}
   HitSound: {fileID: 8300000, guid: 60adad2fa33b85d4798b1e87a2fb2fc5, type: 3}
+  LethalSound: {fileID: 8300000, guid: 17b8bca846104d140920bbbe89c45cfa, type: 3}
   MaxHealth: 3000
   Health: 3000
 --- !u!61 &6150722
@@ -334,6 +335,10 @@ MonoBehaviour:
   JumpSound: {fileID: 8300000, guid: 5bf84e038a4788041b2ab83310932591, type: 3}
   LandSound: {fileID: 8300000, guid: 2ec86ea199ddfc042889b7ee9a50aacf, type: 3}
   PulseSound: {fileID: 8300000, guid: c2572e1930312f14ab2e8876a95405e7, type: 3}
+  ChargeSound: {fileID: 8300000, guid: 8564eae5c898bb44d9451c45f3b909d3, type: 3}
+  FireBoltsSound: {fileID: 8300000, guid: 78364635458a50749adc2e37f00996b0, type: 3}
+  FloorHitSound: {fileID: 8300000, guid: 690c6ebd922e6444199cbb61f7af5a1c, type: 3}
+  ChantingSound: {fileID: 8300000, guid: 1a8f653b76bbcf14987a927e786a1084, type: 3}
   SlimeBoundsSize: {x: 0, y: 0}
   Player: {fileID: 0}
 --- !u!114 &11427524

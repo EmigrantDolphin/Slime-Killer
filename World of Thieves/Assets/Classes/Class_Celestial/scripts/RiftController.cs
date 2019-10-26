@@ -20,6 +20,7 @@ public class RiftController : MonoBehaviour {
     float soundIntervalTimer = SkillsInfo.Player_Rift_DamageInterval;
     readonly float slowDuration = SkillsInfo.Player_Rift_SlowDuration;
     readonly float doubleOrbDuration = SkillsInfo.Player_Rift_DoubleOrbDuration;
+    readonly float burstVolume = SkillsInfo.Player_Rift_BurstVolume;
 
     private Action onReset;
 	// Use this for initialization
@@ -27,7 +28,7 @@ public class RiftController : MonoBehaviour {
         ps = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = PulseSound;
-        audioSource.volume = 0.5f * GameSettings.MasterVolume;
+        audioSource.volume = burstVolume * GameSettings.MasterVolume;
         audioSource.pitch = 1.25f;
         onReset = () => {
             Destroy(gameObject);

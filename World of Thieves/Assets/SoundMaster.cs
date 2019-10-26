@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class SoundMaster : MonoBehaviour{
 
-    public static void PlayOneSound(AudioClip sound, float volume) {
+    public static AudioSource PlayOneSound(AudioClip sound, float volume) {
         var audioObj = new GameObject();
         var audioSource = audioObj.AddComponent<AudioSource>();
         audioSource.clip = sound;
         audioSource.volume = volume;
         audioSource.Play();
         audioObj.AddComponent<DestroyOnSoundEnd>();
+
+        return audioSource;
     }
 
-    public static void PlayOneSound(AudioClip sound, float volume, float pitch) {
+    public static AudioSource PlayOneSound(AudioClip sound, float volume, float pitch) {
         var audioObj = new GameObject();
         var audioSource = audioObj.AddComponent<AudioSource>();
         audioSource.clip = sound;
@@ -21,5 +23,7 @@ public class SoundMaster : MonoBehaviour{
         audioSource.pitch = pitch;
         audioSource.Play();
         audioObj.AddComponent<DestroyOnSoundEnd>();
+
+        return audioSource;
     }
 }

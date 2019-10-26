@@ -11,15 +11,20 @@ public class SlimeMeteorShowerBehaviour : IBossBehaviour, IAnimEvents{
     private readonly SlimeManager slimeManager;
     private readonly GameObject MeteorShowerObj;
 
+    private readonly AudioClip chantingSound;
+    private AudioSource audioSource;
+    private readonly float chantingVolume = SkillsInfo.Slime_MeteorShower_ChantingVolume;
    
 
-    public SlimeMeteorShowerBehaviour(SlimeManager sm, GameObject MeteorShowerObj) {
+    public SlimeMeteorShowerBehaviour(SlimeManager sm, GameObject MeteorShowerObj, AudioClip chanting) {
         slimeManager = sm;
         this.MeteorShowerObj = MeteorShowerObj;
+        this.chantingSound = chanting;
     }
 
     public void Start() {
         slimeManager.GetComponent<Animator>().SetBool("MeteorShower", true);
+        audioSource = SoundMaster.PlayOneSound(chantingSound, chantingVolume);
         IsActive = true;
     }
 
@@ -33,7 +38,11 @@ public class SlimeMeteorShowerBehaviour : IBossBehaviour, IAnimEvents{
         IsActive = false;
         slimeManager.GetComponent<Animator>().SetBool("MeteorShower", false);
         slimeManager.ActiveBehaviour = null;
-
+        GameMaster.Loop.Add(() => {
+            audioSource.volume -= Time.deltaTime;
+            if (audioSource.volume <= 0)
+                GameObject.Destroy(audioSource.gameObject);
+        });
     }
 
     public void OnAnimStart() {

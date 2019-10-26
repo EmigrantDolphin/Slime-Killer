@@ -5,6 +5,7 @@ using UnityEngine;
 public class MeteorBehaviour : MonoBehaviour{
 
     public GameObject Explosion;
+
     public GameObject Owner { get; set; }
     private readonly float damage = SkillsInfo.Slime_Meteor_Damage;
 

@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Meteor: {fileID: 7767975750431243738, guid: 5bdea0cce000a1d479b298b15c5eeec7, type: 3}
+  RumblingSound: {fileID: 8300000, guid: fe1f799298913fe4daef3262ea69f7df, type: 3}

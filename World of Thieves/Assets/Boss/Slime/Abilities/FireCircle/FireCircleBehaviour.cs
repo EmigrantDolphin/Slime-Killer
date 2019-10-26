@@ -5,6 +5,9 @@ using System;
 
 public class FireCircleBehaviour : MonoBehaviour{
 
+    public AudioClip BurningSound;
+    private readonly float burningVolume = SkillsInfo.Slime_FireCircle_BurningVolume;
+
     private readonly float burnDuration = SkillsInfo.Slime_FireCircle_BurnDuration;
     private readonly float lifeTime = SkillsInfo.Slime_FireCircle_LifeTime;
 
@@ -20,6 +23,10 @@ public class FireCircleBehaviour : MonoBehaviour{
     void Start(){
         lifeTimeCounter = lifeTime;
 
+        GetComponent<AudioSource>().clip = BurningSound;
+        GetComponent<AudioSource>().volume = burningVolume * GameSettings.MasterVolume;
+        GetComponent<AudioSource>().Play();
+
         onReset = () => { Destroy(gameObject); };
         GameMaster.OnReset.Add(onReset);
     }
@@ -31,6 +38,7 @@ public class FireCircleBehaviour : MonoBehaviour{
         else {
             var emission = GetComponent<ParticleSystem>().emission;
             emission.enabled = false;
+            GetComponent<AudioSource>().volume -= Time.deltaTime * 0.3f;
         }
 
         if (GetComponent<ParticleSystem>().particleCount == 0 && GetComponent<ParticleSystem>().emission.enabled == false)

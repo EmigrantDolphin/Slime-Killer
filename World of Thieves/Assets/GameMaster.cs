@@ -25,7 +25,8 @@ public class GameMaster : MonoBehaviour {
     [HideInInspector]
     public readonly static List<Action> OnReset = new List<Action>();
     private readonly static List<Tuple<string, string>> SavedOrbsInfo = new List<Tuple<string, string>>();
-
+    [HideInInspector]
+    public readonly static List<Action> Loop = new List<Action>();
 
     private void Awake() {
         OnReset.Clear();
@@ -41,6 +42,13 @@ public class GameMaster : MonoBehaviour {
     }
 
     private void Update() {
+        if (Loop.Count > 0)
+            for (int i = Loop.Count-1; i >=0; i--)
+                try {
+                    Loop[i]();
+                } catch (Exception) {
+                    Loop.RemoveAt(i);
+                }
         //if (Player == null)
           //  GameObject.Find("Player");
         if (Player == null) {

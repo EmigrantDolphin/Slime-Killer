@@ -13,10 +13,14 @@ public class SlimeFireCircleBehaviour : IBossBehaviour, IAnimEvents{
     private readonly GameObject fireCircleObj;
     private readonly GameObject smashParticleObj;
 
-    public SlimeFireCircleBehaviour(SlimeManager sm, GameObject fireCircleObj, GameObject smashParticleObj) {
+    AudioClip floorHitSound;
+    private readonly float hitVolume = SkillsInfo.Slime_FireCircle_HitVolume;
+
+    public SlimeFireCircleBehaviour(SlimeManager sm, GameObject fireCircleObj, GameObject smashParticleObj, AudioClip floorHitSound) {
         slimeManager = sm;
         this.fireCircleObj = fireCircleObj;  
         this.smashParticleObj = smashParticleObj;
+        this.floorHitSound = floorHitSound;
     }
 
     public void Start() {
@@ -52,6 +56,7 @@ public class SlimeFireCircleBehaviour : IBossBehaviour, IAnimEvents{
         smashOne.transform.position = slimeManager.HoldingItemObjOne.transform.position;
         var smashTwo = GameObject.Instantiate(smashParticleObj);
         smashTwo.transform.position = slimeManager.HoldingItemObjTwo.transform.position;
+        SoundMaster.PlayOneSound(floorHitSound, hitVolume);
 
         var fireCircle = GameObject.Instantiate(fireCircleObj);
         fireCircle.transform.position = slimeManager.transform.position;

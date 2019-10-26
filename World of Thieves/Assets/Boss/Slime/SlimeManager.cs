@@ -44,6 +44,14 @@ public class SlimeManager : MonoBehaviour {
     public AudioClip LandSound;
     [Tooltip("Pulse Sound")]
     public AudioClip PulseSound;
+    [Tooltip("Pulse Charge Sound")]
+    public AudioClip ChargeSound;
+    [Tooltip("Fire Bolts Sound")]
+    public AudioClip FireBoltsSound;
+    [Tooltip("Fire Circle Floor Hit Sound")]
+    public AudioClip FloorHitSound;
+    [Tooltip("Meteor Shower Chanting Sound")]
+    public AudioClip ChantingSound;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -86,13 +94,13 @@ public class SlimeManager : MonoBehaviour {
         meleeAttackBehav = new SlimeMeleeAttackBehaviour(this, MovingSound);
         jumpAttackBehav = new SlimeJumpAttackBehaviour(this, LandingParticleObj, JumpSound, LandSound);
         flurryBehav = new SlimeFlurryBehaviour(this, SlimeSplashObj);
-        pulseBehav = new SlimePulseBehaviour(this, PulseSound);
+        pulseBehav = new SlimePulseBehaviour(this, PulseSound, ChargeSound);
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
         chargeBehav = new SlimeChargeBehaviour(this);
         turretBehav = new SlimeFireTurretBehaviour(this, FireTurretObj);
-        fireBoltsBehav = new SlimeThrowFireBoltsBehaviour(this, FireBoltObj);
-        meteorShowerBehav = new SlimeMeteorShowerBehaviour(this, MeteorShowerObj);
-        fireCircleBehav = new SlimeFireCircleBehaviour(this, FireCircleObj, smashParticlesObj);
+        fireBoltsBehav = new SlimeThrowFireBoltsBehaviour(this, FireBoltObj, FireBoltsSound);
+        meteorShowerBehav = new SlimeMeteorShowerBehaviour(this, MeteorShowerObj, ChantingSound);
+        fireCircleBehav = new SlimeFireCircleBehaviour(this, FireCircleObj, smashParticlesObj, FloorHitSound);
         portalBehav = new SlimePortalBehaviour(this, PortalsObj);
         portalsComponent = portalBehav.Portals.GetComponent<PortalBehaviour>();
         transitionBehav = new SlimeTransitionBehaviour(this);
@@ -107,10 +115,10 @@ public class SlimeManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         FindIfLost();
-        /*if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
+        if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
             (ActiveBehaviour as IBossBehaviour).End();
             isStopped = true;
-        }*/
+        }
 
         if (Player == null) {
             if (ActiveBehaviour != null) {
@@ -356,7 +364,7 @@ public class SlimeManager : MonoBehaviour {
 
     private void TempBehaviourLoop() {
         if (stunCounter <= 0f) {
-            /*if (Input.GetKeyDown(KeyCode.A)) {
+            if (Input.GetKeyDown(KeyCode.A)) {
                 if (ActiveBehaviour != null)
                     (ActiveBehaviour as IBossBehaviour).End();
                 meleeAttackBehav.Start();
@@ -428,7 +436,7 @@ public class SlimeManager : MonoBehaviour {
                     (ActiveBehaviour as IBossBehaviour).End();
                 transitionBehav.Start();
                 ActiveBehaviour = transitionBehav;
-            }*/
+            }
 
 
 

@@ -6,6 +6,10 @@ using System;
 public class MeteorShowerBehaviour : MonoBehaviour{
 
     public GameObject Meteor;
+    public AudioClip RumblingSound;
+    private AudioSource audioSource;
+    private readonly float rumblingVolume = SkillsInfo.Slime_MeteorShower_RumblingVolume;
+
     [HideInInspector]
     public GameObject Owner { get; set; }
 
@@ -22,6 +26,7 @@ public class MeteorShowerBehaviour : MonoBehaviour{
     void Start(){
         intervalCounter = interval;
         lifeTimeCounter = lifeTime;
+        audioSource = SoundMaster.PlayOneSound(RumblingSound, rumblingVolume);
 
         onReset = () => {
             Destroy(gameObject);
@@ -35,6 +40,9 @@ public class MeteorShowerBehaviour : MonoBehaviour{
             lifeTimeCounter -= Time.deltaTime;
         else
             Destroy(gameObject);
+
+        if (audioSource.time + 1 > audioSource.clip.length)
+            audioSource.time -= 2;
 
 
         if (intervalCounter <= 0) {
@@ -53,5 +61,6 @@ public class MeteorShowerBehaviour : MonoBehaviour{
 
     private void OnDestroy() {
         GameMaster.OnReset.Remove(onReset);
+        audioSource.time = audioSource.clip.length - 1;
     }
 }

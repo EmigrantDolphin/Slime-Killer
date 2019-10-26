@@ -7,6 +7,7 @@ public class DamageManager : MonoBehaviour {
     public Image HealthGreenImage;
     public GameObject DamageFloater;
     public AudioClip HitSound;
+    public AudioClip LethalSound;
 
     public float MaxHealth = 100;
     public float Health = 100;
@@ -41,10 +42,13 @@ public class DamageManager : MonoBehaviour {
 
         
         if (damageToHealCounter <= 0f) {
-            if (Health - damageAmount > 0) 
-                Health -= damageAmount;               
-             else 
+            if (Health - damageAmount > 0) {
+                Health -= damageAmount;
+                SoundMaster.PlayOneSound(HitSound, 1f);
+            } else {
                 Health = 0;
+                SoundMaster.PlayOneSound(LethalSound, 1f);
+            }
             InstantiateDamageFloater(damageAmount, Color.red);
 
         } else {
@@ -55,8 +59,6 @@ public class DamageManager : MonoBehaviour {
 
             InstantiateDamageFloater(damageAmount, Color.green);
         }
-
-        SoundMaster.PlayOneSound(HitSound, 1f);
 
         UIHealthUpdate();
     }

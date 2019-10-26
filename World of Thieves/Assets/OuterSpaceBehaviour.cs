@@ -14,6 +14,10 @@ public class OuterSpaceBehaviour : MonoBehaviour{
     // Update is called once per frame
     void Update(){
         for (int i = Fallers.Count-1; i >= 0; i--) {
+            if (Fallers[i] == null) {
+                Fallers.RemoveAt(i);
+                continue;
+            }
             var size = Fallers[i].transform.localScale;
             if (size.x - fallSpeed * Time.deltaTime <= 0) {
                 Destroy(Fallers[i]);
