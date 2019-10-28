@@ -9,6 +9,10 @@ public class SkillsInfo {
     public const float Slime_JumpAttack_JumpVolume = 1f;
     public const float Slime_JumpAttack_LandVolume = 1f;
 
+    public const float Slime_Charge_Speed = 20f;
+    public const float Slime_Charge_Damage = 50f;
+    public const float Slime_Charge_Volume = 1f;
+
     public const float Slime_PulseDamage = 50f;
     public const float Slime_Pulse_PulseVolume = 1f;
     public const float Slime_Pulse_ChargeVolume = 0.2f;

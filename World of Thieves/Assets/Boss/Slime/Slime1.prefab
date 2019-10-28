@@ -339,6 +339,7 @@ MonoBehaviour:
   FireBoltsSound: {fileID: 8300000, guid: 78364635458a50749adc2e37f00996b0, type: 3}
   FloorHitSound: {fileID: 8300000, guid: 690c6ebd922e6444199cbb61f7af5a1c, type: 3}
   ChantingSound: {fileID: 8300000, guid: 1a8f653b76bbcf14987a927e786a1084, type: 3}
+  ChargeGruntSound: {fileID: 8300000, guid: cd89396718762154d87b6ac7d778fede, type: 3}
   SlimeBoundsSize: {x: 0, y: 0}
   Player: {fileID: 0}
 --- !u!114 &11427524

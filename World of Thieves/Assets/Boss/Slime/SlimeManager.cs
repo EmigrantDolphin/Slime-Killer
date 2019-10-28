@@ -52,6 +52,8 @@ public class SlimeManager : MonoBehaviour {
     public AudioClip FloorHitSound;
     [Tooltip("Meteor Shower Chanting Sound")]
     public AudioClip ChantingSound;
+    [Tooltip("Charge Sound")]
+    public AudioClip ChargeGruntSound;
 
     [HideInInspector]
     public object ActiveBehaviour;
@@ -96,7 +98,7 @@ public class SlimeManager : MonoBehaviour {
         flurryBehav = new SlimeFlurryBehaviour(this, SlimeSplashObj);
         pulseBehav = new SlimePulseBehaviour(this, PulseSound, ChargeSound);
         forceOrbBehav = new SlimeForceOrbBehaviour(this, ForceOrbObj);
-        chargeBehav = new SlimeChargeBehaviour(this);
+        chargeBehav = new SlimeChargeBehaviour(this, ChargeGruntSound);
         turretBehav = new SlimeFireTurretBehaviour(this, FireTurretObj);
         fireBoltsBehav = new SlimeThrowFireBoltsBehaviour(this, FireBoltObj, FireBoltsSound);
         meteorShowerBehav = new SlimeMeteorShowerBehaviour(this, MeteorShowerObj, ChantingSound);

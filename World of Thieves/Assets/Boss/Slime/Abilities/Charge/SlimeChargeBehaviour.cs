@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SlimeChargeBehaviour : IBossBehaviour, IAnimEvents{
-    float speed = 20f;
-    float damage = 50f;
+    float speed = SkillsInfo.Slime_Charge_Speed;
+    float damage = SkillsInfo.Slime_Charge_Damage;
     float rotationSpeed = 80 * Mathf.Deg2Rad;
     Vector2 direction;
     bool charging = false;
@@ -20,9 +20,12 @@ public class SlimeChargeBehaviour : IBossBehaviour, IAnimEvents{
     public bool IsAnimActive { get { return animActive; } }
     public float Cooldown { get { return cooldown; } }
 
+    private readonly AudioClip chargeGrunt;
+    private readonly float gruntVolume = SkillsInfo.Slime_Charge_Volume;
     SlimeManager slime;
-    public SlimeChargeBehaviour(SlimeManager sm) {
+    public SlimeChargeBehaviour(SlimeManager sm, AudioClip chargeGrunt) {
         slime = sm;
+        this.chargeGrunt = chargeGrunt;
     }
 
 
@@ -106,6 +109,10 @@ public class SlimeChargeBehaviour : IBossBehaviour, IAnimEvents{
     public void OnAnimEvent() {
         eventCounter++;
         preparing = false;
-        charging = eventCounter == 1 ? true : false;
+
+        if (eventCounter == 1) {
+            charging = true;
+            SoundMaster.PlayOneSound(chargeGrunt, gruntVolume);
+        }
     }
 }

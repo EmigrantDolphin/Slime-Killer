@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ForceOrbBehaviour : MonoBehaviour { 
     public GameObject Owner;
+    public GameObject ps;
 
     float damage = SkillsInfo.Slime_ForceOrbDamage;
     float speed = SkillsInfo.Slime_ForceOrbSpeed;
@@ -14,10 +15,13 @@ public class ForceOrbBehaviour : MonoBehaviour {
     void Update() {
         if (GameMaster.Player == null)
             Destroy(gameObject);
+        if (transform.localScale.x > 0.9f)
+            ps.SetActive(true);
     }
 
     void OnTriggerEnter2D(Collider2D collider) {
-        if (collider.gameObject.tag == "Rock") {        
+        if (collider.gameObject.tag == "Rock") {
+            collider.gameObject.GetComponent<RockBehaviour>().ParticleDirection = GetComponent<ProjectileMovement>().Velocity;
             collider.gameObject.GetComponent<RockBehaviour>().Destroy();
             Destroy(gameObject);
         }

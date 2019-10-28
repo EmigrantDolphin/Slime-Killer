@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TravelVector: {x: 0, y: 0}
   Id: 0
-  AddedScale: 0.25
+  AddedScale: 0.3
   LifeLength: 40
 --- !u!50 &5015364
 Rigidbody2D:
@@ -155,7 +155,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.4
 --- !u!1 &1825602452281395482
 GameObject:
   m_ObjectHideFlags: 0
