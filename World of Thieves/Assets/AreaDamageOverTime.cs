@@ -5,6 +5,11 @@ using UnityEngine;
 public class AreaDamageOverTime : MonoBehaviour{
     private bool isInside = false;
 
+    private const float damage = 100f;
+    private const float damageInterval = 1f;
+    private float timeCounter = damageInterval;
+    
+
     // Start is called before the first frame update
     void Start(){
         
@@ -12,8 +17,12 @@ public class AreaDamageOverTime : MonoBehaviour{
 
     // Update is called once per frame
     void Update(){
-        if (isInside)
-            GameMaster.Player.GetComponent<DamageManager>().DealDamage(100 * Time.deltaTime, null);
+        if (timeCounter > 0)
+            timeCounter -= Time.deltaTime;
+        if (isInside && timeCounter <= 0) {
+            GameMaster.Player.GetComponent<DamageManager>().DealDamage(damage, null);
+            timeCounter = damageInterval;
+        }
     }
 
 

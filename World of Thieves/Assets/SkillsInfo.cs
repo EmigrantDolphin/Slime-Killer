@@ -3,6 +3,8 @@ using System.Collections;
 
 public class SkillsInfo {
 
+    public const float Environment_LavaDamage = 50f;
+
     public const float Slime_HandDamage = 15f;
 
     public const float Slime_JumpAttackDamage = 50f;

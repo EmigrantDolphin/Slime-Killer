@@ -5,6 +5,7 @@ using System;
 
 public class FireTurretBehaviour : MonoBehaviour
 {
+    public GameObject Particles;
     public AudioClip Sound;
     private readonly float soundVolume = SkillsInfo.Slime_FireTurret_Volume;
 
@@ -14,6 +15,7 @@ public class FireTurretBehaviour : MonoBehaviour
     public GameObject TargetWaypoint { set { targetWaypoint = value; } }
 
     private Action onReset;
+    private bool isDestroying = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,12 +31,12 @@ public class FireTurretBehaviour : MonoBehaviour
         if (targetWaypoint == null)
             return;
         if (lifeTimeCounter <= 0)
-            Destroy(gameObject);
+            DestructionSequence();
 
         if (GetComponent<Rigidbody2D>().velocity != Vector2.zero && Vector2.Distance(transform.position, targetWaypoint.transform.position) < 0.2f){
             GetComponent<ProjectileMovement>().enabled = false;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            GetComponent<ParticleSystem>().Play();
+            Particles.GetComponent<ParticleSystem>().Play();
             GetComponent<RotationMovement>().StartRotation();
             GetComponent<AudioSource>().clip = Sound;
             GetComponent<AudioSource>().volume = soundVolume * GameSettings.MasterVolume;
@@ -45,6 +47,18 @@ public class FireTurretBehaviour : MonoBehaviour
         if (GetComponent<Rigidbody2D>().velocity == Vector2.zero)
             lifeTimeCounter -= Time.deltaTime;
 
+        if (isDestroying && Particles.GetComponent<ParticleSystem>().particleCount == 0)
+            Destroy(gameObject);
+
+    }
+
+    private void DestructionSequence() {
+        var emission = Particles.GetComponent<ParticleSystem>().emission;
+        emission.enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<RotationMovement>().StopRotation();
+        GetComponent<AudioSource>().Stop();
+        isDestroying = true;
     }
 
     private void OnDestroy() {
