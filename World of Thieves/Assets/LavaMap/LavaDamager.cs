@@ -17,6 +17,7 @@ public class LavaDamager : MonoBehaviour
         GameMaster.OnReset.Add(() => {
             foreach (var lavaRock in LavaRocks)
                 lavaRock.GetComponent<Tilemap>().color = new Color(255,255,255,255);
+            LavaRockBehaviour.Refresh();
         });   
     }
 
@@ -40,7 +41,7 @@ public class LavaDamager : MonoBehaviour
             }
 
 
-        if (GameMaster.Player != null && damageTimer <= 0) {
+        if (GameMaster.Player != null && damageTimer <= 0 && LavaSafeBlock.SafeCount == 0) {
             GameMaster.Player.GetComponent<DamageManager>().DealDamage(lavaDamage, null);
             GameMaster.Player.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Slow, 1f);
             GameMaster.CurrentLavaRock = null;

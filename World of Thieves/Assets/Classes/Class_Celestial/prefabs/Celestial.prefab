@@ -59,6 +59,8 @@ MonoBehaviour:
     type: 3}
   StunSound: {fileID: 8300000, guid: 67237bb9d594f0c4787367d84c8c427f, type: 3}
   MasochismSound: {fileID: 8300000, guid: 8e776b7404814fc49b1c34967bafa621, type: 3}
+  HeatParticles: {fileID: 6911930080959088335, guid: 504264046a9cbfc44bcbbdd62baf569a,
+    type: 3}
   CurrRadians: 0
   ParentPlayer: {fileID: 0}
   Orbs: []

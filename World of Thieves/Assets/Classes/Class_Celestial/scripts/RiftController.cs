@@ -73,6 +73,8 @@ public class RiftController : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.gameObject.name.Contains("lavaRocks") && collider.GetComponent<Tilemap>().color.a == 0) {
             collider.gameObject.GetComponent<Tilemap>().color = new Color(255,255,255,255);
+            LavaRockBehaviour.Refresh();
+            LavaLandNeighborInvisible.RefreshMap();
         }
 
         if (collider.GetComponent<BuffDebuff>() != null) 

@@ -163,6 +163,8 @@ public class SlimeJumpAttackBehaviour : IBossBehaviour, IAnimEvents {
                 var tilemap = lavaRockOnJump.GetComponent<Tilemap>();
                 tilemap.color = new Color(255, 255, 255, 0);
                 lavaRockOnJump = null;
+                LavaRockBehaviour.Refresh();
+                LavaLandNeighborInvisible.RefreshMap();
             }
         }
     }

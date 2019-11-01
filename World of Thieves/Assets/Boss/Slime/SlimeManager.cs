@@ -246,7 +246,7 @@ public class SlimeManager : MonoBehaviour {
             if (ActiveBehaviour == null) {
                 ActiveBehaviour = abilityQueueList.First.Value;
                 abilityQueueList.RemoveFirst();
-                if (ActiveBehaviour is SlimeJumpAttackBehaviour)
+                if (ActiveBehaviour is SlimeJumpAttackBehaviour && GameMaster.CurrentLavaRock != null)
                     (ActiveBehaviour as SlimeJumpAttackBehaviour).Start(GameMaster.CurrentLavaRock.GetComponent<JumpLocation>().Location.position);
                 else
                     (ActiveBehaviour as IBossBehaviour).Start();

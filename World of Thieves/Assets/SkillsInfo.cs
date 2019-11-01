@@ -14,6 +14,7 @@ public class SkillsInfo {
     public const float Slime_Charge_Speed = 20f;
     public const float Slime_Charge_Damage = 50f;
     public const float Slime_Charge_Volume = 1f;
+    public const float Slime_Charge_BreakTimer = 0.3f;
 
     public const float Slime_PulseDamage = 50f;
     public const float Slime_Pulse_PulseVolume = 1f;
@@ -70,6 +71,7 @@ public class SkillsInfo {
     public const float Player_ChannelHeat_Damage = 50f;
     public const float Player_ChannelHeat_CollapseSpeed = 12f;
     public const float Player_ChannelHeat_TimeTillFullChannel = 4f;
+    public const float Player_ChannelHeat_RotationSpeed = 270f;
 
     public const float Player_Compress_Speed = 10f;
     public const float Player_Compress_Cooldown = 3f;

@@ -15,21 +15,24 @@ public class Skill_ChannelHeat : IAbility, IChanneling, IDisposable {
     float cooldownLeft = 0f;
     //balance variables
     float timeTillFullChannel = SkillsInfo.Player_ChannelHeat_TimeTillFullChannel;
+    float rotationSpeed = SkillsInfo.Player_ChannelHeat_RotationSpeed;
     float currentChannelTime;
     float damage = SkillsInfo.Player_ChannelHeat_Damage;
     float collapseSpeed = 12f;
 
     Class_Celestial celestial;
+    readonly GameObject heatParticles;
 
     //orb control
     List<GameObject> orbs = new List<GameObject>();
     List<GameObject> heatOrbs = new List<GameObject>();
     Sprite heatOrbTemp;
     
-    public Skill_ChannelHeat(Class_Celestial cs) {
+    public Skill_ChannelHeat(Class_Celestial cs, GameObject heatParticles) {
         icon = Resources.Load<Sprite>("ChannelHeatIcon");
         heatOrbTemp = Resources.Load<Sprite>("ChannelHeatOrbTemp");
         celestial = cs;
+        this.heatParticles = heatParticles;
     }
 
     public string Name {
@@ -116,6 +119,11 @@ public class Skill_ChannelHeat : IAbility, IChanneling, IDisposable {
                     coverSprite.GetComponent<SpriteRenderer>().sprite = heatOrbTemp;
                     coverSprite.transform.localScale = new Vector2(0.15f, 0.15f);
                     coverSprite.transform.position = orb.transform.position;
+                    var rotationMovement = coverSprite.AddComponent<RotationMovement>();
+                    rotationMovement.Speed = rotationSpeed;
+                    rotationMovement.RotateLeft = true;
+                    rotationMovement.StartRotation();
+                    GameObject.Instantiate(heatParticles, coverSprite.transform);
                     orbs.Add(orb);
                     heatOrbs.Add(coverSprite);
                 }                 

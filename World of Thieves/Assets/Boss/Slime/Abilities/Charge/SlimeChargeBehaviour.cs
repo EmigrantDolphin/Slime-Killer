@@ -10,6 +10,7 @@ public class SlimeChargeBehaviour : IBossBehaviour, IAnimEvents{
     bool charging = false;
     bool preparing = false;
     int eventCounter = 0;
+    float stopCountDown = SkillsInfo.Slime_Charge_BreakTimer;
 
     bool active;
     bool animActive;
@@ -73,7 +74,11 @@ public class SlimeChargeBehaviour : IBossBehaviour, IAnimEvents{
                 direction = new Vector2(x, y);
                 slime.transform.rotation = Quaternion.Euler(0, 0, currAngle + 90);
 
+            } else {
+                stopCountDown -= Time.deltaTime;
             }
+            if (stopCountDown <= 0)
+                End();
         }
 
         // TODO: Throwing
@@ -96,6 +101,7 @@ public class SlimeChargeBehaviour : IBossBehaviour, IAnimEvents{
         eventCounter = 0;
         charging = false;
         preparing = false;
+        stopCountDown = SkillsInfo.Slime_Charge_BreakTimer;
     }
 
     public void OnAnimStart() {

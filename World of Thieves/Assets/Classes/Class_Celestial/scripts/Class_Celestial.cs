@@ -43,6 +43,8 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     public AudioClip StunSound;
     [Tooltip("Masochism Sound")]
     public AudioClip MasochismSound;
+    [Tooltip("Channel Heat Particles")]
+    public GameObject HeatParticles;
 
     private float rotationSpeed = 0.5f * Mathf.PI;
     public float RotationSpeed {
@@ -70,6 +72,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     Skill_Heal heal;
     Skill_Transference transference;
     Skill_Barrage barrage;
+    Skill_Transformation transformation;
 
     void Start() {
         ParentPlayer = transform.parent.gameObject;
@@ -85,7 +88,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         ManipulateSkillBarClone.SetActive(false);
 
         manipulate = new Skill_Manipulate(this, manipulateParticleSystem);
-        channelHeat = new Skill_ChannelHeat(this);
+        channelHeat = new Skill_ChannelHeat(this, HeatParticles);
         teleport = new Skill_Teleport(this);
         stun = new Skill_Stun(this, StunSound);
         masochism = new Skill_Masochism(this, MasochismSound);
@@ -95,6 +98,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         heal = new Skill_Heal(this);
         transference = new Skill_Transference(this, transferenceProjectileObj);
         barrage = new Skill_Barrage(this, barrageProjectileObj);
+        transformation = new Skill_Transformation(this);
 
         LoadSavedOrbs();
     }
@@ -113,7 +117,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
                 case 5: return stun;
                 case 6: return channelHeat;
                 case 7: return transcendence;
-                case 8: return null;
+                case 8: return transformation;
                 case 9: return heal;
                 case 10: return barrage;
                 case 11: return teleport;
@@ -193,6 +197,7 @@ public class Class_Celestial : MonoBehaviour, IPClass {
         heal.Loop();
         transference.Loop();
         barrage.Loop();
+        transformation.Loop();
     }
 
     public GameObject InstantiateOrb(GameObject orb, GameObject target) {
@@ -212,12 +217,12 @@ public class Class_Celestial : MonoBehaviour, IPClass {
             }
         }
 
-        orb1.transform.position = ParentPlayer.transform.position;
+        orb1.transform.position = new Vector3(ParentPlayer.transform.position.x, ParentPlayer.transform.position.y, 1);
         orb1.GetComponent<OrbControls>().Set(this, target);
 
 
         if (orb2 != null) {
-            orb2.transform.position = ParentPlayer.transform.position;
+            orb2.transform.position = new Vector3(ParentPlayer.transform.position.x, ParentPlayer.transform.position.y, 1);
             orb2.GetComponent<OrbControls>().Set(this, target);
         }
 

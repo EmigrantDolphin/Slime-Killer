@@ -15,7 +15,7 @@ public class Skill_Manipulate : IAbility {
     float interval = SkillsInfo.Player_Manipulate_Interval;
     float intervalCounter = 0f;
     Class_Celestial celestial;
-    GameObject selectedOrb = null;
+    public static GameObject selectedOrb = null;
 
 
     Sprite icon;
@@ -73,7 +73,6 @@ public class Skill_Manipulate : IAbility {
         keyUped = false;
         frame = 0;
         cooldownLeft = cooldown;
-        //Instantiate or enable UI for 3 types of orbs to be launched on 3 4 5 buttons
     }
 
     public void EndAction() {
