@@ -334,7 +334,9 @@ public class Class_Celestial : MonoBehaviour, IPClass {
     private void OnDestroy() {
         Destroy(SkillBarClone);
         Destroy(ManipulateSkillBarClone);
-        Destroy(ParentPlayer.GetComponent<BuffDebuff>().DebuffBarInstantiated);     
+        Destroy(ParentPlayer.GetComponent<BuffDebuff>().DebuffBarInstantiated);
+
+        Skill_Manipulate.selectedOrb = null;
 
         foreach (var orb in Orbs)
             Destroy(orb);
