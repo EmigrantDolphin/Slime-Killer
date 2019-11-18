@@ -3,8 +3,11 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GameMaster : MonoBehaviour {
+
+    public GameObject IngameMenu;
 
     public GameObject PlayerObj;
     public GameObject SlimeObj;
@@ -18,6 +21,18 @@ public class GameMaster : MonoBehaviour {
     public GameObject TextMeshNotification;
     private static GameObject textMeshNotification;
     private static float textMeshNotificationCounter = 0;
+
+    private const string savePath = @"Saves\save.dat";
+
+    public static bool IsMenuOn { get; private set; } = false;
+    private static int bossesBeaten = 0;
+    public static int BossesBeaten {
+        get { return bossesBeaten; }
+        set {
+            if (value > bossesBeaten)
+                bossesBeaten = value;
+        }
+    }
 
     [HideInInspector]
     public static GameObject CurrentLavaRock;
@@ -39,6 +54,9 @@ public class GameMaster : MonoBehaviour {
 
 
         InstantiateSlime();
+
+        IngameMenu.SetActive(false);
+        IsMenuOn = false;
     }
 
     private void Update() {
@@ -87,6 +105,13 @@ public class GameMaster : MonoBehaviour {
 
         MessageLoop();
 
+
+        // INGAME MENU
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            IngameMenu.SetActive(!IngameMenu.activeSelf);
+            IsMenuOn = !IsMenuOn;
+        }
+
     }
     private void InstantiatePlayer() {
         Player = Instantiate(PlayerObj);
@@ -117,7 +142,7 @@ public class GameMaster : MonoBehaviour {
         textMeshNotificationCounter = duration;
     }
 
-    public static void MessageLoop() {
+    public void MessageLoop() {
         if (textMeshNotificationCounter > 0) {
             if (textMeshNotification.activeSelf == false)
                 textMeshNotification.SetActive(true);
@@ -129,4 +154,79 @@ public class GameMaster : MonoBehaviour {
         }
     }
 
+    public void QuitGame() {
+        SaveProgress();
+        Application.Quit();
+        Debug.Log("Quitting Game");
+    }
+
+    private void SaveProgress() {
+        if (!Directory.Exists("Saves"))
+            Directory.CreateDirectory("Saves");
+        using (StreamWriter sw = File.CreateText(savePath)) {
+            SavedData sd = new SavedData {
+                BossesCleared = BossesBeaten,
+                MasterVolume = GameSettings.MasterVolume,
+                Resolution = new Vector2(Screen.width, Screen.height),
+                IsWindowed = !Screen.fullScreen
+            };
+
+            sw.Write(JsonUtility.ToJson(sd));
+        }
+    }
+
+    public static void LoadProgress() {
+        if (!File.Exists(savePath))
+            return;
+        using (StreamReader sr = new StreamReader(savePath)) {
+            SavedData sd = JsonUtility.FromJson<SavedData>(sr.ReadLine());
+            BossesBeaten = sd.BossesCleared;
+            Screen.fullScreen = !sd.IsWindowed;
+            Screen.SetResolution((int)sd.Resolution.x, (int)sd.Resolution.y, Screen.fullScreen);
+            GameSettings.MasterVolume = sd.MasterVolume;
+        }
+    }
+
+    public void OnVolumeSliderChanged(float value) {
+        GameSettings.MasterVolume = value;
+    }
+
+    public void OnResolutionDropdownChange(int option) {
+        switch (option) {
+            case 0:
+                Screen.SetResolution(1920, 1080, Screen.fullScreen);
+                break;
+            case 1:
+                Screen.SetResolution(1280, 720, Screen.fullScreen);
+                break;
+        }
+    }
+
+    public void OnWindowModeTick(bool isWindowMode) {
+        if (isWindowMode)
+            Screen.fullScreen = false;
+        else
+            Screen.fullScreen = true;
+    }
+
+    public void OnSceneSelectorButton(string scene) {
+        if (scene.Contains("Tutorial") && !SceneManager.GetActiveScene().name.Contains("Tutorial"))
+            SceneManager.LoadScene("TutorialRoom");
+        if (scene.Contains("Beach") && !SceneManager.GetActiveScene().name.Contains("Room1"))
+            SceneManager.LoadScene("SlimeBossRoom1");
+        if (scene.Contains("Volcano") && !SceneManager.GetActiveScene().name.Contains("Room2"))
+            SceneManager.LoadScene("SlimeBossRoom2");
+        if (scene.Contains("Waste") && !SceneManager.GetActiveScene().name.Contains("Room3"))
+            SceneManager.LoadScene("SlimeBossRoom3");
+    }
+
+    [Serializable]
+    private class SavedData {
+        public int BossesCleared;
+        public float MasterVolume;
+        public Vector2 Resolution;
+        public bool IsWindowed;
+    }
+
 }
+

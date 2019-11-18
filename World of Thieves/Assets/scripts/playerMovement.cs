@@ -54,6 +54,8 @@ public class playerMovement : MonoBehaviour {
     }
 
     private void OnClick() {
+        if (GameMaster.IsMenuOn)
+            return;
         //TODO : add onClick animation   
         posToMoveTo = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clickPointer.ClickAt(posToMoveTo);

@@ -53,7 +53,7 @@ public class Skill_Masochism : IAbility {
             celestial.ParentPlayer.GetComponent<DamageManager>().DamageToHealFor(duration);
             cooldownLeft = cooldown;
             celestial.InstantiateOrb(celestial.OrbDefenseObj, celestial.ParentPlayer);
-            SoundMaster.PlayOneSound(activationSound, activationVolume, 2f);
+            SoundMaster.PlayOneSound(activationSound, GameSettings.MasterVolume * activationVolume, 2f);
         }
     }
 

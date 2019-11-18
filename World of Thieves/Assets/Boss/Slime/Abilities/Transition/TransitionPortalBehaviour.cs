@@ -18,7 +18,7 @@ public class TransitionPortalBehaviour : MonoBehaviour{
         if (doRemoveLast) {
             if (Entities.Last.Value.tag == "Player") {
                 Destroy(Entities.Last.Value);
-                if (SceneManager.GetActiveScene().name == "TutorialRoom")
+                if (SceneManager.GetActiveScene().name == "TutorialRoom") 
                     SceneManager.LoadScene("SlimeBossRoom1");
                 if (SceneManager.GetActiveScene().name == "SlimeBossRoom1")
                     SceneManager.LoadScene("SlimeBossRoom2");
