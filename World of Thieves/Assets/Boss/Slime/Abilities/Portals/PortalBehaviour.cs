@@ -189,6 +189,7 @@ public class PortalBehaviour : MonoBehaviour{
     public float InfinityExplosionDamage;
     public float InfinityExplosionCooldown;
     private float infinityExplosionCooldownCounter = 0;
+    public GameObject ShockWave;
 
     private readonly GameObject[] portals = new GameObject[4];
     private readonly SpriteRenderer[] spikesRenderers = new SpriteRenderer[4];
@@ -337,20 +338,37 @@ public class PortalBehaviour : MonoBehaviour{
             }
 
             if (Vector2.Distance(portals[0].transform.position, portals[2].transform.position) < InfinityExplosionThreshold)
-                if (GameMaster.Player != null)
-                    if (Vector2.Distance(portals[0].transform.position, GameMaster.Player.transform.position) < InfinityExplosionDistance * 2f) { 
-                        GameMaster.Player.GetComponent<DamageManager>().DealDamage(InfinityExplosionDamage*2f, null);
-                        infinityExplosionCooldownCounter = InfinityExplosionCooldown;
-                        return;
-                    }
+                if (GameMaster.Player != null) {
+
+                    var shockwave = Instantiate(ShockWave);
+                    shockwave.GetComponent<ShockwaveController>().StartingSize = Vector2.zero;
+                    shockwave.GetComponent<ShockwaveController>().FinalSize = new Vector2(SkillsInfo.Slime_Infinity_BigFinalScale, SkillsInfo.Slime_Infinity_BigFinalScale);
+                    shockwave.GetComponent<ShockwaveController>().Speed = SkillsInfo.Slime_Infinity_BigSpeed;
+                    shockwave.GetComponent<ShockwaveController>().Damage = SkillsInfo.Slime_Infinity_BigDamage;
+                    shockwave.transform.position = portals[0].transform.position;
+
+                    infinityExplosionCooldownCounter = InfinityExplosionCooldown;          
+                    return;
+                }
 
             if (Vector2.Distance(portals[0].transform.position, portals[1].transform.position) < InfinityExplosionThreshold)
                 if (GameMaster.Player != null) {
-                    if (Vector2.Distance(portals[0].transform.position, GameMaster.Player.transform.position) < InfinityExplosionDistance ||
-                        Vector2.Distance(portals[2].transform.position, GameMaster.Player.transform.position) < InfinityExplosionDistance) {
-                        GameMaster.Player.GetComponent<DamageManager>().DealDamage(InfinityExplosionDamage, null);
-                        infinityExplosionCooldownCounter = InfinityExplosionCooldown;
-                    }
+
+                    var shockwave = Instantiate(ShockWave);
+                    shockwave.GetComponent<ShockwaveController>().StartingSize = Vector2.zero;
+                    shockwave.GetComponent<ShockwaveController>().FinalSize = new Vector2(SkillsInfo.Slime_Infinity_SmallFinalScale, SkillsInfo.Slime_Infinity_SmallFinalScale);
+                    shockwave.GetComponent<ShockwaveController>().Speed = SkillsInfo.Slime_Infinity_SmallSpeed;
+                    shockwave.GetComponent<ShockwaveController>().Damage = SkillsInfo.Slime_Infinity_SmallDamage;
+                    shockwave.transform.position = portals[0].transform.position;
+
+                    shockwave = Instantiate(ShockWave);
+                    shockwave.GetComponent<ShockwaveController>().StartingSize = Vector2.zero;
+                    shockwave.GetComponent<ShockwaveController>().FinalSize = new Vector2(SkillsInfo.Slime_Infinity_SmallFinalScale, SkillsInfo.Slime_Infinity_SmallFinalScale);
+                    shockwave.GetComponent<ShockwaveController>().Speed = SkillsInfo.Slime_Infinity_SmallSpeed;
+                    shockwave.GetComponent<ShockwaveController>().Damage = SkillsInfo.Slime_Infinity_SmallDamage;
+                    shockwave.transform.position = portals[2].transform.position;
+
+                    infinityExplosionCooldownCounter = InfinityExplosionCooldown;
                     return;
                 }
         }

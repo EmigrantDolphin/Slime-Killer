@@ -117,10 +117,10 @@ public class SlimeManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         FindIfLost();
-       /* if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
+        if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
             (ActiveBehaviour as IBossBehaviour).End();
             isStopped = true;
-        }*/
+        }
 
         if (Player == null) {
             if (ActiveBehaviour != null) {
@@ -368,7 +368,7 @@ public class SlimeManager : MonoBehaviour {
 
     private void TempBehaviourLoop() {
         if (stunCounter <= 0f) {
-           /* if (Input.GetKeyDown(KeyCode.A)) {
+            if (Input.GetKeyDown(KeyCode.A)) {
                 if (ActiveBehaviour != null)
                     (ActiveBehaviour as IBossBehaviour).End();
                 meleeAttackBehav.Start();
@@ -440,7 +440,7 @@ public class SlimeManager : MonoBehaviour {
                     (ActiveBehaviour as IBossBehaviour).End();
                 transitionBehav.Start();
                 ActiveBehaviour = transitionBehav;
-            }*/
+            }
 
 
 

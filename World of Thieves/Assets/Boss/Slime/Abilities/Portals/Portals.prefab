@@ -219,3 +219,5 @@ MonoBehaviour:
   InfinityExplosionDistance: 2
   InfinityExplosionDamage: 20
   InfinityExplosionCooldown: 0.2
+  ShockWave: {fileID: 275944936101750813, guid: 8c2d73bba101b2449a2e88cc6567fa42,
+    type: 3}

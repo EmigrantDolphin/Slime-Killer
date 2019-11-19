@@ -61,6 +61,14 @@ public class SkillsInfo {
 
     public const float Slime_Spikes_Damage = 50f;
 
+    public const float Slime_Infinity_BigDamage = 70f;
+    public const float Slime_Infinity_BigSpeed = 6f;
+    public const float Slime_Infinity_BigFinalScale = 6f;
+    public const float Slime_Infinity_SmallDamage = 50f;
+    public const float Slime_Infinity_SmallSpeed = 4f;
+    public const float Slime_Infinity_SmallFinalScale = 4f;
+
+
     // PLAYER SKILLS //
     public const float Player_Orb_Damage = 1f;
     public const float Player_DamageOrb_ModifierAdditive = 0.02f;
