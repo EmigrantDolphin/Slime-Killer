@@ -4,8 +4,6 @@ Shader "Unlit/ShockWaveShader"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-
 		_Colour ("Colour", Color) = (1,1,1,1)
 
 		_BumpMap ("Noise text", 2D) = "bump" {}
@@ -28,50 +26,44 @@ Shader "Unlit/ShockWaveShader"
 
 			sampler2D _GrabTexture;
 
-			sampler2D _MainTex;
 			fixed4 _Colour;
 
 			sampler2D _BumpMap;
 			float _Magnitude;
 
-            struct vin_vct
+            struct VertexInput
             {
                 float4 vertex : POSITION;
-				float4 color : COLOR;
+
                 float2 texcoord : TEXCOORD0;
             };
 
-            struct v2f_vct
+            struct VertexOutput
             {
                 float4 vertex : POSITION;
-				fixed4 color : COLOR;
-                float2 texcoord : TEXCOORD0;
-                
+                float2 texcoord : TEXCOORD0;               
 				float4 uvgrab : TEXTCOORD1;
             };
 
-            v2f_vct vert (vin_vct v)
+            VertexOutput vert (VertexInput input)
             {
-                v2f_vct o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.color = v.color;
+                VertexOutput output;
+				output.vertex = UnityObjectToClipPos(input.vertex);
  
-				o.texcoord = v.texcoord;
+				output.texcoord = input.texcoord;
  
-				o.uvgrab = ComputeGrabScreenPos(o.vertex);
-				return o;
+				output.uvgrab = ComputeGrabScreenPos(output.vertex);
+				return output;
             }
 
-            fixed4 frag (v2f_vct i) : SV_Target
+            fixed4 frag (VertexOutput input) : COLOR
             {
-                //half4 mainColour = tex2D(_MainTex, i.texcoord);
- 
-				half4 bump = tex2D(_BumpMap, i.texcoord);
+				half4 bump = tex2D(_BumpMap, input.texcoord);
 				half2 distortion = UnpackNormal(bump).rg;
  
-				i.uvgrab.xy += distortion * _Magnitude;
+				input.uvgrab.xy += distortion * _Magnitude;
  
-				fixed4 col = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(i.uvgrab));
+				fixed4 col = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(input.uvgrab));
 				return col * _Colour;
             }
             ENDCG
