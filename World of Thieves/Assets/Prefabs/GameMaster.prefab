@@ -350,6 +350,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IngameMenu: {fileID: 7498797255915030170}
+  VolumeSlider: {fileID: 7498797256272397700}
+  WindowToggle: {fileID: 9036122819361632457}
+  ResolutionDropdown: {fileID: 5552989948687696623}
   PlayerObj: {fileID: 175380, guid: 0d34c7b6bc4313d40be0301799988a12, type: 3}
   SlimeObj: {fileID: 118042, guid: c547419375f76a24eb585bca17e0df67, type: 3}
   DeathMessage: {fileID: 0}
@@ -1122,7 +1125,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: 1980x1020
+    - m_Text: 1920x1080
       m_Image: {fileID: 0}
     - m_Text: 1280x720
       m_Image: {fileID: 0}

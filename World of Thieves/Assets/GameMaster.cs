@@ -8,6 +8,9 @@ using System.IO;
 public class GameMaster : MonoBehaviour {
 
     public GameObject IngameMenu;
+    public Scrollbar VolumeSlider;
+    public Toggle WindowToggle;
+    public Dropdown ResolutionDropdown;
 
     public GameObject PlayerObj;
     public GameObject SlimeObj;
@@ -52,11 +55,18 @@ public class GameMaster : MonoBehaviour {
 
         InstantiatePlayer();
 
-
         InstantiateSlime();
 
         IngameMenu.SetActive(false);
         IsMenuOn = false;
+        VolumeSlider.value = GameSettings.MasterVolume;
+        WindowToggle.isOn = !Screen.fullScreen;
+        for (int i = 0; i < ResolutionDropdown.options.Count; i++)
+            if (ResolutionDropdown.options[i].text.Contains(Screen.width.ToString())) {
+                ResolutionDropdown.value = i;
+                return;
+            }
+
     }
 
     private void Update() {
@@ -77,7 +87,8 @@ public class GameMaster : MonoBehaviour {
                 DeathMessage.enabled = false;
         }
         if (Input.GetKeyDown(KeyCode.I))
-            GameSettings.MasterVolume = 0.9f;
+            DisplayMessage(Screen.width.ToString(), 5f);
+
         if ( Player == null && Input.GetKeyDown(KeyCode.M)) {
             InstantiatePlayer();
             Destroy(Slime);
