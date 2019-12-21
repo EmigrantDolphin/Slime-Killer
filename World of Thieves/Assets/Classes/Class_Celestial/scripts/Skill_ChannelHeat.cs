@@ -19,7 +19,8 @@ public class Skill_ChannelHeat : IAbility, IChanneling, IDisposable {
     float currentChannelTime;
     float damage = SkillsInfo.Player_ChannelHeat_Damage;
     float collapseSpeed = 12f;
-
+    float burningDuration = 0f;
+    float burningDurationPerOrb = 2f;
     Class_Celestial celestial;
     readonly GameObject heatParticles;
 
@@ -85,8 +86,10 @@ public class Skill_ChannelHeat : IAbility, IChanneling, IDisposable {
                     if (orbs[i].GetComponent<OrbControls>().CollidingWith == orbs[i].GetComponent<OrbControls>().Target) {
                         //do explosion anim
 
+                        burningDuration += burningDurationPerOrb;
                         orbs[i].GetComponent<OrbControls>().CollidingWith.GetComponent<DamageManager>().DealDamage(damage * (currentChannelTime / timeTillFullChannel), celestial.ParentPlayer);
-                                              
+                        orbs[i].GetComponent<OrbControls>().CollidingWith.GetComponent<BuffDebuff>().ApplyDebuff(Debuffs.Burn, burningDuration);
+                        
                         GameObject tempOrb = orbs[i];
                         celestial.Orbs.Remove(orbs[i]);
                         orbs.RemoveAt(i);
@@ -126,6 +129,7 @@ public class Skill_ChannelHeat : IAbility, IChanneling, IDisposable {
                     GameObject.Instantiate(heatParticles, coverSprite.transform);
                     orbs.Add(orb);
                     heatOrbs.Add(coverSprite);
+                    burningDuration = 0f;
                 }                 
     }
 

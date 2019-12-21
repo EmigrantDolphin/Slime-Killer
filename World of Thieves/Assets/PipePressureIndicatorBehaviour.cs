@@ -7,13 +7,8 @@ public class PipePressureIndicatorBehaviour : MonoBehaviour{
 
     private Animator animator;
 
-    private void Start() {
+    private void Awake() {
         animator = GetComponent<Animator>();
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.O))
-            ResetIndicator();
     }
 
     private void ReleaseSteam() {

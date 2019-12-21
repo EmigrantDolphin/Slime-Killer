@@ -29,7 +29,6 @@ public class Debuff_Burn : IDebuff{
 
     public void Apply(float timeLength) {
         if (active == false) { // if called first time
-            
             buffDebuff.DebuffBarInstantiated.GetComponent<DebuffCanvasManager>().Add(this);
             
             active = true;

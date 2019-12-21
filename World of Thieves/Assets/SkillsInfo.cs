@@ -108,7 +108,7 @@ public class SkillsInfo {
 
     public const float Player_Teleport_Cooldown = 0f;
 
-    public const float Player_StellarBolt_Damage = 50f;
+    public const float Player_StellarBolt_Damage = 1400f;
     public const float Player_StellarBolt_Cooldown = 3f;
     public const float Player_StellarBolt_Speed = 20f;
     public const float Player_StellarBolt_LifeTime = 10f;

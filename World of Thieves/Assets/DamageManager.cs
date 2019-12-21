@@ -30,6 +30,8 @@ public class DamageManager : MonoBehaviour {
     }
 
     public void DealDamage(float damageAmount, GameObject requester) {
+        if (damageAmount < 1f)
+            return;
         float substractedDamage = 0;
         float addedDamage = 0;
         if (GetComponent<Modifiers>() != null)

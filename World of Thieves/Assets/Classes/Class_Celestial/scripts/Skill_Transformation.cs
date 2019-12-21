@@ -8,16 +8,24 @@ public class Skill_Transformation : IAbility{
     string descritpion = " Name: " + name + " \n\n" +
         " Transform random orb into currently manipulated one. \n\n";
         
-    Sprite icon;
+    Sprite currentIcon;
+    Sprite redOrbIcon;
+    Sprite blueOrbIcon;
+    Sprite greenOrbIcon;
+    Sprite greyOrbIcon;
+
     bool active = false;
     float cooldown = 0.5f;
     float cooldownLeft = 0f;
     Class_Celestial celestial;
 
     public Skill_Transformation(Class_Celestial cs) {
-        icon = Resources.Load<Sprite>("StunIcon");
+        redOrbIcon = Resources.Load<Sprite>("OrbRedIcon");
+        blueOrbIcon = Resources.Load<Sprite>("OrbBlueIcon");
+        greenOrbIcon = Resources.Load<Sprite>("OrbGreenIcon");
+        greyOrbIcon = Resources.Load<Sprite>("OrbGreyIcon");
+        currentIcon = greyOrbIcon;
         celestial = cs;
- 
     }
 
     public string Name {
@@ -29,7 +37,7 @@ public class Skill_Transformation : IAbility{
     }
 
     public Sprite Icon {
-        get { return icon; }
+        get { return currentIcon; }
     }
 
     public bool IsActive {
@@ -65,6 +73,17 @@ public class Skill_Transformation : IAbility{
     }
 
     public void Loop() {
+        if (Skill_Manipulate.selectedOrb != null) {
+            if (Skill_Manipulate.selectedOrb.name.Contains("Control"))
+                currentIcon = blueOrbIcon;
+            else if (Skill_Manipulate.selectedOrb.name.Contains("Damage"))
+                currentIcon = redOrbIcon;
+            else if (Skill_Manipulate.selectedOrb.name.Contains("Defense"))
+                currentIcon = greenOrbIcon;
+            
+        } else
+            currentIcon = greyOrbIcon;
+
         if (cooldownLeft > 0f)
             cooldownLeft -= Time.deltaTime;
     }

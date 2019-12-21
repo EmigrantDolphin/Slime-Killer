@@ -14,6 +14,7 @@ public class BuffDebuff : MonoBehaviour {
     Debuff_DoubleOrbs debuff_doubleOrbs;
     Debuff_Burn debuff_burn;
     Debuff_PoisonImmunity debuff_poisonImmunity;
+    Debuff_Masochism debuff_masochism;
     
     public List<IDebuff> debuffList = new List<IDebuff>();
     
@@ -41,6 +42,7 @@ public class BuffDebuff : MonoBehaviour {
         debuff_doubleOrbs = new Debuff_DoubleOrbs(this);
         debuff_burn = new Debuff_Burn(this);
         debuff_poisonImmunity = new Debuff_PoisonImmunity(this);
+        debuff_masochism = new Debuff_Masochism(this);
     }
 	
 	// Update is called once per frame
@@ -84,6 +86,9 @@ public class BuffDebuff : MonoBehaviour {
                 break;
             case Debuffs.PoisonImmunity:
                 Apply(debuff_poisonImmunity, timeLength);
+                break;
+            case Debuffs.Masochism:
+                Apply(debuff_masochism, timeLength);
                 break;
         }
 

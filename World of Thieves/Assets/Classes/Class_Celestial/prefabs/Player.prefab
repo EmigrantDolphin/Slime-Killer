@@ -429,8 +429,8 @@ MonoBehaviour:
     type: 3}
   HitSound: {fileID: 8300000, guid: 60adad2fa33b85d4798b1e87a2fb2fc5, type: 3}
   LethalSound: {fileID: 8300000, guid: 17b8bca846104d140920bbbe89c45cfa, type: 3}
-  MaxHealth: 99999
-  Health: 99999
+  MaxHealth: 100
+  Health: 100
 --- !u!114 &11457346
 MonoBehaviour:
   m_ObjectHideFlags: 0

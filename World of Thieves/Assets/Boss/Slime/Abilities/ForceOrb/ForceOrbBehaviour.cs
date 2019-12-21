@@ -4,10 +4,12 @@ using System.Collections;
 public class ForceOrbBehaviour : MonoBehaviour { 
     public GameObject Owner;
     public GameObject ps;
+    public GameObject ShockWave;
 
     float damage = SkillsInfo.Slime_ForceOrbDamage;
     float speed = SkillsInfo.Slime_ForceOrbSpeed;
 
+    private bool quitting = false;
     void Start() {
         gameObject.GetComponent<ProjectileMovement>().Speed = speed;
     }
@@ -33,8 +35,18 @@ public class ForceOrbBehaviour : MonoBehaviour {
 
     }
 
+    private void OnApplicationQuit() {
+        quitting = true;
+    }
+
     void OnDestroy() {
-        //TODO : add destroy animation
+        if (quitting)
+            return;
+        GameObject shockWave = Instantiate(ShockWave);
+        shockWave.transform.position = transform.position;
+        shockWave.GetComponent<ShockwaveController>().Speed = 8f;
+        shockWave.GetComponent<ShockwaveController>().FinalSize = new Vector2(4, 4);
+        shockWave.GetComponent<CircleCollider2D>().enabled = false;
     }
 
 }

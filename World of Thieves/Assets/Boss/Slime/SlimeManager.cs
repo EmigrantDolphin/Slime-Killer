@@ -117,10 +117,6 @@ public class SlimeManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         FindIfLost();
-        if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
-            (ActiveBehaviour as IBossBehaviour).End();
-            isStopped = true;
-        }
 
         if (Player == null) {
             if (ActiveBehaviour != null) {
@@ -131,7 +127,7 @@ public class SlimeManager : MonoBehaviour {
         }
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
-        TempBehaviourLoop();
+        //TempBehaviourLoop();
         if (isStopped)
             return;
 
@@ -141,8 +137,10 @@ public class SlimeManager : MonoBehaviour {
             RoomTwoLoop();
         if (SceneManager.GetActiveScene().name == "SlimeBossRoom3")
             RoomThreeLoop();
-        
-	}
+
+        if (ActiveBehaviour != null)
+            (ActiveBehaviour as IBossBehaviour).Loop();
+    }
   
     private void RoomOneLoop() {
         if (timer > 10000)
@@ -267,7 +265,7 @@ public class SlimeManager : MonoBehaviour {
             return;
         }
 
-        if ((int)timer % 5 == 0 && !isPortalSummoned) {
+        if ((int)timer % 1 == 0 && !isPortalSummoned) {
             QueueAbility(portalBehav);
             GetComponent<EnemyMovement>().SpeedModifier += 1f;
             isPortalSummoned = true;
@@ -367,6 +365,10 @@ public class SlimeManager : MonoBehaviour {
 
 
     private void TempBehaviourLoop() {
+        if (Input.GetKeyDown(KeyCode.S) && ActiveBehaviour != null) {
+            (ActiveBehaviour as IBossBehaviour).End();
+            isStopped = true;
+        }
         if (stunCounter <= 0f) {
             if (Input.GetKeyDown(KeyCode.A)) {
                 if (ActiveBehaviour != null)
@@ -444,8 +446,7 @@ public class SlimeManager : MonoBehaviour {
 
 
 
-            if (ActiveBehaviour != null)
-                (ActiveBehaviour as IBossBehaviour).Loop();
+            
 
         } else
             stunCounter -= Time.deltaTime;

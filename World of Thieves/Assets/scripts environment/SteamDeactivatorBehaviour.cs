@@ -6,6 +6,8 @@ public class SteamDeactivatorBehaviour : MonoBehaviour {
     public ParticleSystem[] steamPS;
     public PipePressureIndicatorBehaviour PipePressureIndicator;
 
+    private bool steamStarted = false;
+
     void Start(){
         foreach (var steam in steamPS) {
             var emission = steam.emission;
@@ -15,10 +17,19 @@ public class SteamDeactivatorBehaviour : MonoBehaviour {
             foreach (var steam in steamPS) {
                 var emission = steam.emission;
                 emission.enabled = false;
+                steamStarted = false;
                 PipePressureIndicator.ResetIndicator();
-                PipePressureIndicator.StartIndicator();
             }
         });
+        PipePressureIndicator.ResetIndicator();
+    }
+
+    private void Update() {
+        if (!steamStarted && GameMaster.Player != null && GameMaster.Slime != null && 
+            GameMaster.Slime.GetComponent<SlimeManager>().AggroDistance > Vector2.Distance(GameMaster.Slime.transform.position, GameMaster.Player.transform.position)){
+            PipePressureIndicator.StartIndicator();
+            steamStarted = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

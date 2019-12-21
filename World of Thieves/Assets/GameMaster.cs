@@ -86,8 +86,6 @@ public class GameMaster : MonoBehaviour {
             if (DeathMessage.enabled == true)
                 DeathMessage.enabled = false;
         }
-        if (Input.GetKeyDown(KeyCode.I))
-            DisplayMessage(Screen.width.ToString(), 5f);
 
         if ( Player == null && Input.GetKeyDown(KeyCode.M)) {
             InstantiatePlayer();

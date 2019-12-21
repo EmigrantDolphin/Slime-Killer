@@ -10,5 +10,6 @@ public enum Debuffs {
     TranscendenceControl,
     DoubleOrbs,
     Burn,
-    PoisonImmunity
+    PoisonImmunity,
+    Masochism
 }
